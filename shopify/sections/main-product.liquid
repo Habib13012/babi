@@ -45,6 +45,12 @@
         {%- endif -%}
         <span>{{ v.price | money }}</span>
       </p>
+      {%- if product.handle == 'minuteur-visuel-enfant' and guide != blank and v.price > 500 -%}
+        <p class="product__bundle">
+          <strong>{{ v.price | minus: 500 | money }}</strong> avec le guide <em>Mon enfant et les écrans</em> : -5 € appliqués automatiquement au panier.
+          <a href="{{ guide.url }}">Voir le guide</a>
+        </p>
+      {%- endif -%}
       <p class="product__perks">✓ Livraison offerte &nbsp;·&nbsp; ✓ Retour sous 14 jours</p>
 
       <form action="{{ routes.cart_add_url }}" method="post" class="product__form">

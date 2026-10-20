@@ -34,10 +34,15 @@
               <div class="muted">
                 {%- if item.variant.compare_at_price > item.final_price -%}
                   <s class="price-old">{{ item.variant.compare_at_price | times: item.quantity | money }}</s>
+                {% elsif item.original_line_price > item.final_line_price -%}
+                  <s class="price-old">{{ item.original_line_price | money }}</s>
                 {% endif -%}
                 <strong class="cart-item__price">{{ item.final_line_price | money }}</strong>
-                {%- if item.quantity > 1 %} <span class="cart-item__unit">({{ item.quantity }} × {{ item.final_price | money }})</span>{% endif -%}
+                {%- if item.quantity > 1 %} <span class="cart-item__unit">({{ item.quantity }} × {{ item.original_price | money }})</span>{% endif -%}
               </div>
+              {%- for allocation in item.line_level_discount_allocations -%}
+                <div class="cart-item__discount">✓ {{ allocation.discount_application.title }}</div>
+              {%- endfor -%}
               <a class="muted" href="{{ item.url_to_remove }}">Retirer</a>
             </div>
             <div>
@@ -93,12 +98,16 @@
             {%- endunless -%}
             <div class="upsell__buy">
               <span class="upsell__price">
-                {%- if uv.compare_at_price > uv.price -%}<s class="price-old">{{ uv.compare_at_price | money }}</s>{%- endif -%}
-                {{ uv.price | money }}
+                {%- if has_guide and uv.price > 500 -%}
+                  <s class="price-old">{{ uv.price | money }}</s>{{ uv.price | minus: 500 | money }}
+                {%- else -%}
+                  {%- if uv.compare_at_price > uv.price -%}<s class="price-old">{{ uv.compare_at_price | money }}</s>{%- endif -%}
+                  {{ uv.price | money }}
+                {%- endif -%}
               </span>
               <button form="upsell-form" type="submit" class="btn upsell__add">+ Ajouter</button>
             </div>
-            <p class="upsell__ship">Livraison offerte · retour sous 14 jours</p>
+            <p class="upsell__ship">{% if has_guide %}-5 € avec votre guide · {% endif %}Livraison offerte · retour sous 14 jours</p>
           </div>
         </section>
       {%- endif -%}

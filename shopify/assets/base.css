@@ -1241,3 +1241,32 @@ textarea.field {
 .btn__price .price-old {
   margin-right: 0;
 }
+
+/* Remise minuteur + guide */
+.cart-item__discount {
+  margin: 2px 0;
+  color: #9fd3b5;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.product__bundle {
+  margin: 14px 0 0;
+  padding: 12px 16px;
+  border: 1px dashed rgba(232, 132, 60, 0.5);
+  border-radius: 14px;
+  background: rgba(232, 132, 60, 0.08);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.product__bundle strong {
+  color: var(--ember);
+  font-size: 1.05rem;
+}
+
+.product__bundle a {
+  margin-left: 4px;
+  color: var(--ember);
+  font-weight: 600;
+}
