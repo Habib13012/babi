@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import { ScrollTrigger } from './lib/gsap'
 import { hasWebGL, prefersReducedMotion } from './lib/env'
-import { startSmoothScroll } from './lib/smoothScroll'
+import { scrollToTarget, startSmoothScroll } from './lib/smoothScroll'
 import { interaction } from './three/choreography'
 import { media } from './config'
 import { ErrorBoundary } from './components/ErrorBoundary'
@@ -77,6 +77,14 @@ export default function App() {
 
   const onSceneReady = useCallback(() => setSceneReady(true), [])
   const onIntroDone = useCallback(() => setIntroDone(true), [])
+
+  // Lien entrant avec ancre (ex. /#extrait depuis le blog) : la section n'existait pas
+  // encore au chargement, on y défile une fois l'ouverture terminée
+  useEffect(() => {
+    if (!introDone || !window.location.hash) return
+    const target = document.querySelector<HTMLElement>(window.location.hash)
+    if (target) window.setTimeout(() => scrollToTarget(target), 300)
+  }, [introDone])
   const disable3D = useCallback(() => setWebgl(false), [])
 
   return (

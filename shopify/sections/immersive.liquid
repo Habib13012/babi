@@ -51,15 +51,23 @@
 
 {{ 'immersive.css' | asset_url | stylesheet_tag }}
 
-<div id="root"></div>
-
-<noscript>
-  <div style="max-width:640px;margin:0 auto;padding:48px 20px;font-family:sans-serif;color:#f4f2ec">
-    <h1>{{ p.title | default: shop.name | escape }}</h1>
+{%- comment -%}
+  Contenu rendu côté serveur (lu par les moteurs de recherche et affiché sans JavaScript).
+  React le remplace par l'expérience immersive dès son chargement.
+{%- endcomment -%}
+<div id="root">
+  <main style="max-width:680px;margin:0 auto;padding:120px 20px 60px;font-family:system-ui,sans-serif;color:#f4f2ec;background:#0b1a2b">
+    <p style="color:#e8843c;font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:12px">Guide pratique pour les parents</p>
+    <h1>{{ p.title | escape }}</h1>
     {%- if p.description != blank -%}<div>{{ p.description }}</div>{%- endif -%}
     <p><a href="{{ buy_url }}" style="color:#e8843c">Obtenir le guide — {{ price }}</a></p>
-  </div>
-</noscript>
+    <nav aria-label="Navigation">
+      {%- for link in linklists[settings.main_menu].links -%}
+        <a href="{{ link.url }}" style="color:#f4f2ec;margin-right:16px">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+  </main>
+</div>
 
 <script type="module" src="{{ 'immersive.js' | asset_url }}"></script>
 

@@ -1,23 +1,37 @@
 <div class="container">
-  <p class="eyebrow">Journal</p>
-  <h1>{{ blog.title }}</h1>
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <a href="{{ routes.root_url }}">Accueil</a> <span aria-hidden="true">/</span> <span>{{ blog.title }}</span>
+  </nav>
+  <p class="eyebrow">Le blog</p>
+  <h1>{{ blog.title }} pour les parents : écrans et enfants</h1>
+  <p class="muted lead">Des conseils concrets pour gérer les écrans à la maison, sans cris ni guerre : repères par âge, règles, crises, activités et idées pour toute la famille.</p>
+
   {%- paginate blog.articles by 12 -%}
-    <div class="articles">
+    <div class="post-grid">
       {%- for article in blog.articles -%}
-        <article class="article-card">
-          <a href="{{ article.url }}">
+        {%- assign words = article.content | strip_html | split: ' ' | size -%}
+        {%- assign minutes = words | divided_by: 200 | at_least: 1 -%}
+        <article class="post-card">
+          <a href="{{ article.url }}" class="post-card__link">
             {%- if article.image -%}
-              {{ article.image | image_url: width: 1100 | image_tag: alt: article.title, loading: 'lazy' }}
+              {{ article.image | image_url: width: 900 | image_tag: alt: article.image.alt, loading: 'lazy', class: 'post-card__image', widths: '450, 700, 900', sizes: '(min-width: 1000px) 33vw, (min-width: 640px) 50vw, 100vw' }}
             {%- endif -%}
-            <h2>{{ article.title }}</h2>
+            <div class="post-card__body">
+              <p class="post-card__meta">{{ article.published_at | date: format: 'date' }} · {{ minutes }} min de lecture</p>
+              <h2 class="post-card__title">{{ article.title }}</h2>
+              <p class="muted">{{ article.excerpt_or_content | strip_html | truncate: 160 }}</p>
+              <span class="post-card__more">Lire l'article →</span>
+            </div>
           </a>
-          <p class="muted">{{ article.published_at | date: format: 'date' }}</p>
-          <div class="rte">{{ article.excerpt_or_content | strip_html | truncatewords: 40 }}</div>
         </article>
+      {%- else -%}
+        <p class="muted">Aucun article pour le moment.</p>
       {%- endfor -%}
     </div>
     {%- if paginate.pages > 1 -%}
       <nav class="pagination" aria-label="Pagination">{{ paginate | default_pagination }}</nav>
     {%- endif -%}
   {%- endpaginate -%}
+
+  {% render 'guide-cta' %}
 </div>

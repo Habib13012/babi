@@ -24,5 +24,24 @@
         "default": "main-menu"
       }
     ]
+  },
+  {
+    "name": "Référencement (SEO)",
+    "settings": [
+      {
+        "type": "text",
+        "id": "home_title",
+        "label": "Titre de la page d'accueil (Google)",
+        "default": "Mon enfant et les écrans : le guide pour gérer les écrans sans cris",
+        "info": "Environ 60 caractères."
+      },
+      {
+        "type": "textarea",
+        "id": "home_description",
+        "label": "Description de la page d'accueil (Google)",
+        "default": "Votre enfant hurle quand vous éteignez la tablette ? Un guide PDF de 25 pages et un plan en 14 jours pour reprendre la main sur les écrans, sans cris ni guerre.",
+        "info": "Environ 155 caractères."
+      }
+    ]
   }
 ]

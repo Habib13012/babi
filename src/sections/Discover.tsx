@@ -55,6 +55,8 @@ export function Discover({ use3D, reducedMotion }: Props) {
 
   return (
     <section id="discover" ref={root} aria-labelledby="discover-title" className="relative h-[1300vh]">
+      {/* Ancre « extrait » (liens du blog) : arrive sur le livre ouvert */}
+      <span id="extrait" aria-hidden="true" className="absolute top-[324vh] left-0 h-px w-px" />
       <div className="sticky top-0 h-svh overflow-hidden">
         <div
           aria-hidden="true"

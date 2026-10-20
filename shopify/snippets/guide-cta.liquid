@@ -1,0 +1,17 @@
+{%- comment -%} Encart de mise en avant du guide (blog, articles) {%- endcomment -%}
+{%- assign guide = all_products['mon-enfant-et-les-ecrans'] -%}
+{%- if guide != blank -%}
+  <aside class="guide-cta" aria-label="Le guide Mon enfant et les écrans">
+    {%- if guide.featured_image -%}
+      {{ guide.featured_image | image_url: width: 500 | image_tag: alt: guide.title, loading: 'lazy', class: 'guide-cta__image', widths: '250, 500', sizes: '220px' }}
+    {%- endif -%}
+    <div>
+      <p class="eyebrow">Le guide complet</p>
+      <p class="guide-cta__title">{{ guide.title }}</p>
+      <p class="muted">Un plan en 14 jours, les phrases à dire pendant la crise, des repères de 2 à 14 ans et 3 bonus à imprimer.</p>
+      <div class="form-row">
+        <a class="btn" href="{{ guide.url }}">Découvrir le guide · {{ guide.price | money }}</a>
+      </div>
+    </div>
+  </aside>
+{%- endif -%}

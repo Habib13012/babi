@@ -584,3 +584,182 @@ textarea.field {
   border-radius: 12px;
   background: rgba(46, 111, 126, 0.25);
 }
+
+/* Fil d'Ariane */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 28px;
+  font-size: 0.85rem;
+  color: rgba(244, 242, 236, 0.55);
+}
+
+.breadcrumb a {
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--paper);
+}
+
+.lead {
+  max-width: 60ch;
+  font-size: 1.1rem;
+}
+
+/* Cartes d'articles */
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+  margin-top: 40px;
+}
+
+.post-card__link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(244, 242, 236, 0.03);
+  text-decoration: none;
+  transition: transform 0.4s, border-color 0.3s;
+}
+
+.post-card__link:hover {
+  transform: translateY(-4px);
+  border-color: rgba(232, 132, 60, 0.5);
+}
+
+.post-card__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.post-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px;
+}
+
+.post-card__meta {
+  margin: 0;
+  color: var(--ember);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.post-card__title {
+  margin: 0;
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.post-card__body .muted {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.post-card__more {
+  margin-top: auto;
+  padding-top: 8px;
+  color: var(--ember);
+  font-weight: 700;
+}
+
+/* Article */
+.article {
+  max-width: 900px;
+}
+
+.article__meta {
+  color: rgba(244, 242, 236, 0.6);
+  font-size: 0.95rem;
+}
+
+.article__image {
+  width: 100%;
+  margin: 28px 0 40px;
+  border-radius: 20px;
+}
+
+.article__content {
+  max-width: 70ch;
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+.article__content h2 {
+  margin-top: 2em;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.article__content h3 {
+  margin-top: 1.6em;
+  font-size: 1.25rem;
+}
+
+.article__content ul,
+.article__content ol {
+  padding-left: 1.3em;
+}
+
+.article__content li {
+  margin: 0.4em 0;
+}
+
+.article__content li::marker {
+  color: var(--ember);
+}
+
+.article__content strong {
+  color: var(--paper);
+}
+
+.article__content em {
+  color: rgba(244, 242, 236, 0.6);
+}
+
+/* Encart guide */
+.guide-cta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: center;
+  margin: 64px 0;
+  padding: 28px;
+  border: 1px solid rgba(232, 132, 60, 0.35);
+  border-radius: 24px;
+  background: var(--navy);
+}
+
+@media (min-width: 640px) {
+  .guide-cta {
+    grid-template-columns: 200px 1fr;
+  }
+}
+
+.guide-cta__image {
+  width: 200px;
+  margin: 0 auto;
+}
+
+.guide-cta__title {
+  margin: 0 0 8px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.related {
+  margin-top: 24px;
+}
+
+.related h2 {
+  font-size: 1.6rem;
+}

@@ -1,9 +1,48 @@
-<div class="container">
-  <p class="eyebrow"><a href="{{ blog.url }}">{{ blog.title }}</a></p>
-  <h1>{{ article.title }}</h1>
-  <p class="muted">{{ article.published_at | date: format: 'date' }}</p>
+{%- assign words = article.content | strip_html | split: ' ' | size -%}
+{%- assign minutes = words | divided_by: 200 | at_least: 1 -%}
+<article class="container article">
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <a href="{{ routes.root_url }}">Accueil</a> <span aria-hidden="true">/</span>
+    <a href="{{ blog.url }}">{{ blog.title }}</a> <span aria-hidden="true">/</span>
+    <span aria-current="page">{{ article.title | truncate: 48 }}</span>
+  </nav>
+
+  <header class="article__header">
+    <p class="eyebrow">{{ blog.title }}</p>
+    <h1>{{ article.title }}</h1>
+    <p class="article__meta">
+      Par {{ article.author }} · <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'date' }}</time> · {{ minutes }} min de lecture
+    </p>
+  </header>
+
   {%- if article.image -%}
-    {{ article.image | image_url: width: 1400 | image_tag: alt: article.title }}
+    {{ article.image | image_url: width: 1600 | image_tag: alt: article.image.alt, class: 'article__image', loading: 'eager', fetchpriority: 'high', widths: '800, 1200, 1600', sizes: '(min-width: 900px) 860px, 100vw' }}
   {%- endif -%}
-  <div class="rte">{{ article.content }}</div>
-</div>
+
+  <div class="rte article__content">{{ article.content }}</div>
+
+  {% render 'guide-cta' %}
+
+  <section class="related" aria-labelledby="related-title">
+    <h2 id="related-title">À lire aussi</h2>
+    <div class="post-grid">
+      {%- assign shown = 0 -%}
+      {%- for other in blog.articles -%}
+        {%- if other.id != article.id and shown < 3 -%}
+          {%- assign shown = shown | plus: 1 -%}
+          <article class="post-card">
+            <a href="{{ other.url }}" class="post-card__link">
+              {%- if other.image -%}
+                {{ other.image | image_url: width: 700 | image_tag: alt: other.image.alt, loading: 'lazy', class: 'post-card__image', widths: '450, 700', sizes: '(min-width: 1000px) 33vw, 100vw' }}
+              {%- endif -%}
+              <div class="post-card__body">
+                <h3 class="post-card__title">{{ other.title }}</h3>
+                <span class="post-card__more">Lire l'article →</span>
+              </div>
+            </a>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+</article>
