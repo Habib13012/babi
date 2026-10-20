@@ -174,15 +174,14 @@ export type Review = { name?: string; rating?: number; title: string; text: stri
 
 /**
  * Avis de parents ayant testé le guide avant sa sortie (textes fournis tels quels,
- * prénoms modifiés à la demande des testeurs). Un avis sans prénom est signé « Parent testeur » ;
+ * prénoms réels des testeurs). Un avis sans prénom est signé « Parent testeur » ;
  * un avis sans note n'affiche pas d'étoiles et n'entre pas dans la moyenne.
  * Note : la moyenne et le nombre de notes sont repris dans shopify/snippets/seo.liquid.
  */
 export const reviews: { eyebrow: string; title: string; source: string; items: Review[] } = {
   eyebrow: "Ils l'ont testé",
   title: 'Ce qu’en disent les parents',
-  source:
-    'Avis recueillis auprès de parents ayant testé le guide avant sa sortie. Prénoms modifiés pour préserver l’anonymat des testeurs.',
+  source: 'Avis recueillis auprès de parents ayant testé le guide avant sa sortie.',
   items: [
     { name: 'Sophie', rating: 5, title: 'Des conseils faciles à suivre', text: 'J’ai aimé la structure du guide et les étapes progressives. Cela donne des pistes concrètes pour mieux gérer les écrans à la maison.' },
     { name: 'Camille', rating: 5, title: 'Une lecture rassurante', text: 'Le guide aborde un sujet qui peut être compliqué pour les parents avec des conseils accessibles et faciles à comprendre.' },
