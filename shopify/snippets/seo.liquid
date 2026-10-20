@@ -7,15 +7,19 @@
   assign seo_description = page_description
 
   if template.name == 'index'
-    assign seo_title = settings.home_title | default: page_title
-    assign seo_description = settings.home_description | default: page_description
+    if page_title == shop.name
+      assign seo_title = settings.home_title | default: page_title
+    endif
+    if seo_description == blank
+      assign seo_description = settings.home_description
+    endif
   endif
   if seo_description == blank and template.name == 'article'
     assign seo_description = article.excerpt_or_content | strip_html | truncate: 160
   endif
 
   assign og_type = 'website'
-  assign og_image = 'book-mockup.png' | asset_url | prepend: 'https:'
+  assign og_image = 'partage.jpg' | asset_url | prepend: 'https:'
   if template.name == 'article'
     assign og_type = 'article'
     if article.image

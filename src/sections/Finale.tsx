@@ -78,7 +78,9 @@ export function Finale({ use3D, reducedMotion }: Props) {
             © {YEAR} {site.brand} · {site.title} par {site.author}
           </p>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
-            {[...site.menu.filter((l) => l.url !== '/'), ...site.links].map((link) => (
+            {[...site.menu.filter((l) => l.url !== '/'), ...site.links]
+              .filter((l, i, all) => all.findIndex((o) => o.url === l.url) === i)
+              .map((link) => (
               <a key={link.url} href={link.url} className="transition-colors hover:text-paper">
                 {link.title}
               </a>

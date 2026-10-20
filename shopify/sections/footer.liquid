@@ -1,10 +1,10 @@
 <footer class="site-footer">
   <div class="container site-footer__inner">
     <p>&copy; {{ 'now' | date: '%Y' }} {{ settings.brand_name | default: shop.name }}</p>
-    {%- if shop.policies.size > 0 -%}
+    {%- if linklists.footer.links.size > 0 -%}
       <nav aria-label="Informations légales">
-        {%- for policy in shop.policies -%}
-          <a href="{{ policy.url }}">{{ policy.title }}</a>
+        {%- for link in linklists.footer.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
         {%- endfor -%}
       </nav>
     {%- endif -%}
