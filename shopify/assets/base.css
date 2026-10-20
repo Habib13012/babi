@@ -1163,3 +1163,21 @@ textarea.field {
   font-size: 0.8rem;
   font-weight: 600;
 }
+
+/* Bouton avec prix : libellé et prix sur une ligne, prix jamais coupé */
+.guide-cta__btn {
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  text-align: left;
+}
+
+.btn__price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.btn__price .price-old {
+  margin-right: 0;
+}
