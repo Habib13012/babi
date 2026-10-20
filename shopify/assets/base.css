@@ -188,8 +188,8 @@ h1 {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(11, 26, 43, 0.85);
-  backdrop-filter: blur(16px);
+  /* fond opaque, sans backdrop-filter : celui-ci enfermerait le menu mobile (position: fixed) dans l'en-tête */
+  background: rgba(11, 26, 43, 0.97);
   border-bottom: 1px solid var(--line);
 }
 
@@ -520,6 +520,8 @@ h1 {
 .menu-drawer__panel {
   position: fixed;
   inset: 68px 0 0;
+  z-index: 20;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

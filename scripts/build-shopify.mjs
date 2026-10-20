@@ -1,12 +1,37 @@
 // Assemble le thème Shopify : fichiers Liquid (shopify/) + bundle Vite + images, puis crée le zip.
 import { execSync } from 'node:child_process'
-import { cpSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs'
-import { join } from 'node:path'
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync } from 'node:fs'
+import { join, relative } from 'node:path'
 
 const root = new URL('..', import.meta.url).pathname
 const out = join(root, 'dist-shopify')
 const theme = join(out, 'theme')
 const zip = join(out, 'theme-mon-enfant-et-les-ecrans.zip')
+
+// Le tokenizer Liquid de Shopify termine une balise {{ … }} à la première « } » :
+// une accolade dans une chaîne (ex. '{x}') provoque une erreur de syntaxe en ligne.
+function checkLiquidOutputTags(dir) {
+  const errors = []
+  const walk = (d) => {
+    for (const f of readdirSync(d)) {
+      const p = join(d, f)
+      if (statSync(p).isDirectory()) walk(p)
+      else if (p.endsWith('.liquid')) {
+        const src = readFileSync(p, 'utf8')
+        for (let i = src.indexOf('{{'); i !== -1; i = src.indexOf('{{', i + 2)) {
+          const end = src.indexOf('}', i + 2)
+          if (end === -1 || src[end + 1] !== '}') {
+            const line = src.slice(0, i).split('\n').length
+            errors.push(`${relative(root, p)}:${line}  ${src.slice(i, i + 60)}`)
+          }
+        }
+      }
+    }
+  }
+  walk(dir)
+  if (errors.length) throw new Error(`Balises Liquid {{ }} invalides :\n${errors.join('\n')}`)
+}
+checkLiquidOutputTags(join(root, 'shopify'))
 
 execSync('npx vite build --mode shopify', { cwd: root, stdio: 'inherit' })
 
