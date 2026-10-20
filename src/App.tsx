@@ -13,6 +13,7 @@ import { Moment } from './sections/Moment'
 import { Discover } from './sections/Discover'
 import { Pillars } from './sections/Pillars'
 import { Journey } from './sections/Journey'
+import { Gallery } from './sections/Gallery'
 import { Included } from './sections/Included'
 import { Finale } from './sections/Finale'
 
@@ -103,6 +104,7 @@ export default function App() {
         <Discover use3D={webgl} reducedMotion={reducedMotion} />
         <Pillars reducedMotion={reducedMotion} />
         <Journey reducedMotion={reducedMotion} />
+        <Gallery reducedMotion={reducedMotion} />
         <Included reducedMotion={reducedMotion} />
         <Finale use3D={webgl} reducedMotion={reducedMotion} />
       </main>

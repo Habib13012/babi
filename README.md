@@ -30,8 +30,8 @@ Node 20 ou plus récent.
 | `src/content.ts` | Tous les textes du site |
 | `src/three/choreography.ts` | Positions et rotations du livre 3D, section par section (ordinateur et mobile) |
 | `src/three/Book.tsx` | Le livre 3D : dimensions, matériaux |
-| `src/three/textures.ts` | Tranche, 4e de couverture et page de titre, dessinées en code |
-| `src/sections/*` | Les 7 scènes de la page |
+| `src/three/textures.ts` | Tranche et 4e de couverture, dessinées en code |
+| `src/sections/*` | Les 8 scènes de la page |
 
 ## Structure de la page
 
@@ -39,20 +39,32 @@ Node 20 ou plus récent.
 2. **Le moment** (section épinglée) : « Il est l'heure d'éteindre… Ça finit en cris », pendant que le livre recule dans l'ombre
 3. **Découverte** (épinglée) : le livre fait un tour complet (face, dos, tranche), puis la couverture s'ouvre
 4. **Les 3 piliers** : règles claires, phrases prêtes à dire, outils à imprimer, avec des images révélées par masque et de la parallaxe
-5. **Les 14 jours** (défilement horizontal épinglé)
-6. **Ce que vous recevez** : compteurs liés au scroll et liste des bonus
-7. **Final** : le livre revient, appel à l'achat
+5. **Les 14 jours** (défilement horizontal épinglé), avec les étapes de l'affiche « Mon défi de 14 jours »
+6. **Feuilletez le guide** : galerie de pages intérieures en parallaxe
+7. **Ce que vous recevez** : compteurs liés au scroll, liste des bonus avec aperçus
+8. **Final** : le livre revient, appel à l'achat
 
 ## Fichiers médias
 
-| Fichier | Emplacement | Utilité | Format idéal |
-|---|---|---|---|
-| `cover-front.jpg` | `public/images/product/` | Texture de la couverture du livre 3D | Couverture **à plat**, sans perspective, JPG, 1800 × 2546 px (ratio A4) |
-| `book-mockup.png` | `public/images/product/` | Version 2D (si la 3D est indisponible) et section « Ce que vous recevez » | PNG détouré, fond transparent, ≥ 1500 px de haut |
-| `scene-famille.jpg` | `public/images/scenes/` | Piliers 1 et 2 | Photo originale de la couverture, JPG, ≥ 2400 px de large |
-| `detail-tablette.jpg` | `public/images/scenes/` | Arrière-plan de la phrase « On range la tablette » | JPG, ≥ 1200 px de large |
+Tous les visuels proviennent des PDF du guide et des bonus. Les PDF eux-mêmes ne sont **pas** publiés : seuls des aperçus en JPG le sont.
 
-> **Visuels temporaires** : la version actuelle utilise des images **extraites des captures d'écran de la boutique** (couverture redressée depuis le mockup, photo recadrée). Ce sont bien les vrais visuels du guide, mais en basse définition. Remplacez-les par les fichiers originaux sous **le même nom** : aucun code à modifier.
+| Fichier | Source | Utilité |
+|---|---|---|
+| `public/images/product/cover-front.jpg` | Page 1 du guide, 1800 × 2546 px | Texture de la couverture du livre 3D |
+| `public/images/pages/sommaire.jpg` | Page 2 du guide | Page visible quand le livre 3D s'ouvre |
+| `public/images/pages/page-03…22.jpg` | Pages 3, 5, 9, 13, 17, 22 | Galerie « Feuilletez le guide » |
+| `public/images/scenes/scene-famille.jpg` | Photo intégrée à la couverture, 1400 × 1980 px | Piliers 1 et 2 |
+| `public/images/scenes/detail-tablette.jpg` | Recadrage de la même photo | Fond de la phrase « On range la tablette » |
+| `public/images/bonus/*.jpg` | Pages des 3 bonus | Pilier 3 et « Ce que vous recevez » |
+| `public/images/product/book-mockup.png` | Mockup de la boutique (715 px) | Version 2D et section « Ce que vous recevez » |
+
+Pour régénérer un aperçu après une mise à jour du PDF (poppler-utils) :
+
+```bash
+pdftoppm -f 1 -l 1 -scale-to-x 1800 -scale-to-y -1 -jpeg -jpegopt quality=86 -singlefile guide.pdf public/images/product/cover-front
+```
+
+Pour changer les pages montrées dans la galerie, modifiez `pagesPreview` dans `src/content.ts`.
 
 ## Accessibilité et robustesse
 

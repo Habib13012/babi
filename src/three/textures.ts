@@ -2,14 +2,13 @@ import * as THREE from 'three'
 
 /**
  * Textures dessinées en code pour les faces du livre dont nous n'avons pas de visuel :
- * tranche, 4e de couverture, page de titre, tranche des pages.
+ * tranche, 4e de couverture, intérieur de couverture, tranche des pages.
  * Elles reprennent uniquement les textes présents sur la couverture.
  */
 
 const NAVY = '#12283e'
 const NAVY_DEEP = '#0d1f31'
 const EMBER = '#e8843c'
-const PAPER = '#f4f0e6'
 const FONT = '"Plus Jakarta Sans", system-ui, sans-serif'
 
 function canvasTexture(w: number, h: number, draw: (ctx: CanvasRenderingContext2D) => void) {
@@ -75,35 +74,6 @@ export function backTexture() {
     ctx.fillStyle = '#f4f2ec'
     ctx.font = `700 34px ${FONT}`
     ctx.fillText('Habib Tahrat', 512, 1300)
-  })
-}
-
-export function titlePageTexture() {
-  return canvasTexture(1024, 1448, (ctx) => {
-    ctx.fillStyle = PAPER
-    ctx.fillRect(0, 0, 1024, 1448)
-    // léger dégradé de reliure côté gauche
-    const g = ctx.createLinearGradient(0, 0, 140, 0)
-    g.addColorStop(0, 'rgba(60,45,30,0.22)')
-    g.addColorStop(1, 'rgba(60,45,30,0)')
-    ctx.fillStyle = g
-    ctx.fillRect(0, 0, 140, 1448)
-
-    ctx.textAlign = 'center'
-    ctx.fillStyle = EMBER
-    ctx.font = `700 24px ${FONT}`
-    ctx.fillText('G U I D E   P R A T I Q U E   P O U R   L E S   P A R E N T S', 540, 420)
-    ctx.fillStyle = NAVY
-    ctx.font = `800 96px ${FONT}`
-    centeredLines(ctx, ['Mon enfant', 'et les écrans'], 540, 560, 110)
-    ctx.fillStyle = EMBER
-    ctx.fillRect(500, 690, 80, 7)
-    ctx.fillStyle = '#4a5866'
-    ctx.font = `500 36px ${FONT}`
-    centeredLines(ctx, ['Le plan en 14 jours', 'pour reprendre la main', 'sans cris ni guerre'], 540, 780, 54)
-    ctx.fillStyle = NAVY
-    ctx.font = `700 34px ${FONT}`
-    ctx.fillText('Habib Tahrat', 540, 1240)
   })
 }
 

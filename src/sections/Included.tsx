@@ -5,6 +5,14 @@ import { media } from '../config'
 
 type Props = { reducedMotion: boolean }
 
+const THUMBS: Record<string, string> = {
+  sommaire: media.sommaire,
+  defi14: media.bonus.defi14,
+  cinqTemps: media.bonus.cinqTemps,
+  cartes: media.bonus.cartes,
+  fiche: media.bonus.fiche,
+}
+
 export function Included({ reducedMotion }: Props) {
   const root = useRef<HTMLElement>(null)
 
@@ -112,7 +120,7 @@ export function Included({ reducedMotion }: Props) {
                 <span className="display w-10 shrink-0 pt-1 text-2xl text-ember tabular-nums md:text-3xl">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <div>
+                <div className="min-w-0 flex-1">
                   <span
                     className={`inline-block rounded-full px-3 py-1 text-[11px] font-bold tracking-[0.16em] uppercase ${
                       item.tag.startsWith('Bonus') ? 'bg-ember/15 text-[#b4581a]' : 'bg-navy/8 text-navy/70'
@@ -125,6 +133,15 @@ export function Included({ reducedMotion }: Props) {
                   </h3>
                   <p className="mt-2 text-base text-navy/65 md:text-lg">{item.text}</p>
                 </div>
+                <img
+                  src={THUMBS[item.image]}
+                  alt={`Aperçu : ${item.title}`}
+                  loading="lazy"
+                  decoding="async"
+                  width={900}
+                  height={1273}
+                  className="w-16 shrink-0 rotate-2 rounded-[3px] shadow-[0_14px_30px_-12px_rgba(18,40,62,0.55)] ring-1 ring-navy/10 transition-transform duration-500 hover:rotate-0 sm:w-24"
+                />
               </div>
             </li>
           ))}

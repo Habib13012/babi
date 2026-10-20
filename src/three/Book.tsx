@@ -9,7 +9,6 @@ import {
   innerCoverTexture,
   pageEdgeTexture,
   spineTexture,
-  titlePageTexture,
 } from './textures'
 
 // Proportions d'un format A4 (1 : 1,414)
@@ -26,10 +25,11 @@ export function Book({ reducedMotion, onReady }: Props) {
   const hinge = useRef<THREE.Group>(null)
   const gl = useThree((s) => s.gl)
 
-  const cover = useTexture(media.coverFront, (t) => {
-    const tex = Array.isArray(t) ? t[0] : t
-    tex.colorSpace = THREE.SRGBColorSpace
-    tex.anisotropy = gl.capabilities.getMaxAnisotropy()
+  const [cover, sommaire] = useTexture([media.coverFront, media.sommaire], (loaded) => {
+    for (const t of Array.isArray(loaded) ? loaded : [loaded]) {
+      t.colorSpace = THREE.SRGBColorSpace
+      t.anisotropy = gl.capabilities.getMaxAnisotropy()
+    }
   })
   const tex = useMemo(() => {
     const spine = spineTexture()
@@ -39,7 +39,6 @@ export function Book({ reducedMotion, onReady }: Props) {
     return {
       spine,
       back: backTexture(),
-      title: titlePageTexture(),
       inner: innerCoverTexture(),
       edgeSide: pageEdgeTexture(true),
       edgeTop,
@@ -73,11 +72,11 @@ export function Book({ reducedMotion, onReady }: Props) {
     })
     const inner = new THREE.MeshStandardMaterial({ map: tex.inner, roughness: 0.8 })
     const paper = new THREE.MeshStandardMaterial({ color: '#f1ece0', roughness: 0.92 })
-    const titlePage = new THREE.MeshStandardMaterial({ map: tex.title, roughness: 0.9 })
+    const titlePage = new THREE.MeshStandardMaterial({ map: sommaire, roughness: 0.9 })
     const edgeSide = new THREE.MeshStandardMaterial({ map: tex.edgeSide, roughness: 0.95 })
     const edgeTop = new THREE.MeshStandardMaterial({ map: tex.edgeTop, roughness: 0.95 })
     return { navy, coverMat, backMat, spineMat, inner, paper, titlePage, edgeSide, edgeTop }
-  }, [cover, tex])
+  }, [cover, sommaire, tex])
 
   useEffect(
     () => () => {

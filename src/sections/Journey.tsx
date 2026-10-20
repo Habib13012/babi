@@ -1,10 +1,9 @@
 import { useRef } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
-import { journey } from '../content'
+import { days, journey } from '../content'
 
 type Props = { reducedMotion: boolean }
 
-const DAYS = Array.from({ length: 14 }, (_, i) => i + 1)
 
 /** Les 14 jours défilent horizontalement pendant que la section reste épinglée. */
 export function Journey({ reducedMotion }: Props) {
@@ -89,39 +88,53 @@ export function Journey({ reducedMotion }: Props) {
 
         <div className="mt-8 md:mt-12">
           <div ref={track} className="flex w-max gap-4 px-4 will-change-transform sm:px-8 md:gap-6">
-            {DAYS.map((d) => {
-              const last = d === DAYS.length
+            {days.map((day, i) => {
+              const d = i + 1
+              const last = d === days.length
               return (
                 <div
                   key={d}
                   data-day
-                  className={`relative flex h-[34svh] min-h-[220px] flex-col justify-between overflow-hidden rounded-[22px] border p-5 md:h-[38svh] md:p-7 ${
-                    last
-                      ? 'w-[78vw] border-ember/50 sm:w-[48vw] md:w-[34vw]'
-                      : 'w-[58vw] border-paper/10 sm:w-[34vw] md:w-[22vw]'
+                  className={`relative flex h-[40svh] min-h-[250px] w-[64vw] flex-col justify-between overflow-hidden rounded-[22px] border p-5 sm:w-[36vw] md:h-[42svh] md:w-[23vw] md:p-7 ${
+                    last ? 'border-ember/60 bg-ember/[0.06]' : 'border-paper/10'
                   }`}
                 >
-                  <div className="flex items-center justify-between text-[11px] font-bold tracking-[0.2em] text-paper/50 uppercase">
-                    <span>Jour</span>
+                  <div className="flex items-center justify-between gap-3">
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-[10px] font-bold tracking-[0.18em] uppercase ${
+                        day.phase === 'Appliquer'
+                          ? 'bg-ember/15 text-ember'
+                          : day.phase === 'Préparer'
+                            ? 'bg-teal/25 text-[#8cc3cf]'
+                            : 'bg-paper/10 text-paper/70'
+                      }`}
+                    >
+                      {day.phase}
+                    </span>
                     <span className="flex gap-[3px]" aria-hidden="true">
-                      {DAYS.map((x) => (
-                        <span key={x} className={`h-1.5 w-1 rounded-full ${x <= d ? 'bg-ember' : 'bg-paper/15'}`} />
+                      {days.map((_, x) => (
+                        <span key={x} className={`h-1.5 w-1 rounded-full ${x < d ? 'bg-ember' : 'bg-paper/15'}`} />
                       ))}
                     </span>
                   </div>
-                  <div className="relative">
-                    <span className="display text-stroke block text-[clamp(5rem,13vw,10rem)] leading-none">
-                      {String(d).padStart(2, '0')}
-                    </span>
-                    <span
-                      data-day-fill
-                      aria-hidden="true"
-                      className="display absolute inset-0 block text-[clamp(5rem,13vw,10rem)] leading-none text-ember"
-                    >
-                      {String(d).padStart(2, '0')}
-                    </span>
+                  <div>
+                    <div className="relative">
+                      <span className="display text-stroke block text-[clamp(4.5rem,11vw,8.5rem)] leading-none">
+                        {String(d).padStart(2, '0')}
+                      </span>
+                      <span
+                        data-day-fill
+                        aria-hidden="true"
+                        className="display absolute inset-0 block text-[clamp(4.5rem,11vw,8.5rem)] leading-none text-ember"
+                      >
+                        {String(d).padStart(2, '0')}
+                      </span>
+                    </div>
+                    <p className="mt-3 text-base leading-snug font-bold text-paper md:text-lg">
+                      <span className="sr-only">Jour {d} : </span>
+                      {day.title}
+                    </p>
                   </div>
-                  {last && <p className="text-base font-bold text-paper md:text-xl">{journey.end}</p>}
                 </div>
               )
             })}

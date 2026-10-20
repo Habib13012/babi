@@ -1,37 +1,38 @@
 import { useRef } from 'react'
 import { gsap, SplitText, useGSAP } from '../lib/gsap'
-import { pillars, printables } from '../content'
+import { pillars } from '../content'
 import { media } from '../config'
 
 type Props = { reducedMotion: boolean }
 
-function Sheets() {
-  // Composition typographique des supports imprimables (titres issus de la fiche produit).
+const POSTERS = [media.bonus.planFamilial, media.bonus.cinqTemps, media.bonus.defi14]
+
+/** Les trois affiches du bonus 1, en éventail. */
+function Posters() {
   return (
     <div className="relative h-full w-full bg-navy">
       <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(232,132,60,0.25),transparent_60%)]" />
-      {printables.map((title, i) => (
+      {POSTERS.map((src, i) => (
         <div
-          key={title}
-          className="absolute top-1/2 left-1/2 w-[46%]"
+          key={src}
+          className="absolute top-1/2 left-1/2 w-[50%]"
           style={{
-            transform: `translate(-50%,-50%) translate(${(i - 1) * 34}%, ${(i - 1) * -6}%) rotate(${(i - 1) * 8}deg)`,
+            transform: `translate(-50%,-50%) translate(${(i - 1) * 36}%, ${(i - 1) * -5}%) rotate(${(i - 1) * 8}deg)`,
             zIndex: i === 1 ? 2 : 1,
           }}
         >
-          <div
+          <img
             data-sheet
-            className="flex aspect-[1/1.414] flex-col justify-between rounded-[6px] bg-paper p-[8%] text-navy shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)]"
-          >
-            <span className="text-[clamp(8px,0.9vw,11px)] font-bold tracking-[0.2em] text-ember uppercase">Affiche {i + 1}</span>
-            <span className="text-[clamp(14px,1.9vw,26px)] leading-[1.05] font-extrabold tracking-tight">{title}</span>
-            <span className="block h-[3px] w-1/4 bg-ember" />
-          </div>
+            src={src}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            width={900}
+            height={1273}
+            className="w-full rounded-[4px] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)]"
+          />
         </div>
       ))}
-      <p className="absolute bottom-[5%] left-1/2 -translate-x-1/2 text-xs font-semibold tracking-wide whitespace-nowrap text-paper/70">
-        + 30 cartes d'idées · 1 fiche grands-parents & nounou
-      </p>
     </div>
   )
 }
@@ -146,8 +147,8 @@ export function Pillars({ reducedMotion }: Props) {
                     alt={p.alt}
                     loading="lazy"
                     decoding="async"
-                    width={1100}
-                    height={630}
+                    width={1400}
+                    height={1980}
                     className="h-full w-full object-cover"
                     style={{
                       objectPosition: p.visual.position,
@@ -156,7 +157,9 @@ export function Pillars({ reducedMotion }: Props) {
                     }}
                   />
                 ) : (
-                  <Sheets />
+                  <div role="img" aria-label={p.alt} className="h-full w-full">
+                    <Posters />
+                  </div>
                 )}
               </div>
             </div>

@@ -22,6 +22,16 @@ export const media = {
   coverFront: '/images/product/cover-front.jpg',
   /** Mockup détouré (PNG transparent) — affiché si la 3D n'est pas disponible. */
   mockup: '/images/product/book-mockup.png',
+  /** Sommaire du guide : page visible quand le livre 3D s'ouvre. */
+  sommaire: '/images/pages/sommaire.jpg',
   sceneFamille: '/images/scenes/scene-famille.jpg',
   detailTablette: '/images/scenes/detail-tablette.jpg',
+  bonus: {
+    planFamilial: '/images/bonus/affiche-plan-familial.jpg',
+    cinqTemps: '/images/bonus/affiche-5-temps.jpg',
+    defi14: '/images/bonus/affiche-defi-14-jours.jpg',
+    cartesModeEmploi: '/images/bonus/cartes-mode-emploi.jpg',
+    cartes: '/images/bonus/cartes-idees.jpg',
+    fiche: '/images/bonus/fiche-grands-parents.jpg',
+  },
 }
