@@ -169,3 +169,40 @@ export const finale = {
   text: 'Le guide, le plan en 14 jours et les 3 bonus.',
   cta: 'Obtenir le guide',
 }
+
+/**
+ * Avis de parents ayant testé le guide avant sa sortie (textes fournis tels quels).
+ * Note : les mêmes avis alimentent les données Google dans shopify/snippets/seo.liquid.
+ */
+export const reviews = {
+  eyebrow: "Ils l'ont testé",
+  title: 'Ce qu’en disent les parents',
+  source: 'Avis recueillis auprès de parents ayant testé le guide avant sa sortie.',
+  items: [
+    {
+      rating: 5,
+      title: 'Un guide très concret',
+      text: 'J’ai apprécié les conseils simples à appliquer au quotidien. Le plan sur 14 jours permet d’avancer étape par étape sans vouloir tout changer d’un coup.',
+    },
+    {
+      rating: 5,
+      title: 'Des idées faciles à mettre en place',
+      text: 'Le guide m’a donné des idées pour proposer d’autres activités à mon enfant et mieux organiser les moments avec les écrans.',
+    },
+    {
+      rating: 5,
+      title: 'Une bonne aide pour les parents',
+      text: 'J’avais besoin de repères pour instaurer des règles plus claires à la maison. J’aime le côté pratique et la progression du programme.',
+    },
+    {
+      rating: 4,
+      title: 'Utile et facile à lire',
+      text: 'Le contenu est clair et les conseils sont accessibles. Il faut prendre le temps de les adapter à son enfant, mais c’est une bonne base.',
+    },
+    {
+      rating: 4,
+      title: 'Des pistes intéressantes',
+      text: 'J’ai trouvé plusieurs idées intéressantes pour réduire progressivement le temps d’écran. Cela demande de la régularité, mais le guide aide à mieux s’organiser.',
+    },
+  ],
+}

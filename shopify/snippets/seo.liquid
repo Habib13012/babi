@@ -100,6 +100,15 @@
             "image": [{{ featured.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}],
           {%- endif -%}
           "brand": { "@type": "Brand", "name": {{ brand | json }} },
+          {%- comment -%} Avis de parents testeurs : mêmes textes que src/content.ts (reviews) {%- endcomment -%}
+          "aggregateRating": { "@type": "AggregateRating", "ratingValue": 4.6, "bestRating": 5, "worstRating": 1, "reviewCount": 5 },
+          "review": [
+            { "@type": "Review", "name": "Un guide très concret", "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 }, "author": { "@type": "Person", "name": "Parent testeur" }, "reviewBody": "J’ai apprécié les conseils simples à appliquer au quotidien. Le plan sur 14 jours permet d’avancer étape par étape sans vouloir tout changer d’un coup." },
+            { "@type": "Review", "name": "Des idées faciles à mettre en place", "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 }, "author": { "@type": "Person", "name": "Parent testeur" }, "reviewBody": "Le guide m’a donné des idées pour proposer d’autres activités à mon enfant et mieux organiser les moments avec les écrans." },
+            { "@type": "Review", "name": "Une bonne aide pour les parents", "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 }, "author": { "@type": "Person", "name": "Parent testeur" }, "reviewBody": "J’avais besoin de repères pour instaurer des règles plus claires à la maison. J’aime le côté pratique et la progression du programme." },
+            { "@type": "Review", "name": "Utile et facile à lire", "reviewRating": { "@type": "Rating", "ratingValue": 4, "bestRating": 5 }, "author": { "@type": "Person", "name": "Parent testeur" }, "reviewBody": "Le contenu est clair et les conseils sont accessibles. Il faut prendre le temps de les adapter à son enfant, mais c’est une bonne base." },
+            { "@type": "Review", "name": "Des pistes intéressantes", "reviewRating": { "@type": "Rating", "ratingValue": 4, "bestRating": 5 }, "author": { "@type": "Person", "name": "Parent testeur" }, "reviewBody": "J’ai trouvé plusieurs idées intéressantes pour réduire progressivement le temps d’écran. Cela demande de la régularité, mais le guide aide à mieux s’organiser." }
+          ],
           "author": { "@type": "Person", "name": {{ featured.vendor | json }} },
           "offers": {
             "@type": "Offer",
