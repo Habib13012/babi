@@ -95,7 +95,7 @@ export function Hero({ introDone, use3D, reducedMotion }: Props) {
             {hero.lead}
           </p>
           <div data-intro className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 md:mt-9">
-            <BuyButton label="Obtenir le guide" />
+            <BuyButton label="Télécharger le guide" variant="download" />
             <a
               href="#discover"
               onClick={(e) => {

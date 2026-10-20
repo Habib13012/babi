@@ -27,8 +27,12 @@ export function StickyBuy() {
     >
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm leading-tight font-extrabold text-paper">{site.title}</p>
-        <a href={site.buyUrl} className="btn-ember shrink-0 px-4 py-2.5 text-sm">
-          Le guide <span className="tabular-nums">{site.price}</span>
+        <a href={site.buyUrl} className="btn-ember buy-shine shrink-0 overflow-hidden px-4 py-2.5 text-sm">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" className="buy-icon-bounce">
+            <path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M5 19h14" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
+          </svg>
+          Télécharger <span className="tabular-nums">· {site.price}</span>
         </a>
       </div>
     </div>

@@ -53,7 +53,7 @@ export function Finale({ use3D, reducedMotion }: Props) {
               {finale.text}
             </p>
             <div data-f-fade className="mt-8 flex flex-wrap items-center gap-4">
-              <BuyButton label={finale.cta} size="lg" />
+              <BuyButton label={finale.cta} sublabel={finale.ctaSub} variant="hero" />
             </div>
           </div>
         </div>

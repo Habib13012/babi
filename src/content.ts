@@ -64,7 +64,7 @@ export const discover = {
     eyebrow: 'Le guide complet',
     title: 'Le guide + 3 bonus.',
     text: "25 pages, le plan en 14 jours, 3 affiches, 30 cartes d'idées et la fiche grands-parents.",
-    cta: 'Obtenir le guide',
+    cta: 'Je veux le guide + 3 bonus',
   },
 }
 
@@ -167,7 +167,8 @@ export const finale = {
   title: 'Reprenez la main.',
   titleAccent: 'Sans cris ni guerre.',
   text: 'Le guide, le plan en 14 jours et les 3 bonus.',
-  cta: 'Obtenir le guide',
+  cta: 'Télécharger mon guide maintenant',
+  ctaSub: 'PDF + 3 bonus · accès immédiat',
 }
 
 export type Review = { name?: string; rating?: number; title: string; text: string }

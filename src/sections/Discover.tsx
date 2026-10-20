@@ -99,7 +99,7 @@ export function Discover({ use3D, reducedMotion }: Props) {
             <h3 className="display mt-3 text-[clamp(2.2rem,5vw,4.6rem)] text-paper md:mt-4">{discover.final.title}</h3>
             <p className="mt-3 text-sm leading-relaxed text-paper/75 md:mt-5 md:text-lg">{discover.final.text}</p>
             <div className="mt-5 md:mt-8">
-              <BuyButton label={discover.final.cta} />
+              <BuyButton label={discover.final.cta} variant="gift" />
             </div>
             <span className="sr-only">Prix : {site.price}</span>
           </div>
