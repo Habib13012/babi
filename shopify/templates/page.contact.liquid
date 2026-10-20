@@ -1,0 +1,31 @@
+<div class="container">
+  <p class="eyebrow">Une question ?</p>
+  <h1>{{ page.title }}</h1>
+  {%- if page.content != blank -%}
+    <div class="rte muted">{{ page.content }}</div>
+  {%- endif -%}
+
+  {%- form 'contact', class: 'contact-form' -%}
+    {%- if form.posted_successfully? -%}
+      <p class="notice" role="status">Merci, votre message a bien été envoyé. Nous vous répondons au plus vite.</p>
+    {%- elsif form.errors -%}
+      <p class="errors" role="alert">Le message n'a pas pu être envoyé : vérifiez les champs.</p>
+    {%- endif -%}
+
+    <div class="form-row">
+      <label class="field-label">
+        Nom
+        <input class="field" type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}">
+      </label>
+      <label class="field-label">
+        E-mail <span aria-hidden="true">*</span>
+        <input class="field" type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}">
+      </label>
+    </div>
+    <label class="field-label">
+      Message <span aria-hidden="true">*</span>
+      <textarea class="field" name="contact[body]" rows="6" required>{{ form.body }}</textarea>
+    </label>
+    <button type="submit" class="btn">Envoyer</button>
+  {%- endform -%}
+</div>

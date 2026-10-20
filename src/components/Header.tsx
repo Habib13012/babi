@@ -1,11 +1,23 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { site } from '../config'
-import { scrollToTarget } from '../lib/smoothScroll'
+import { scrollToTarget, setScrollLocked } from '../lib/smoothScroll'
+import { Logo } from './Logo'
+
+const isCurrent = (url: string) => {
+  try {
+    return new URL(url, window.location.href).pathname === window.location.pathname
+  } catch {
+    return false
+  }
+}
 
 export function Header() {
   const bar = useRef<HTMLDivElement>(null)
   const header = useRef<HTMLElement>(null)
+  const panel = useRef<HTMLDivElement>(null)
+  const toggle = useRef<HTMLButtonElement>(null)
+  const [open, setOpen] = useState(false)
 
   useGSAP(() => {
     // Barre de progression de lecture
@@ -22,6 +34,31 @@ export function Header() {
     })
   })
 
+  // Menu plein écran : verrouille le défilement, se ferme avec Échap
+  useEffect(() => {
+    if (!open) return
+    const button = toggle.current
+    setScrollLocked(true)
+    panel.current?.querySelector<HTMLElement>('a')?.focus()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      setScrollLocked(false)
+      button?.focus()
+    }
+  }, [open])
+
+  useGSAP(
+    () => {
+      if (!open) return
+      gsap.from('[data-menu-item]', { yPercent: 110, opacity: 0, duration: 0.8, stagger: 0.06, ease: 'expo.out' })
+    },
+    { dependencies: [open], scope: panel },
+  )
+
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-[60] h-[3px]">
@@ -33,35 +70,89 @@ export function Header() {
       >
         <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-8 md:h-20">
           <a
-            href="#hero"
+            href="/"
             onClick={(e) => {
-              e.preventDefault()
-              scrollToTarget('#hero')
-            }}
-            className="flex items-center gap-3 text-sm font-extrabold tracking-tight text-paper"
-          >
-            <span aria-hidden="true" className="grid h-8 w-6 place-items-end rounded-[3px] bg-paper pb-1.5 shadow-[3px_3px_0_var(--color-navy-2)]">
-              <span className="mx-auto block h-[2px] w-3 bg-ember" />
-            </span>
-            <span>{site.title}</span>
-          </a>
-          <nav aria-label="Navigation principale" className="flex items-center gap-6">
-            <a
-              href="#included"
-              onClick={(e) => {
+              if (window.location.pathname === '/') {
                 e.preventDefault()
-                scrollToTarget('#included')
-              }}
-              className="hidden text-sm font-semibold text-paper/75 transition-colors hover:text-paper md:inline"
-            >
-              Ce que vous recevez
-            </a>
-            <a href={site.buyUrl} className="btn-ember hidden px-4 py-2.5 text-sm sm:inline-flex">
+                scrollToTarget('#hero')
+              }
+            }}
+            aria-label={`${site.brand}, accueil`}
+          >
+            <Logo />
+          </a>
+
+          <nav aria-label="Navigation principale" className="flex items-center gap-7">
+            <ul className="hidden items-center gap-7 md:flex">
+              {site.menu.map((link) => (
+                <li key={link.url}>
+                  <a
+                    href={link.url}
+                    aria-current={isCurrent(link.url) ? 'page' : undefined}
+                    className="relative text-sm font-semibold text-paper/75 transition-colors hover:text-paper aria-[current=page]:text-paper after:absolute after:inset-x-0 after:-bottom-1.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-ember after:transition-transform after:duration-500 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
+                  >
+                    {link.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a href={site.buyUrl} className="btn-ember hidden px-4 py-2.5 text-sm lg:inline-flex">
               Le guide <span className="tabular-nums">{site.price}</span>
             </a>
+            <button
+              ref={toggle}
+              type="button"
+              aria-expanded={open}
+              aria-controls="menu-mobile"
+              aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+              onClick={() => setOpen((v) => !v)}
+              className="relative grid h-11 w-11 place-items-center rounded-full border border-paper/15 bg-ink/40 backdrop-blur md:hidden"
+            >
+              <span aria-hidden="true" className="relative block h-3 w-5">
+                <span
+                  className={`absolute left-0 h-[2px] w-5 rounded bg-paper transition-transform duration-500 ${open ? 'top-[5px] rotate-45' : 'top-0'}`}
+                />
+                <span
+                  className={`absolute left-0 h-[2px] w-5 rounded bg-paper transition-transform duration-500 ${open ? 'top-[5px] -rotate-45' : 'top-[10px]'}`}
+                />
+              </span>
+            </button>
           </nav>
         </div>
       </header>
+
+      {/* Menu mobile plein écran */}
+      <div
+        id="menu-mobile"
+        ref={panel}
+        hidden={!open}
+        className="grain fixed inset-0 z-[45] flex flex-col bg-navy px-6 pt-28 pb-[max(2rem,env(safe-area-inset-bottom))] md:hidden"
+      >
+        <nav aria-label="Menu" className="flex-1">
+          <ul className="flex flex-col gap-2">
+            {site.menu.map((link, i) => (
+              <li key={link.url} className="overflow-hidden">
+                <a
+                  data-menu-item
+                  href={link.url}
+                  onClick={() => setOpen(false)}
+                  aria-current={isCurrent(link.url) ? 'page' : undefined}
+                  className="display flex items-baseline gap-4 py-2 text-[2.6rem] text-paper aria-[current=page]:text-ember"
+                >
+                  <span className="text-xs font-bold tracking-[0.2em] text-ember/80">{String(i + 1).padStart(2, '0')}</span>
+                  {link.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div data-menu-item>
+          <a href={site.buyUrl} className="btn-ember w-full justify-between px-6 py-4 text-base">
+            Obtenir le guide <span className="tabular-nums">{site.price}</span>
+          </a>
+          <p className="mt-5 text-center text-xs text-paper/45">{site.brand}</p>
+        </div>
+      </div>
     </>
   )
 }

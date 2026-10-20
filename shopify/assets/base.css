@@ -8,6 +8,14 @@
   font-weight: 200 800;
   src: url('plus-jakarta-sans-latin-wght-normal.woff2') format('woff2-variations');
 }
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url('instrument-serif-latin-400-italic.woff2') format('woff2');
+}
 :root {
   --ink: #0b1a2b;
   --navy: #12283e;
@@ -397,4 +405,182 @@ h1 {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo__mark {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.logo__text {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.logo__text em {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 1.12em;
+  font-weight: 400;
+  color: var(--ember);
+}
+
+/* Navigation */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.site-nav__links {
+  display: none;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav__links a {
+  color: rgba(244, 242, 236, 0.75);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-nav__links a:hover,
+.site-nav__links a[aria-current='page'] {
+  color: var(--paper);
+}
+
+.site-nav__links a[aria-current='page'] {
+  box-shadow: 0 2px 0 var(--ember);
+}
+
+@media (min-width: 768px) {
+  .site-nav__links {
+    display: flex;
+  }
+  .menu-drawer {
+    display: none;
+  }
+}
+
+.menu-drawer__toggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.menu-drawer__toggle::-webkit-details-marker {
+  display: none;
+}
+
+.menu-drawer__toggle span,
+.menu-drawer__toggle span::before {
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--paper);
+  transition: transform 0.3s;
+}
+
+.menu-drawer__toggle span {
+  position: relative;
+  transform: translateY(-4px);
+}
+
+.menu-drawer__toggle span::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+}
+
+.menu-drawer[open] .menu-drawer__toggle span {
+  transform: translateY(0) rotate(45deg);
+}
+
+.menu-drawer[open] .menu-drawer__toggle span::before {
+  transform: translateY(-8px) rotate(-90deg);
+}
+
+.menu-drawer__panel {
+  position: fixed;
+  inset: 68px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px 24px max(32px, env(safe-area-inset-bottom));
+  background: var(--navy);
+}
+
+.menu-drawer__panel ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-drawer__panel li a {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 8px 0;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.menu-drawer__panel li a[aria-current='page'] {
+  color: var(--ember);
+}
+
+.menu-drawer__panel small {
+  color: var(--ember);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+/* Formulaire de contact */
+.contact-form {
+  display: grid;
+  gap: 16px;
+  max-width: 640px;
+  margin-top: 32px;
+}
+
+.field-label {
+  display: grid;
+  gap: 6px;
+  flex: 1 1 220px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+textarea.field {
+  resize: vertical;
+}
+
+.contact-form .btn {
+  justify-self: start;
+}
+
+.notice {
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: rgba(46, 111, 126, 0.25);
 }

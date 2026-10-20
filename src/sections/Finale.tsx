@@ -75,7 +75,7 @@ export function Finale({ use3D, reducedMotion }: Props) {
       <footer className="relative border-t border-paper/10 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
         <div className="mx-auto flex max-w-[1440px] flex-col gap-4 px-4 py-8 text-sm text-paper/55 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <p>
-            © {YEAR} {site.author} · {site.title}
+            © {YEAR} {site.brand} · {site.title} par {site.author}
           </p>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             {site.links.map((link) => (

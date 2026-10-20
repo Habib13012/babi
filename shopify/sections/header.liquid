@@ -1,14 +1,38 @@
+{%- assign menu = linklists[settings.main_menu] -%}
 <header class="site-header">
   <div class="container site-header__inner">
-    <a href="{{ routes.root_url }}" class="site-header__logo">
-      <span class="logo-mark" aria-hidden="true"><span></span></span>
-      {{ section.settings.title | default: shop.name }}
+    <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ settings.brand_name | default: shop.name | escape }}, accueil">
+      {% render 'logo' %}
     </a>
-    <nav class="site-header__nav" aria-label="Navigation principale">
+
+    <nav class="site-nav" aria-label="Navigation principale">
+      <ul class="site-nav__links">
+        {%- for link in menu.links -%}
+          <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+        {%- endfor -%}
+      </ul>
       <a href="{{ routes.cart_url }}" class="site-header__cart">
         Panier
         {%- if cart.item_count > 0 %} <span class="badge">{{ cart.item_count }}</span>{% endif -%}
       </a>
+
+      <details class="menu-drawer">
+        <summary class="menu-drawer__toggle" aria-label="Menu">
+          <span aria-hidden="true"></span>
+        </summary>
+        <div class="menu-drawer__panel">
+          <ul>
+            {%- for link in menu.links -%}
+              <li>
+                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+                  <small>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</small>{{ link.title }}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+          <a class="btn" href="{{ routes.cart_url }}">Panier{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</a>
+        </div>
+      </details>
     </nav>
   </div>
 </header>
@@ -16,8 +40,6 @@
 {% schema %}
 {
   "name": "En-tête",
-  "settings": [
-    { "type": "text", "id": "title", "label": "Nom affiché", "default": "Mon enfant et les écrans" }
-  ]
+  "settings": []
 }
 {% endschema %}

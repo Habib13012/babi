@@ -1,0 +1,13 @@
+{%- comment -%} Logo : emblème (livre ouvert sous un soleil levant) + nom de la marque {%- endcomment -%}
+{%- assign brand = settings.brand_name | default: shop.name -%}
+{%- assign first = brand | split: ' ' | first -%}
+{%- assign rest = brand | remove_first: first | strip -%}
+<span class="logo">
+  <svg class="logo__mark" viewBox="0 0 48 48" aria-hidden="true">
+    <rect width="48" height="48" rx="12" fill="#f4f2ec"/>
+    <circle cx="24" cy="15.5" r="4.5" fill="#e8843c"/>
+    <path d="M8 21.5c6.2-1.6 11.6-.9 15 2.4V38c-3.4-3-8.8-3.7-15-2.2z" fill="#12283e"/>
+    <path d="M40 21.5c-6.2-1.6-11.6-.9-15 2.4V38c3.4-3 8.8-3.7 15-2.2z" fill="#12283e"/>
+  </svg>
+  <span class="logo__text">{{ first }}{% if rest != blank %} <em>{{ rest }}</em>{% endif %}</span>
+</span>

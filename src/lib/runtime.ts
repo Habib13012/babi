@@ -4,6 +4,12 @@
  */
 type ShopLink = { title: string; url: string }
 type ShopData = {
+  /** nom de la marque (réglage du thème) */
+  brand?: string
+  /** menu principal Shopify (Navigation → Menu principal) */
+  menu?: ShopLink[]
+  /** URL de la fiche produit */
+  productUrl?: string
   title?: string
   price?: string
   buyUrl?: string

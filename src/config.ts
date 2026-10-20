@@ -5,6 +5,8 @@ import { asset, shop } from './lib/runtime'
  * Sur Shopify, le titre, le prix et le lien d'achat viennent du produit choisi dans l'éditeur de thème.
  */
 export const site = {
+  /** Nom de la boutique (modifiable dans l'éditeur de thème Shopify). */
+  brand: shop.brand || 'Parents Sereins',
   title: 'Mon enfant et les écrans',
   author: 'Habib Tahrat',
   price: shop.price ?? '14,90 €',
@@ -14,6 +16,17 @@ export const site = {
    * En local, valeur de repli.
    */
   buyUrl: shop.buyUrl ?? 'https://hicgsr-19.myshopify.com/products/mon-enfant-et-les-ecrans',
+
+  /** Menu principal : celui de Shopify, sinon ces liens par défaut. */
+  menu:
+    shop.menu && shop.menu.length > 0
+      ? shop.menu
+      : [
+          { title: 'Accueil', url: '/' },
+          { title: 'Le guide', url: shop.productUrl ?? '/products/mon-enfant-et-les-ecrans' },
+          { title: 'Blog', url: '/blogs/conseils' },
+          { title: 'Contact', url: '/pages/contact' },
+        ],
 
   /** Liens légaux (CGV, remboursement…) fournis par Shopify. */
   links: shop.links ?? [],

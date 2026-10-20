@@ -6,5 +6,23 @@
     "theme_author": "Habib Tahrat",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://help.shopify.com"
+  },
+  {
+    "name": "Marque",
+    "settings": [
+      {
+        "type": "text",
+        "id": "brand_name",
+        "label": "Nom de la boutique",
+        "default": "Parents Sereins",
+        "info": "Affiché dans l'en-tête, le menu et le pied de page."
+      },
+      {
+        "type": "link_list",
+        "id": "main_menu",
+        "label": "Menu principal",
+        "default": "main-menu"
+      }
+    ]
   }
 ]

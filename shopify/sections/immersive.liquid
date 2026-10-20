@@ -30,6 +30,13 @@
     {%- endfor -%}
   };
   window.__SHOP__ = {
+    brand: {{ settings.brand_name | default: shop.name | json }},
+    productUrl: {{ p.url | json }},
+    menu: [
+      {%- for link in linklists[settings.main_menu].links -%}
+        { "title": {{ link.title | json }}, "url": {{ link.url | json }} }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ],
     title: {{ p.title | default: shop.name | json }},
     price: {{ price | json }},
     buyUrl: {{ buy_url | json }},
