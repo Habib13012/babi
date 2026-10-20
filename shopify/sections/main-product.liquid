@@ -1,0 +1,113 @@
+{%- comment -%}
+  Page produit classique (produits physiques comme le minuteur). Le guide a sa propre page immersive (modèle « product.guide »).
+{%- endcomment -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign guide = all_products['mon-enfant-et-les-ecrans']
+-%}
+
+<div class="container product">
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <a href="{{ routes.root_url }}">Accueil</a> <span aria-hidden="true">/</span> <span>{{ product.title }}</span>
+  </nav>
+
+  <div class="product__grid">
+    <div class="product__media">
+      {%- if product.featured_media -%}
+        <div class="product__main">
+          {{ v.featured_media.preview_image | default: product.featured_media.preview_image | image_url: width: 1200 | image_tag:
+            alt: product.title, sizes: '(min-width: 900px) 540px, 100vw', widths: '400, 600, 800, 1200', data-product-main: '', fetchpriority: 'high'
+          }}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <ul class="product__thumbs" aria-label="Autres photos">
+            {%- for m in product.media -%}
+              {%- if m.media_type == 'image' -%}
+                <li>
+                  <button type="button" class="product__thumb" data-src="{{ m.preview_image | image_url: width: 1200 }}" aria-label="Voir la photo {{ forloop.index }}">
+                    {{ m.preview_image | image_url: width: 160 | image_tag: alt: '', loading: 'lazy' }}
+                  </button>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    <div class="product__info">
+      <p class="eyebrow">{{ product.type | default: 'Accessoire' }}</p>
+      <h1 class="product__title">{{ product.title }}</h1>
+
+      <p class="product__price">
+        {%- if v.compare_at_price > v.price -%}
+          <s class="price-old">{{ v.compare_at_price | money }}</s>
+        {%- endif -%}
+        <span>{{ v.price | money }}</span>
+      </p>
+      <p class="product__perks">✓ Livraison offerte &nbsp;·&nbsp; ✓ Retour sous 14 jours</p>
+
+      <form action="{{ routes.cart_add_url }}" method="post" class="product__form">
+        {%- if product.has_only_default_variant -%}
+          <input type="hidden" name="id" value="{{ v.id }}">
+        {%- else -%}
+          <fieldset class="swatches">
+            <legend class="field-label">{{ product.options.first }}</legend>
+            {%- for variant in product.variants -%}
+              <label class="swatch">
+                <input
+                  type="radio"
+                  name="id"
+                  value="{{ variant.id }}"
+                  {% if variant.id == v.id %}checked{% endif %}
+                  {% unless variant.available %}disabled{% endunless %}
+                  {% if variant.featured_media %}data-src="{{ variant.featured_media.preview_image | image_url: width: 1200 }}"{% endif %}
+                >
+                <span>{{ variant.title }}</span>
+              </label>
+            {%- endfor -%}
+          </fieldset>
+        {%- endif -%}
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="btn product__add" {% unless product.available %}disabled{% endunless %}>
+          {%- if product.available -%}Ajouter au panier{%- else -%}Bientôt de retour{%- endif -%}
+        </button>
+      </form>
+
+      <div class="rte product__description">{{ product.description }}</div>
+    </div>
+  </div>
+
+  {%- if guide != blank and guide.id != product.id -%}
+    <div class="related">
+      <h2>Pour aller plus loin</h2>
+      {% render 'guide-cta' %}
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  // Photo principale : vignettes et couleur choisie
+  (function () {
+    var main = document.querySelector('[data-product-main]');
+    if (!main) return;
+    function show(src) {
+      if (!src) return;
+      main.removeAttribute('srcset');
+      main.src = src;
+    }
+    document.querySelectorAll('.product__thumb').forEach(function (b) {
+      b.addEventListener('click', function () { show(b.dataset.src); });
+    });
+    document.querySelectorAll('.swatch input').forEach(function (i) {
+      i.addEventListener('change', function () { show(i.dataset.src); });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Page produit",
+  "settings": []
+}
+{% endschema %}

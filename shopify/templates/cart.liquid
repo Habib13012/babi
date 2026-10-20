@@ -3,6 +3,20 @@
   <h1>Panier</h1>
 
   {%- if cart.item_count > 0 -%}
+    {%- liquid
+      assign handles = cart.items | map: 'product' | map: 'handle' | join: ','
+      assign has_guide = false
+      if handles contains 'mon-enfant-et-les-ecrans'
+        assign has_guide = true
+      endif
+      assign upsell = all_products['minuteur-visuel-enfant']
+      assign show_upsell = false
+      if upsell != blank and upsell.available
+        unless handles contains upsell.handle
+          assign show_upsell = true
+        endunless
+      endif
+    -%}
     <form action="{{ routes.cart_url }}" method="post" novalidate>
       <ul class="cart-items">
         {%- for item in cart.items -%}
@@ -43,14 +57,48 @@
         {%- endfor -%}
       </ul>
 
+      {%- if show_upsell -%}
+        {%- assign uv = upsell.selected_or_first_available_variant -%}
+        <section class="upsell" aria-labelledby="upsell-title">
+          <a class="upsell__image" href="{{ upsell.url }}" tabindex="-1">
+            {{ upsell.featured_image | image_url: width: 300 | image_tag: alt: upsell.title, loading: 'lazy' }}
+          </a>
+          <div class="upsell__body">
+            <p class="upsell__tag">Complétez votre commande</p>
+            <p id="upsell-title" class="upsell__title"><a href="{{ upsell.url }}">{{ upsell.title }}</a></p>
+            <p class="muted upsell__text">L'enfant voit le temps d'écran passer : la fin n'est plus une surprise.</p>
+            {%- unless upsell.has_only_default_variant -%}
+              <fieldset class="swatches swatches--small">
+                <legend class="visually-hidden">{{ upsell.options.first }}</legend>
+                {%- for variant in upsell.variants -%}
+                  <label class="swatch">
+                    <input form="upsell-form" type="radio" name="id" value="{{ variant.id }}" {% if variant.id == uv.id %}checked{% endif %} {% unless variant.available %}disabled{% endunless %}>
+                    <span>{{ variant.title }}</span>
+                  </label>
+                {%- endfor -%}
+              </fieldset>
+            {%- endunless -%}
+            <div class="upsell__buy">
+              <span class="upsell__price">
+                {%- if uv.compare_at_price > uv.price -%}<s class="price-old">{{ uv.compare_at_price | money }}</s>{%- endif -%}
+                {{ uv.price | money }}
+              </span>
+              <button form="upsell-form" type="submit" class="btn upsell__add">+ Ajouter</button>
+            </div>
+            <p class="upsell__ship">Livraison offerte · retour sous 14 jours</p>
+          </div>
+        </section>
+      {%- endif -%}
+
       <div class="cart-summary">
         <div>
           <div class="muted">Total</div>
           <div class="cart-summary__total">{{ cart.total_price | money_with_currency }}</div>
-          {%- assign has_guide = cart.items | map: 'product' | map: 'handle' | join: ',' -%}
-          {%- if has_guide contains 'mon-enfant-et-les-ecrans' -%}
-            <p class="cart-summary__perks">✓ Le guide + 3 bonus offerts<br>✓ Fichiers PDF à télécharger juste après le paiement</p>
-          {%- endif -%}
+          <p class="cart-summary__perks">
+            {%- if has_guide -%}✓ Le guide + 3 bonus offerts<br>✓ Fichiers PDF à télécharger juste après le paiement{%- endif -%}
+            {%- if has_guide and cart.requires_shipping -%}<br>{%- endif -%}
+            {%- if cart.requires_shipping -%}✓ Livraison offerte, suivie à domicile{%- endif -%}
+          </p>
         </div>
         <div class="cart-checkout">
           <div class="form-row">
@@ -58,13 +106,22 @@
             <button type="submit" name="checkout" class="btn">Passer au paiement</button>
           </div>
           <p class="cart-note">
-            Accès immédiat à vos fichiers après le paiement. En commandant, vous acceptez nos
-            <a href="/pages/cgv">conditions de vente</a> et demandez la livraison immédiate du PDF,
-            qui met fin au droit de rétractation.
+            {%- if has_guide %} Accès immédiat à vos fichiers après le paiement.{% endif -%}
+            {%- if cart.requires_shipping %} Articles expédiés sous suivi, livrés en 7 à 15 jours ouvrés, retour possible sous 14 jours.{% endif %}
+            En commandant, vous acceptez nos <a href="/pages/cgv">conditions de vente</a>
+            {%- if has_guide %} et demandez la livraison immédiate du PDF, qui met fin au droit de rétractation pour ce fichier{% endif -%}.
           </p>
         </div>
       </div>
     </form>
+    {%- if show_upsell -%}
+      <form id="upsell-form" action="{{ routes.cart_add_url }}" method="post" hidden>
+        <input type="hidden" name="quantity" value="1">
+        {%- if upsell.has_only_default_variant -%}
+          <input type="hidden" name="id" value="{{ upsell.selected_or_first_available_variant.id }}">
+        {%- endif -%}
+      </form>
+    {%- endif -%}
   {%- else -%}
     <p class="muted">Votre panier est vide.</p>
     <a class="btn" href="{{ routes.root_url }}">Découvrir le guide</a>

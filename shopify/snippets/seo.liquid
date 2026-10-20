@@ -27,6 +27,9 @@
     endif
   elsif template.name == 'product'
     assign og_type = 'product'
+    if product.handle != 'mon-enfant-et-les-ecrans' and product.featured_image
+      assign og_image = product.featured_image | image_url: width: 1200 | prepend: 'https:'
+    endif
   endif
 
   assign featured = product
@@ -100,6 +103,7 @@
             "image": [{{ featured.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}],
           {%- endif -%}
           "brand": { "@type": "Brand", "name": {{ brand | json }} },
+          {%- if featured.handle == 'mon-enfant-et-les-ecrans' -%}
           {%- comment -%} Avis de parents testeurs : mêmes textes que src/content.ts (reviews) {%- endcomment -%}
           "aggregateRating": { "@type": "AggregateRating", "ratingValue": 4.7, "bestRating": 5, "worstRating": 1, "ratingCount": 24, "reviewCount": 25 },
           "review": [
@@ -111,6 +115,7 @@
             { "@type": "Review", "name": "Des pistes intéressantes", "reviewRating": { "@type": "Rating", "ratingValue": 4, "bestRating": 5 }, "author": { "@type": "Person", "name": "Parent testeur" }, "reviewBody": "J’ai trouvé plusieurs idées intéressantes pour réduire progressivement le temps d’écran. Cela demande de la régularité, mais le guide aide à mieux s’organiser." }
           ],
           "author": { "@type": "Person", "name": {{ featured.vendor | json }} },
+          {%- endif -%}
           "offers": {
             "@type": "Offer",
             "url": {{ shop.url | append: featured.url | json }},
