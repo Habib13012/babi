@@ -1,10 +1,13 @@
 import { useRef } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
-import { reviews } from '../content'
+import { reviews, type Review } from '../content'
 
 type Props = { reducedMotion: boolean }
 
-const average = reviews.items.reduce((sum, r) => sum + r.rating, 0) / reviews.items.length
+const rated = reviews.items.filter((r): r is Review & { rating: number } => typeof r.rating === 'number')
+const average = rated.reduce((sum, r) => sum + r.rating, 0) / rated.length
+// vitesse du bandeau constante quel que soit le nombre d'avis (~35 px/s)
+const MARQUEE_SECONDS = Math.round((reviews.items.length * 380) / 35)
 const averageLabel = average.toLocaleString('fr-FR', { maximumFractionDigits: 1 })
 
 const STAR = 'M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.6 7.7l5.8-.8z'
@@ -32,10 +35,10 @@ function Stars({ rating, className = '' }: { rating: number; className?: string 
   )
 }
 
-function Card({ r }: { r: (typeof reviews.items)[number] }) {
+function Card({ r }: { r: Review }) {
   return (
     <figure className="flex w-[78vw] max-w-[380px] shrink-0 flex-col gap-4 rounded-[22px] border border-paper/10 bg-paper/[0.04] p-6 md:w-[360px] md:p-7">
-      <Stars rating={r.rating} />
+      {r.rating ? <Stars rating={r.rating} /> : null}
       <blockquote>
         <p className="text-lg leading-snug font-extrabold tracking-tight text-paper">{r.title}</p>
         <p className="mt-3 text-[15px] leading-relaxed text-paper/70">{r.text}</p>
@@ -44,7 +47,7 @@ function Card({ r }: { r: (typeof reviews.items)[number] }) {
         <span className="grid h-6 w-6 place-items-center rounded-full bg-ember/15 text-ember" aria-hidden="true">
           ✓
         </span>
-        Parent testeur · {r.rating}/5
+        {r.name ? `${r.name} · ` : ''}Parent testeur{r.rating ? ` · ${r.rating}/5` : ''}
       </figcaption>
     </figure>
   )
@@ -80,7 +83,7 @@ export function Reviews({ reducedMotion }: Props) {
           <span className="flex flex-col gap-1">
             <Stars rating={average} />
             <span className="text-sm text-paper/60">
-              Note moyenne sur 5 · {reviews.items.length} avis
+              Note moyenne sur 5 · {rated.length} notes · {reviews.items.length} avis
             </span>
           </span>
         </div>
@@ -88,8 +91,8 @@ export function Reviews({ reducedMotion }: Props) {
 
       {reducedMotion ? (
         <div className="mx-auto mt-12 flex max-w-[1440px] flex-wrap gap-5 px-4 sm:px-8">
-          {reviews.items.map((r) => (
-            <Card key={r.title} r={r} />
+          {reviews.items.map((r, i) => (
+            <Card key={i} r={r} />
           ))}
         </div>
       ) : (
@@ -108,7 +111,7 @@ export function Reviews({ reducedMotion }: Props) {
 
       <style>{`
         .reviews-marquee{mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-        .reviews-track{padding-inline:20px;animation:reviews-scroll 55s linear infinite}
+        .reviews-track{padding-inline:20px;animation:reviews-scroll ${MARQUEE_SECONDS}s linear infinite}
         .reviews-marquee:hover .reviews-track,.reviews-marquee:focus-within .reviews-track{animation-play-state:paused}
         @keyframes reviews-scroll{to{transform:translateX(-50%)}}
       `}</style>

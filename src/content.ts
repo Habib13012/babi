@@ -170,39 +170,44 @@ export const finale = {
   cta: 'Obtenir le guide',
 }
 
+export type Review = { name?: string; rating?: number; title: string; text: string }
+
 /**
- * Avis de parents ayant testé le guide avant sa sortie (textes fournis tels quels).
- * Note : les mêmes avis alimentent les données Google dans shopify/snippets/seo.liquid.
+ * Avis de parents ayant testé le guide avant sa sortie (textes fournis tels quels,
+ * prénoms modifiés à la demande des testeurs). Un avis sans prénom est signé « Parent testeur » ;
+ * un avis sans note n'affiche pas d'étoiles et n'entre pas dans la moyenne.
+ * Note : la moyenne et le nombre de notes sont repris dans shopify/snippets/seo.liquid.
  */
-export const reviews = {
+export const reviews: { eyebrow: string; title: string; source: string; items: Review[] } = {
   eyebrow: "Ils l'ont testé",
   title: 'Ce qu’en disent les parents',
-  source: 'Avis recueillis auprès de parents ayant testé le guide avant sa sortie.',
+  source:
+    'Avis recueillis auprès de parents ayant testé le guide avant sa sortie. Prénoms modifiés pour préserver l’anonymat des testeurs.',
   items: [
-    {
-      rating: 5,
-      title: 'Un guide très concret',
-      text: 'J’ai apprécié les conseils simples à appliquer au quotidien. Le plan sur 14 jours permet d’avancer étape par étape sans vouloir tout changer d’un coup.',
-    },
-    {
-      rating: 5,
-      title: 'Des idées faciles à mettre en place',
-      text: 'Le guide m’a donné des idées pour proposer d’autres activités à mon enfant et mieux organiser les moments avec les écrans.',
-    },
-    {
-      rating: 5,
-      title: 'Une bonne aide pour les parents',
-      text: 'J’avais besoin de repères pour instaurer des règles plus claires à la maison. J’aime le côté pratique et la progression du programme.',
-    },
-    {
-      rating: 4,
-      title: 'Utile et facile à lire',
-      text: 'Le contenu est clair et les conseils sont accessibles. Il faut prendre le temps de les adapter à son enfant, mais c’est une bonne base.',
-    },
-    {
-      rating: 4,
-      title: 'Des pistes intéressantes',
-      text: 'J’ai trouvé plusieurs idées intéressantes pour réduire progressivement le temps d’écran. Cela demande de la régularité, mais le guide aide à mieux s’organiser.',
-    },
+    { name: 'Sophie', rating: 5, title: 'Des conseils faciles à suivre', text: 'J’ai aimé la structure du guide et les étapes progressives. Cela donne des pistes concrètes pour mieux gérer les écrans à la maison.' },
+    { name: 'Camille', rating: 5, title: 'Une lecture rassurante', text: 'Le guide aborde un sujet qui peut être compliqué pour les parents avec des conseils accessibles et faciles à comprendre.' },
+    { name: 'Julie', rating: 5, title: 'De bonnes idées d’activités', text: 'J’y ai trouvé des idées pour proposer davantage d’activités à mon enfant sans toujours passer par les écrans.' },
+    { name: 'Thomas', rating: 4, title: 'Un bon point de départ', text: 'Le programme est bien organisé. Il faut adapter certaines idées à son quotidien, mais les conseils sont intéressants.' },
+    { name: 'Émilie', rating: 5, title: 'Clair et pratique', text: 'J’apprécie le format sur 14 jours qui permet de prendre le temps de mettre en place de nouvelles habitudes.' },
+    { name: 'Laura', rating: 5, title: 'Des repères utiles', text: 'Ce guide m’a aidée à réfléchir aux règles que nous voulons appliquer en famille et à mieux structurer notre routine.' },
+    { name: 'Marine', rating: 4, title: 'Simple à comprendre', text: 'Le contenu est accessible et va à l’essentiel. J’aurais aimé encore plus d’exemples selon l’âge des enfants.' },
+    { title: 'Une approche progressive', text: 'J’aime l’idée d’avancer petit à petit plutôt que de vouloir tout changer du jour au lendemain.' },
+    { name: 'Nathalie', rating: 5, title: 'Utile au quotidien', text: 'Les conseils sont faciles à relire et à garder en tête lorsqu’on cherche à instaurer de meilleures habitudes.' },
+    { name: 'Mélanie', rating: 4, title: 'Des pistes intéressantes', text: 'Un guide bien présenté qui donne plusieurs idées à essayer à la maison. La régularité reste importante.' },
+    { name: 'Aurélie', rating: 5, title: 'Un guide encourageant', text: 'J’ai apprécié le ton bienveillant et les suggestions concrètes pour accompagner les enfants dans leurs habitudes numériques.' },
+    { name: 'David', rating: 5, title: 'Une bonne organisation', text: 'Le plan permet de réfléchir aux habitudes familiales étape par étape. C’est pratique d’avoir une trame à suivre.' },
+    { name: 'Pauline', rating: 4, title: 'Pratique et accessible', text: 'Le guide est facile à parcourir et propose une base utile pour commencer à mieux encadrer les écrans.' },
+    { name: 'Céline', rating: 5, title: 'Des idées à tester en famille', text: 'J’ai retenu plusieurs suggestions pour varier les activités et rendre les moments sans écran plus faciles à organiser.' },
+    { name: 'Maxime', rating: 5, title: 'Un contenu pertinent', text: 'Le sujet est très actuel et le guide propose une démarche structurée pour les parents qui souhaitent agir progressivement.' },
+    { name: 'Isabelle', rating: 4, title: 'Une lecture utile', text: 'Les explications sont simples. Certaines idées demandent un peu d’organisation, mais le contenu reste intéressant.' },
+    { name: 'Manon', rating: 5, title: 'Un format motivant', text: 'Le découpage sur deux semaines rend l’objectif plus facile à envisager et permet de se concentrer sur une étape à la fois.' },
+    { name: 'Julien', rating: 5, title: 'Des conseils concrets', text: 'J’ai apprécié les pistes pratiques plutôt que de longues explications théoriques. C’est un bon support pour les parents.' },
+    { name: 'Sarah', rating: 4, title: 'Un guide bien pensé', text: 'Le contenu est agréable à lire et donne des idées pour réfléchir aux règles familiales autour des écrans.' },
+    { name: 'Élodie', rating: 5, title: 'Une ressource rassurante', text: 'Ce guide donne une structure pour commencer à faire évoluer les habitudes en famille, sans chercher la perfection immédiatement.' },
+    { rating: 5, title: 'Un guide très concret', text: 'J’ai apprécié les conseils simples à appliquer au quotidien. Le plan sur 14 jours permet d’avancer étape par étape sans vouloir tout changer d’un coup.' },
+    { rating: 5, title: 'Des idées faciles à mettre en place', text: 'Le guide m’a donné des idées pour proposer d’autres activités à mon enfant et mieux organiser les moments avec les écrans.' },
+    { rating: 5, title: 'Une bonne aide pour les parents', text: 'J’avais besoin de repères pour instaurer des règles plus claires à la maison. J’aime le côté pratique et la progression du programme.' },
+    { rating: 4, title: 'Utile et facile à lire', text: 'Le contenu est clair et les conseils sont accessibles. Il faut prendre le temps de les adapter à son enfant, mais c’est une bonne base.' },
+    { rating: 4, title: 'Des pistes intéressantes', text: 'J’ai trouvé plusieurs idées intéressantes pour réduire progressivement le temps d’écran. Cela demande de la régularité, mais le guide aide à mieux s’organiser.' },
   ],
 }
