@@ -902,3 +902,14 @@ textarea.field {
     display: inline;
   }
 }
+
+.cart-note {
+  margin: 0;
+  color: rgba(244, 242, 236, 0.5);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.cart-note a {
+  color: inherit;
+}

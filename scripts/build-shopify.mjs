@@ -18,6 +18,9 @@ function checkLiquidOutputTags(dir) {
       if (statSync(p).isDirectory()) walk(p)
       else if (p.endsWith('.liquid')) {
         const src = readFileSync(p, 'utf8')
+        // image_tag n'accepte que la sortie de image_url (pas asset_url) : erreur Liquid à l'affichage
+        const badTag = src.search(/asset_url\s*\|\s*image_tag/)
+        if (badTag !== -1) errors.push(`${relative(root, p)}:${src.slice(0, badTag).split('\n').length}  asset_url | image_tag interdit`)
         for (let i = src.indexOf('{{'); i !== -1; i = src.indexOf('{{', i + 2)) {
           const end = src.indexOf('}', i + 2)
           if (end === -1 || src[end + 1] !== '}') {

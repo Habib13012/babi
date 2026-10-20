@@ -49,23 +49,15 @@
           {%- endif -%}
         </div>
         <div class="cart-checkout">
-          <label class="cart-consent">
-            <input
-              type="checkbox"
-              name="attributes[Accord CGV et fourniture immédiate]"
-              value="Oui : CGV acceptées, fourniture immédiate demandée, perte du droit de rétractation reconnue"
-              required
-            >
-            <span>
-              J'accepte les <a href="/pages/cgv" target="_blank">conditions générales de vente</a> et je demande
-              l'accès immédiat à mes fichiers après le paiement. Je reconnais perdre ainsi mon droit de
-              rétractation (art. L221-28, 13° du Code de la consommation).
-            </span>
-          </label>
           <div class="form-row">
-            <button type="submit" name="update" class="btn btn--ghost" formnovalidate>Mettre à jour</button>
+            <button type="submit" name="update" class="btn btn--ghost">Mettre à jour</button>
             <button type="submit" name="checkout" class="btn">Passer au paiement</button>
           </div>
+          <p class="cart-note">
+            Accès immédiat à vos fichiers après le paiement. En commandant, vous acceptez nos
+            <a href="/pages/cgv">conditions de vente</a> et demandez la livraison immédiate du PDF,
+            qui met fin au droit de rétractation.
+          </p>
         </div>
       </div>
     </form>

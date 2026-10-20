@@ -4,7 +4,7 @@
 {%- endcomment -%}
 <ul class="cart-bonus" aria-label="Bonus offerts avec le guide">
   <li class="cart-bonus__item">
-    {{ 'affiche-plan-familial.jpg' | asset_url | image_tag: alt: '', width: 900, height: 1273, loading: 'lazy' }}
+    <img src="{{ 'affiche-plan-familial.jpg' | asset_url }}" alt="" width="900" height="1273" loading="lazy">
     <div>
       <span class="cart-bonus__tag">Bonus 1</span>
       <span class="cart-bonus__title">3 affiches à imprimer</span>
@@ -13,7 +13,7 @@
     <span class="cart-bonus__free">Offert</span>
   </li>
   <li class="cart-bonus__item">
-    {{ 'cartes-idees.jpg' | asset_url | image_tag: alt: '', width: 900, height: 1273, loading: 'lazy' }}
+    <img src="{{ 'cartes-idees.jpg' | asset_url }}" alt="" width="900" height="1273" loading="lazy">
     <div>
       <span class="cart-bonus__tag">Bonus 2</span>
       <span class="cart-bonus__title">30 cartes d'idées sans écran</span>
@@ -22,7 +22,7 @@
     <span class="cart-bonus__free">Offert</span>
   </li>
   <li class="cart-bonus__item">
-    {{ 'fiche-grands-parents.jpg' | asset_url | image_tag: alt: '', width: 900, height: 1273, loading: 'lazy' }}
+    <img src="{{ 'fiche-grands-parents.jpg' | asset_url }}" alt="" width="900" height="1273" loading="lazy">
     <div>
       <span class="cart-bonus__tag">Bonus 3</span>
       <span class="cart-bonus__title">La fiche grands-parents et nounou</span>
