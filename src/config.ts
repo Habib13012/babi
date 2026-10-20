@@ -13,7 +13,7 @@ export const site = {
    * Lien du bouton d'achat. Sur Shopify : lien panier direct vers le produit (/cart/<variante>:1).
    * En local, valeur de repli.
    */
-  buyUrl: shop.buyUrl ?? 'https://icgsr-19.myshopify.com/',
+  buyUrl: shop.buyUrl ?? 'https://hicgsr-19.myshopify.com/products/mon-enfant-et-les-ecrans',
 
   /** Liens légaux (CGV, remboursement…) fournis par Shopify. */
   links: shop.links ?? [],
