@@ -6,7 +6,7 @@ import { DragZone } from '../components/DragZone'
 import { scrollToTarget } from '../lib/smoothScroll'
 import { Stars } from '../components/Stars'
 import { average, averageLabel } from '../lib/reviewStats'
-import { hero, reviews } from '../content'
+import { hero } from '../content'
 
 type Props = { introDone: boolean; use3D: boolean; reducedMotion: boolean }
 
@@ -86,13 +86,13 @@ export function Hero({ introDone, use3D, reducedMotion }: Props) {
               e.preventDefault()
               scrollToTarget('#reviews')
             }}
-            aria-label={`Note ${averageLabel} sur 5 : voir les ${reviews.items.length} avis de parents`}
+            aria-label={`Note ${averageLabel} sur 5, plus de 100 parents heureux : voir les avis`}
             className="group mb-4 inline-flex items-center gap-2.5 rounded-full border border-paper/15 bg-paper/[0.06] py-1.5 pr-3.5 pl-2.5 text-xs font-semibold text-paper/80 transition-colors hover:border-ember/60 hover:text-paper"
           >
             <Stars rating={average} />
             <span className="font-extrabold text-paper tabular-nums">{averageLabel}</span>
             <span className="underline decoration-ember/60 underline-offset-4 group-hover:decoration-ember">
-              {reviews.items.length} avis de parents
+              + de 100 parents heureux
             </span>
           </a>
           <p data-intro className="eyebrow text-ember">
