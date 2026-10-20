@@ -913,3 +913,11 @@ textarea.field {
 .cart-note a {
   color: inherit;
 }
+
+/* Ancien prix barré */
+.price-old {
+  opacity: 0.6;
+  margin-right: 0.3em;
+  font-size: 0.9em;
+  text-decoration-thickness: 2px;
+}

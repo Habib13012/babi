@@ -10,6 +10,9 @@ export const site = {
   title: 'Mon enfant et les écrans',
   author: 'Habib Tahrat',
   price: shop.price ?? '14,90 €',
+  /** Ancien prix barré (« Prix avant réduction » dans Shopify) ; vide = pas de prix barré. */
+  comparePrice: shop.comparePrice ?? '27,00 €',
+  discount: shop.discount ?? 45,
 
   /**
    * Lien du bouton d'achat. Sur Shopify : lien panier direct vers le produit (/cart/<variante>:1).

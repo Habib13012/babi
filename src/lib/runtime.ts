@@ -12,6 +12,10 @@ type ShopData = {
   productUrl?: string
   title?: string
   price?: string
+  /** ancien prix (barré), vide s'il n'y a pas de réduction */
+  comparePrice?: string
+  /** réduction en %, arrondie */
+  discount?: number
   buyUrl?: string
   available?: boolean
   /** nombre d'articles dans le panier */

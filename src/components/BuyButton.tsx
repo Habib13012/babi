@@ -1,4 +1,5 @@
 import { site } from '../config'
+import { DiscountBadge, Price } from './Price'
 
 type Variant = 'download' | 'gift' | 'hero'
 type Props = { label: string; variant?: Variant; sublabel?: string; className?: string }
@@ -39,7 +40,7 @@ export function BuyButton({ label, variant = 'download', sublabel, className = '
           <GiftIcon />
         </span>
         <span>{label}</span>
-        <span className="tabular-nums text-navy/60">{site.price}</span>
+        <Price className="font-extrabold text-navy" oldClassName="text-navy/45" />
       </a>
     )
   }
@@ -57,7 +58,16 @@ export function BuyButton({ label, variant = 'download', sublabel, className = '
           <span className="text-base sm:text-lg">{label}</span>
           {sublabel && <span className="mt-0.5 text-xs font-semibold text-ink/65">{sublabel}</span>}
         </span>
-        <span className="text-xl font-extrabold tabular-nums">{site.price}</span>
+        <span className="flex shrink-0 flex-col items-end gap-1 leading-none">
+          {site.comparePrice && (
+            <span className="flex items-center gap-1.5 text-xs font-bold text-ink/60">
+              <s aria-hidden="true" className="decoration-2">{site.comparePrice}</s>
+              <DiscountBadge className="bg-ink" />
+            </span>
+          )}
+          <span className="text-xl font-extrabold tabular-nums whitespace-nowrap">{site.price}</span>
+          {site.comparePrice && <span className="sr-only">au lieu de {site.comparePrice}</span>}
+        </span>
       </a>
     )
   }
@@ -68,7 +78,7 @@ export function BuyButton({ label, variant = 'download', sublabel, className = '
         <DownloadIcon />
       </span>
       <span>{label}</span>
-      <span className="rounded-full bg-ink/10 px-3 py-1 text-[0.9em] tabular-nums">{site.price}</span>
+      <Price className="rounded-full bg-ink/10 px-3 py-1 text-[0.9em]" oldClassName="text-ink/55" />
     </a>
   )
 }

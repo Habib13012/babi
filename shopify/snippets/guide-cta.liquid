@@ -10,7 +10,8 @@
       <p class="guide-cta__title">{{ guide.title }}</p>
       <p class="muted">Un plan en 14 jours, les phrases à dire pendant la crise, des repères de 2 à 14 ans et 3 bonus à imprimer.</p>
       <div class="form-row">
-        <a class="btn" href="{{ guide.url }}">Découvrir le guide · {{ guide.price | money }}</a>
+        <a class="btn" href="{{ guide.url }}">Découvrir le guide ·
+          {%- if guide.compare_at_price > guide.price %} <s class="price-old">{{ guide.compare_at_price | money }}</s>{% endif %} {{ guide.price | money }}</a>
       </div>
     </div>
   </aside>

@@ -17,7 +17,12 @@
               {%- unless item.product.has_only_default_variant -%}
                 <div class="muted">{{ item.variant.title }}</div>
               {%- endunless -%}
-              <div class="muted">{{ item.final_price | money }}</div>
+              <div class="muted">
+                {%- if item.variant.compare_at_price > item.final_price -%}
+                  <s class="price-old">{{ item.variant.compare_at_price | money }}</s>
+                {% endif -%}
+                {{ item.final_price | money }}
+              </div>
               <a class="muted" href="{{ item.url_to_remove }}">Retirer</a>
             </div>
             <div>

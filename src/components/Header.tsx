@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { site } from '../config'
+import { Price } from './Price'
 import { shop } from '../lib/runtime'
 import { scrollToTarget, setScrollLocked } from '../lib/smoothScroll'
 import { Logo } from './Logo'
@@ -129,7 +130,7 @@ export function Header() {
               )}
             </a>
             <a href={site.buyUrl} className="btn-ember hidden px-4 py-2.5 text-sm lg:inline-flex">
-              Le guide <span className="tabular-nums">{site.price}</span>
+              Le guide <Price oldClassName="text-ink/55" />
             </a>
             <button
               ref={toggle}
@@ -180,7 +181,7 @@ export function Header() {
         </nav>
         <div data-menu-item>
           <a href={site.buyUrl} className="btn-ember w-full justify-between px-6 py-4 text-base">
-            Obtenir le guide <span className="tabular-nums">{site.price}</span>
+            Obtenir le guide <Price oldClassName="text-ink/55" />
           </a>
           <p className="mt-5 text-center text-xs text-paper/45">{site.brand}</p>
         </div>

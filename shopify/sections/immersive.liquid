@@ -11,11 +11,18 @@
     assign p = collections.all.products.first
   endif
   assign v = p.selected_or_first_available_variant
+  assign compare_price = ''
+  assign discount = 0
 
   if v != blank
     # Ajout au panier puis page panier (case CGV / renonciation au droit de rétractation obligatoire)
     assign buy_url = routes.cart_add_url | append: '?id=' | append: v.id | append: '&quantity=1'
     assign price = v.price | money | strip_html
+    # Ancien prix barré : « Prix avant réduction » de la variante, s'il est supérieur au prix actuel
+    if v.compare_at_price > v.price
+      assign compare_price = v.compare_at_price | money | strip_html
+      assign discount = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+    endif
   else
     assign buy_url = routes.all_products_collection_url
     assign price = ''
@@ -40,6 +47,8 @@
     ],
     title: {{ p.title | default: shop.name | json }},
     price: {{ price | json }},
+    comparePrice: {{ compare_price | json }},
+    discount: {{ discount | json }},
     buyUrl: {{ buy_url | json }},
     available: {% if v.available %}true{% else %}false{% endif %},
     cartCount: {{ cart.item_count | json }},
@@ -62,7 +71,7 @@
     <p style="color:#e8843c;font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:12px">Guide pratique pour les parents</p>
     <h1>{{ p.title | escape }}</h1>
     {%- if p.description != blank -%}<div>{{ p.description }}</div>{%- endif -%}
-    <p><a href="{{ buy_url }}" style="color:#e8843c">Obtenir le guide — {{ price }}</a></p>
+    <p><a href="{{ buy_url }}" style="color:#e8843c">Obtenir le guide — {% if compare_price != '' %}<s>{{ compare_price }}</s> {% endif %}{{ price }}</a></p>
     <nav aria-label="Navigation">
       {%- for link in linklists[settings.main_menu].links -%}
         <a href="{{ link.url }}" style="color:#f4f2ec;margin-right:16px">{{ link.title }}</a>

@@ -101,7 +101,10 @@ export function Discover({ use3D, reducedMotion }: Props) {
             <div className="mt-5 md:mt-8">
               <BuyButton label={discover.final.cta} variant="gift" />
             </div>
-            <span className="sr-only">Prix : {site.price}</span>
+            <span className="sr-only">
+              Prix : {site.price}
+              {site.comparePrice ? ` au lieu de ${site.comparePrice}` : ''}
+            </span>
           </div>
         </div>
 
