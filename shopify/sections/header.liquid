@@ -1,21 +1,27 @@
 {%- assign menu = linklists[settings.main_menu] -%}
 <header class="site-header">
-  <div class="container site-header__inner">
-    <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ settings.brand_name | default: shop.name | escape }}, accueil">
-      {% render 'logo' %}
-    </a>
-
-    <nav class="site-nav" aria-label="Navigation principale">
-      <ul class="site-nav__links">
+  <div class="container site-header__inner site-header__inner--centered">
+    <div class="site-header__left">
+      <a href="{{ routes.cart_url }}" class="site-header__cart site-header__cart--mobile">
+        Panier
+        {%- if cart.item_count > 0 %} <span class="badge">{{ cart.item_count }}</span>{% endif -%}
+      </a>
+      <ul class="site-nav__links" aria-label="Navigation principale">
         {%- for link in menu.links -%}
           <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
         {%- endfor -%}
       </ul>
-      <a href="{{ routes.cart_url }}" class="site-header__cart">
+    </div>
+
+    <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ settings.brand_name | default: shop.name | escape }}, accueil">
+      {% render 'logo' %}
+    </a>
+
+    <div class="site-header__right">
+      <a href="{{ routes.cart_url }}" class="site-header__cart site-header__cart--desktop">
         Panier
         {%- if cart.item_count > 0 %} <span class="badge">{{ cart.item_count }}</span>{% endif -%}
       </a>
-
       <details class="menu-drawer">
         <summary class="menu-drawer__toggle" aria-label="Menu">
           <span aria-hidden="true"></span>
@@ -33,7 +39,7 @@
           <a class="btn" href="{{ routes.cart_url }}">Panier{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</a>
         </div>
       </details>
-    </nav>
+    </div>
   </div>
 </header>
 

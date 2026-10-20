@@ -865,3 +865,38 @@ textarea.field {
 .cart-consent a {
   color: var(--ember);
 }
+
+/* En-tête : logo centré (comme la page de paiement) */
+.site-header__inner--centered {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+}
+
+.site-header__inner--centered .site-header__logo {
+  justify-self: center;
+}
+
+.site-header__left,
+.site-header__right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.site-header__right {
+  justify-content: flex-end;
+}
+
+.site-header__cart--desktop {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .site-header__cart--mobile {
+    display: none;
+  }
+  .site-header__cart--desktop {
+    display: inline;
+  }
+}

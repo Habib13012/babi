@@ -14,6 +14,8 @@ type ShopData = {
   price?: string
   buyUrl?: string
   available?: boolean
+  /** nombre d'articles dans le panier */
+  cartCount?: number
   links?: ShopLink[]
 }
 

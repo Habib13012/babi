@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { site } from '../config'
+import { shop } from '../lib/runtime'
 import { scrollToTarget, setScrollLocked } from '../lib/smoothScroll'
 import { Logo } from './Logo'
 
@@ -11,6 +12,8 @@ const isCurrent = (url: string) => {
     return false
   }
 }
+
+const cartCount = shop.cartCount ?? 0
 
 export function Header() {
   const bar = useRef<HTMLDivElement>(null)
@@ -68,7 +71,37 @@ export function Header() {
         ref={header}
         className="group fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter] duration-500 [&.is-scrolled]:bg-ink/85 [&.is-scrolled]:backdrop-blur-xl"
       >
-        <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-4 px-4 sm:px-8 md:h-20">
+        {/* En-tête à 3 colonnes : logo centré, comme sur la page de paiement */}
+        <div className="mx-auto grid h-16 max-w-[1440px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 sm:px-8 md:h-20">
+          <div className="flex items-center">
+            <a
+              href="/cart"
+              className="flex items-center gap-2 text-sm font-semibold text-paper/85 transition-colors hover:text-paper md:hidden"
+            >
+              Panier
+              {cartCount > 0 && (
+                <span className="grid h-5 min-w-5 place-items-center rounded-full bg-ember px-1.5 text-[11px] font-extrabold text-ink">
+                  {cartCount}
+                </span>
+              )}
+            </a>
+            <nav aria-label="Navigation principale" className="hidden md:block">
+              <ul className="flex items-center gap-7">
+                {site.menu.map((link) => (
+                  <li key={link.url}>
+                    <a
+                      href={link.url}
+                      aria-current={isCurrent(link.url) ? 'page' : undefined}
+                      className="relative text-sm font-semibold text-paper/75 transition-colors hover:text-paper aria-[current=page]:text-paper after:absolute after:inset-x-0 after:-bottom-1.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-ember after:transition-transform after:duration-500 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
+                    >
+                      {link.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
           <a
             href="/"
             onClick={(e) => {
@@ -78,24 +111,23 @@ export function Header() {
               }
             }}
             aria-label={`${site.brand}, accueil`}
+            className="justify-self-center"
           >
             <Logo />
           </a>
 
-          <nav aria-label="Navigation principale" className="flex items-center gap-7">
-            <ul className="hidden items-center gap-7 md:flex">
-              {site.menu.map((link) => (
-                <li key={link.url}>
-                  <a
-                    href={link.url}
-                    aria-current={isCurrent(link.url) ? 'page' : undefined}
-                    className="relative text-sm font-semibold text-paper/75 transition-colors hover:text-paper aria-[current=page]:text-paper after:absolute after:inset-x-0 after:-bottom-1.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-ember after:transition-transform after:duration-500 hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
-                  >
-                    {link.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div className="flex items-center justify-end gap-6">
+            <a
+              href="/cart"
+              className="hidden items-center gap-2 text-sm font-semibold text-paper/75 transition-colors hover:text-paper md:flex"
+            >
+              Panier
+              {cartCount > 0 && (
+                <span className="grid h-5 min-w-5 place-items-center rounded-full bg-ember px-1.5 text-[11px] font-extrabold text-ink">
+                  {cartCount}
+                </span>
+              )}
+            </a>
             <a href={site.buyUrl} className="btn-ember hidden px-4 py-2.5 text-sm lg:inline-flex">
               Le guide <span className="tabular-nums">{site.price}</span>
             </a>
@@ -117,7 +149,7 @@ export function Header() {
                 />
               </span>
             </button>
-          </nav>
+          </div>
         </div>
       </header>
 

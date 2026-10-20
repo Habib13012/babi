@@ -42,6 +42,7 @@
     price: {{ price | json }},
     buyUrl: {{ buy_url | json }},
     available: {% if v.available %}true{% else %}false{% endif %},
+    cartCount: {{ cart.item_count | json }},
     links: [
       {%- for link in linklists.footer.links -%}
         { "title": {{ link.title | json }}, "url": {{ link.url | json }} }{% unless forloop.last %},{% endunless %}
