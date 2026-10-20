@@ -2,10 +2,13 @@ import Lenis from 'lenis'
 import { gsap, ScrollTrigger } from './gsap'
 
 let lenis: Lenis | null = null
+let locked = false
 
 /** Défilement fluide synchronisé avec ScrollTrigger (désactivé si mouvement réduit). */
 export function startSmoothScroll(): () => void {
   lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, anchors: true })
+  // l'écran de chargement a pu verrouiller le défilement avant la création de Lenis
+  if (locked) lenis.stop()
   lenis.on('scroll', ScrollTrigger.update)
   const tick = (time: number) => lenis?.raf(time * 1000)
   gsap.ticker.add(tick)
@@ -26,11 +29,15 @@ export function scrollToTarget(target: string | HTMLElement) {
   }
 }
 
-export function setScrollLocked(locked: boolean) {
-  if (!lenis) {
-    document.documentElement.style.overflow = locked ? 'hidden' : ''
-    return
+/**
+ * Verrouille ou libère le défilement. Le style natif et Lenis sont toujours traités ensemble :
+ * l'ordre d'initialisation (chargement vs Lenis) ne doit jamais laisser la page bloquée.
+ */
+export function setScrollLocked(value: boolean) {
+  locked = value
+  document.documentElement.style.overflow = value ? 'hidden' : ''
+  if (lenis) {
+    if (value) lenis.stop()
+    else lenis.start()
   }
-  if (locked) lenis.stop()
-  else lenis.start()
 }
