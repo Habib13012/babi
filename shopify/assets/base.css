@@ -309,6 +309,66 @@ h1 {
   width: 80px;
 }
 
+/* Sélecteur de quantité (produits physiques) */
+.qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.qty__btn {
+  width: 40px;
+  height: 44px;
+  border: 0;
+  background: none;
+  color: var(--paper);
+  font: 700 1.2rem var(--font);
+  cursor: pointer;
+}
+
+.qty__btn:hover {
+  color: var(--ember);
+}
+
+.qty__input {
+  width: 36px;
+  height: 44px;
+  border: 0;
+  background: none;
+  color: var(--paper);
+  font: 700 1rem var(--font);
+  text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.qty__input::-webkit-outer-spin-button,
+.qty__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.qty__fixed {
+  color: rgba(244, 242, 236, 0.55);
+  font-weight: 600;
+}
+
+.cart-item__price {
+  color: var(--paper);
+}
+
+.cart-item__unit {
+  font-size: 0.85em;
+}
+
+[data-cart-form].is-updating {
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
 .cart-summary {
   display: flex;
   flex-wrap: wrap;

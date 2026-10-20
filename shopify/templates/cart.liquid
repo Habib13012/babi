@@ -17,7 +17,7 @@
         endunless
       endif
     -%}
-    <form action="{{ routes.cart_url }}" method="post" novalidate>
+    <form action="{{ routes.cart_url }}" method="post" novalidate data-cart-form>
       <ul class="cart-items">
         {%- for item in cart.items -%}
           <li class="cart-item">
@@ -33,22 +33,35 @@
               {%- endunless -%}
               <div class="muted">
                 {%- if item.variant.compare_at_price > item.final_price -%}
-                  <s class="price-old">{{ item.variant.compare_at_price | money }}</s>
+                  <s class="price-old">{{ item.variant.compare_at_price | times: item.quantity | money }}</s>
                 {% endif -%}
-                {{ item.final_price | money }}
+                <strong class="cart-item__price">{{ item.final_line_price | money }}</strong>
+                {%- if item.quantity > 1 %} <span class="cart-item__unit">({{ item.quantity }} × {{ item.final_price | money }})</span>{% endif -%}
               </div>
               <a class="muted" href="{{ item.url_to_remove }}">Retirer</a>
             </div>
             <div>
-              <label class="visually-hidden" for="qty-{{ item.key }}">Quantité</label>
-              <input
-                id="qty-{{ item.key }}"
-                class="field cart-item__qty"
-                type="number"
-                name="updates[]"
-                value="{{ item.quantity }}"
-                min="0"
-              >
+              {%- if item.requires_shipping -%}
+                <div class="qty" data-qty>
+                  <button type="button" class="qty__btn" data-step="-1" aria-label="Retirer un {{ item.product.title | escape }}">−</button>
+                  <label class="visually-hidden" for="qty-{{ item.key }}">Quantité</label>
+                  <input
+                    id="qty-{{ item.key }}"
+                    class="qty__input"
+                    type="number"
+                    inputmode="numeric"
+                    name="updates[{{ item.key }}]"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    max="10"
+                  >
+                  <button type="button" class="qty__btn" data-step="1" aria-label="Ajouter un {{ item.product.title | escape }}">+</button>
+                </div>
+              {%- else -%}
+                {%- comment -%} Fichier numérique : un seul exemplaire suffit {%- endcomment -%}
+                <input type="hidden" name="updates[{{ item.key }}]" value="1">
+                <span class="qty__fixed">× 1</span>
+              {%- endif -%}
             </div>
           </li>
           {%- if item.product.handle == 'mon-enfant-et-les-ecrans' -%}
@@ -102,7 +115,7 @@
         </div>
         <div class="cart-checkout">
           <div class="form-row">
-            <button type="submit" name="update" class="btn btn--ghost">Mettre à jour</button>
+            <button type="submit" name="update" class="btn btn--ghost" data-cart-update>Mettre à jour</button>
             <button type="submit" name="checkout" class="btn">Passer au paiement</button>
           </div>
           <p class="cart-note">
@@ -127,3 +140,34 @@
     <a class="btn" href="{{ routes.root_url }}">Découvrir le guide</a>
   {%- endif -%}
 </div>
+
+<script>
+  // Quantités : mise à jour automatique du panier (le bouton « Mettre à jour » ne sert plus que sans JavaScript)
+  (function () {
+    var form = document.querySelector('[data-cart-form]');
+    if (!form) return;
+    var update = form.querySelector('[data-cart-update]');
+    if (update) update.hidden = true;
+    var timer;
+    function submit() {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        form.classList.add('is-updating');
+        if (form.requestSubmit && update) form.requestSubmit(update);
+        else form.submit();
+      }, 450);
+    }
+    form.querySelectorAll('[data-qty]').forEach(function (box) {
+      var input = box.querySelector('input');
+      box.querySelectorAll('[data-step]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var next = Math.min(10, Math.max(0, (parseInt(input.value, 10) || 0) + Number(btn.dataset.step)));
+          if (String(next) === input.value) return;
+          input.value = next;
+          submit();
+        });
+      });
+      input.addEventListener('change', submit);
+    });
+  })();
+</script>
