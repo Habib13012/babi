@@ -1,0 +1,23 @@
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="{{ routes.root_url }}" class="site-header__logo">
+      <span class="logo-mark" aria-hidden="true"><span></span></span>
+      {{ section.settings.title | default: shop.name }}
+    </a>
+    <nav class="site-header__nav" aria-label="Navigation principale">
+      <a href="{{ routes.cart_url }}" class="site-header__cart">
+        Panier
+        {%- if cart.item_count > 0 %} <span class="badge">{{ cart.item_count }}</span>{% endif -%}
+      </a>
+    </nav>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Nom affiché", "default": "Mon enfant et les écrans" }
+  ]
+}
+{% endschema %}

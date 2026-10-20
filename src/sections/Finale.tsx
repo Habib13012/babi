@@ -77,10 +77,12 @@ export function Finale({ use3D, reducedMotion }: Props) {
           <p>
             © {YEAR} {site.author} · {site.title}
           </p>
-          <div className="flex gap-6">
-            <a href={site.buyUrl} className="transition-colors hover:text-paper">
-              Boutique
-            </a>
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            {site.links.map((link) => (
+              <a key={link.url} href={link.url} className="transition-colors hover:text-paper">
+                {link.title}
+              </a>
+            ))}
             <a
               href="#hero"
               onClick={(e) => {

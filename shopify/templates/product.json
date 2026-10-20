@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "immersive": {
+      "type": "immersive",
+      "settings": {}
+    }
+  },
+  "order": ["immersive"]
+}

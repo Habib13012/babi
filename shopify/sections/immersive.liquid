@@ -1,0 +1,72 @@
+{%- comment -%}
+  Expérience immersive (React + Three.js + GSAP), compilée dans assets/immersive.js.
+  Le produit vendu vient de la page produit en cours, ou du produit choisi dans l'éditeur de thème.
+{%- endcomment -%}
+{%- liquid
+  assign p = product
+  if p == blank
+    assign p = section.settings.product
+  endif
+  if p == blank
+    assign p = collections.all.products.first
+  endif
+  assign v = p.selected_or_first_available_variant
+
+  if v != blank
+    assign buy_url = routes.cart_url | append: '/' | append: v.id | append: ':1'
+    assign price = v.price | money | strip_html
+  else
+    assign buy_url = routes.all_products_collection_url
+    assign price = ''
+  endif
+
+  assign files = 'cover-front.jpg,book-mockup.png,sommaire.jpg,scene-famille.jpg,detail-tablette.jpg,affiche-plan-familial.jpg,affiche-5-temps.jpg,affiche-defi-14-jours.jpg,cartes-mode-emploi.jpg,cartes-idees.jpg,fiche-grands-parents.jpg,page-03.jpg,page-05.jpg,page-09.jpg,page-13.jpg,page-17.jpg,page-22.jpg' | split: ','
+-%}
+
+<script>
+  window.__ASSETS__ = {
+    {%- for f in files -%}
+      {{ f | json }}: {{ f | asset_url | json }}{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  };
+  window.__SHOP__ = {
+    title: {{ p.title | default: shop.name | json }},
+    price: {{ price | json }},
+    buyUrl: {{ buy_url | json }},
+    available: {% if v.available %}true{% else %}false{% endif %},
+    links: [
+      {%- for policy in shop.policies -%}
+        { "title": {{ policy.title | json }}, "url": {{ policy.url | json }} }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  };
+</script>
+
+{{ 'immersive.css' | asset_url | stylesheet_tag }}
+
+<div id="root"></div>
+
+<noscript>
+  <div style="max-width:640px;margin:0 auto;padding:48px 20px;font-family:sans-serif;color:#f4f2ec">
+    <h1>{{ p.title | default: shop.name | escape }}</h1>
+    {%- if p.description != blank -%}<div>{{ p.description }}</div>{%- endif -%}
+    <p><a href="{{ buy_url }}" style="color:#e8843c">Obtenir le guide — {{ price }}</a></p>
+  </div>
+</noscript>
+
+<script type="module" src="{{ 'immersive.js' | asset_url }}"></script>
+
+{% schema %}
+{
+  "name": "Expérience immersive",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Produit vendu",
+      "info": "Utilisé sur la page d'accueil. Sur une page produit, c'est le produit affiché qui est vendu."
+    }
+  ],
+  "presets": [{ "name": "Expérience immersive" }]
+}
+{% endschema %}

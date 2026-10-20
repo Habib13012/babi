@@ -1,0 +1,20 @@
+<div class="container">
+  <p class="eyebrow">Boutique</p>
+  <h1>{{ collection.title }}</h1>
+  {%- if collection.description != blank -%}
+    <div class="rte muted">{{ collection.description }}</div>
+  {%- endif -%}
+
+  {%- paginate collection.products by 24 -%}
+    <div class="product-grid">
+      {%- for item in collection.products -%}
+        {% render 'product-card', product: item %}
+      {%- else -%}
+        <p class="muted">Aucun produit pour le moment.</p>
+      {%- endfor -%}
+    </div>
+    {%- if paginate.pages > 1 -%}
+      <nav class="pagination" aria-label="Pagination">{{ paginate | default_pagination }}</nav>
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>

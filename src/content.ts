@@ -1,3 +1,5 @@
+import { asset } from './lib/runtime'
+
 /**
  * Textes du site. Tout est rassemblé ici pour être modifié sans toucher aux composants.
  * Les faits (pages, jours, bonus, âges, prix) reprennent ceux de la fiche produit actuelle.
@@ -73,12 +75,12 @@ export const days = [
 
 /** Pages montrées dans la galerie « Feuilletez le guide ». */
 export const pagesPreview = [
-  { src: '/images/pages/page-03.jpg', alt: 'Page « Avant de commencer »' },
-  { src: '/images/pages/page-05.jpg', alt: 'Chapitre 1 : Pourquoi ils décrochent si mal' },
-  { src: '/images/pages/page-09.jpg', alt: "Chapitre 3 : Les repères d'âge" },
-  { src: '/images/pages/page-13.jpg', alt: 'Chapitre 5 : Gérer la crise quand on coupe' },
-  { src: '/images/pages/page-17.jpg', alt: "Chapitre 7 : Remplacer l'écran" },
-  { src: '/images/pages/page-22.jpg', alt: 'Outil 1 : Notre plan familial' },
+  { src: asset('pages', 'page-03.jpg'), alt: 'Page « Avant de commencer »' },
+  { src: asset('pages', 'page-05.jpg'), alt: 'Chapitre 1 : Pourquoi ils décrochent si mal' },
+  { src: asset('pages', 'page-09.jpg'), alt: "Chapitre 3 : Les repères d'âge" },
+  { src: asset('pages', 'page-13.jpg'), alt: 'Chapitre 5 : Gérer la crise quand on coupe' },
+  { src: asset('pages', 'page-17.jpg'), alt: "Chapitre 7 : Remplacer l'écran" },
+  { src: asset('pages', 'page-22.jpg'), alt: 'Outil 1 : Notre plan familial' },
 ]
 
 export const gallery = {

@@ -1,0 +1,54 @@
+<div class="container">
+  <p class="eyebrow">Votre panier</p>
+  <h1>Panier</h1>
+
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate>
+      <ul class="cart-items">
+        {%- for item in cart.items -%}
+          <li class="cart-item">
+            {%- if item.image -%}
+              {{ item.image | image_url: width: 160 | image_tag: alt: item.title, loading: 'lazy' }}
+            {%- else -%}
+              <span></span>
+            {%- endif -%}
+            <div>
+              <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+              {%- unless item.product.has_only_default_variant -%}
+                <div class="muted">{{ item.variant.title }}</div>
+              {%- endunless -%}
+              <div class="muted">{{ item.final_price | money }}</div>
+              <a class="muted" href="{{ item.url_to_remove }}">Retirer</a>
+            </div>
+            <div>
+              <label class="visually-hidden" for="qty-{{ item.key }}">Quantité</label>
+              <input
+                id="qty-{{ item.key }}"
+                class="field cart-item__qty"
+                type="number"
+                name="updates[]"
+                value="{{ item.quantity }}"
+                min="0"
+              >
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <div class="cart-summary">
+        <div>
+          <div class="muted">Total</div>
+          <div class="cart-summary__total">{{ cart.total_price | money_with_currency }}</div>
+          <div class="muted">Taxes incluses le cas échéant, calculées au paiement.</div>
+        </div>
+        <div class="form-row">
+          <button type="submit" name="update" class="btn btn--ghost">Mettre à jour</button>
+          <button type="submit" name="checkout" class="btn">Passer au paiement</button>
+        </div>
+      </div>
+    </form>
+  {%- else -%}
+    <p class="muted">Votre panier est vide.</p>
+    <a class="btn" href="{{ routes.root_url }}">Découvrir le guide</a>
+  {%- endif -%}
+</div>

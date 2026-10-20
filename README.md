@@ -75,7 +75,29 @@ Pour changer les pages montrées dans la galerie, modifiez `pagesPreview` dans `
 - Pas de défilement horizontal : `overflow-x: clip` sur le body
 - La scène 3D est chargée dans un fichier séparé, après le premier affichage
 
-## Déploiement
+## Thème Shopify
+
+```bash
+npm run build:shopify   # → dist-shopify/theme-mon-enfant-et-les-ecrans.zip
+```
+
+Le zip est un thème complet, prêt à importer :
+
+1. Shopify Admin → **Boutique en ligne → Thèmes → Ajouter un thème → Importer un fichier zip**.
+2. Choisir `theme-mon-enfant-et-les-ecrans.zip`.
+3. **Aperçu** pour vérifier, puis **Publier**.
+
+Fonctionnement :
+
+- La **page d'accueil** et la **page produit** affichent l'expérience immersive. Le produit vendu sur l'accueil se choisit dans l'éditeur de thème (section « Expérience immersive » ; par défaut `mon-enfant-et-les-ecrans`).
+- Le **prix** vient de Shopify, et le bouton d'achat est un lien panier direct (`/cart/<variante>:1`) qui mène au paiement.
+- Les **liens légaux** (CGV, remboursement…) s'affichent automatiquement dans le pied de page s'ils sont remplis dans *Paramètres → Politiques*.
+- Panier, collections, recherche, pages, blog, page mot de passe et carte cadeau ont des gabarits simples dans le même style (`shopify/`).
+- Les polices sont hébergées dans le thème : aucune requête vers Google Fonts.
+
+Sources du thème : `shopify/` (Liquid, CSS des pages classiques). Le script `scripts/build-shopify.mjs` y ajoute le bundle (`assets/immersive.js`, `immersive.css`, polices) et les images, à plat dans `assets/`. Validé avec Theme Check : aucune erreur, aucun avertissement.
+
+## Déploiement hors Shopify
 
 Site statique : le dossier `dist/` se déploie partout.
 

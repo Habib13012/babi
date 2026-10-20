@@ -1,0 +1,14 @@
+<div class="container">
+  <p class="eyebrow">Boutique</p>
+  <h1>Collections</h1>
+  <div class="product-grid">
+    {%- for item in collections -%}
+      <a class="product-card" href="{{ item.url }}">
+        {%- if item.featured_image -%}
+          {{ item.featured_image | image_url: width: 600 | image_tag: alt: item.title, loading: 'lazy' }}
+        {%- endif -%}
+        <div class="product-card__title">{{ item.title }}</div>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
