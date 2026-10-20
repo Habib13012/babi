@@ -6,6 +6,21 @@
  * ce qui rend l'animation totalement réversible et synchronisée au scroll.
  */
 
+import {
+  CLOSE_END,
+  CLOSE_START,
+  LEAVES,
+  OPEN_END,
+  OPEN_START,
+  SPIN_END,
+  SPIN_START,
+  SPREAD_LEN,
+  SPREADS,
+  TURN_FROM,
+  TURN_TO,
+  spreadStart,
+} from './reading'
+
 export type Pose = {
   x: number
   y: number
@@ -16,6 +31,8 @@ export type Pose = {
   s: number
   /** 0 = fermé, 1 = couverture ouverte */
   open: number
+  /** nombre de feuilles tournées (0 → LEAVES, valeurs intermédiaires = page en train de tourner) */
+  flip: number
 }
 
 type Keyframe = {
@@ -41,8 +58,54 @@ const pose = (p: Partial<Pose>): Pose => ({
   rz: 0,
   s: 1,
   open: 0,
+  flip: 0,
   ...p,
 })
+
+/**
+ * Découverte : un tour complet, la couverture s'ouvre, les feuilles tournent une à une
+ * (sur mobile, le livre glisse pour montrer la page de gauche puis celle de droite),
+ * puis le livre se referme. Calendrier dans ./reading.ts.
+ */
+function readingKeyframes(): Keyframe[] {
+  const frames: Keyframe[] = []
+  const at = (p: number, desktop: Partial<Pose>, mobile: Partial<Pose>) =>
+    frames.push({ section: 'discover', p, desktop: pose(desktop), mobile: pose(mobile) })
+
+  const D_FRONT = { x: 1.3, y: -0.05 }
+  const M_FRONT = { x: 0, y: -0.75, s: 0.6 }
+  at(0, { ...D_FRONT, ry: TAU + 0.38 }, { ...M_FRONT, ry: TAU + 0.38 })
+  at(SPIN_START, { ...D_FRONT, ry: TAU + 0.38 }, { ...M_FRONT, ry: TAU + 0.38 })
+  at(SPIN_END, { ...D_FRONT, rx: 0.12, ry: 2 * TAU + 0.38 }, { ...M_FRONT, rx: 0.12, ry: 2 * TAU + 0.38 })
+  at(OPEN_START, { ...D_FRONT, ry: 2 * TAU + 0.05, rx: 0.04 }, { ...M_FRONT, ry: 2 * TAU + 0.05, rx: 0.04 })
+
+  // Livre ouvert, à plat face au lecteur
+  const D_READ = { x: 2.25, y: -0.08, rx: 0.04, ry: 2 * TAU, s: 0.9, open: 1 }
+  const M_RIGHT = { x: 0, y: -0.75, rx: 0.03, ry: 2 * TAU, s: 0.78, open: 1 }
+  const M_LEFT = { ...M_RIGHT, x: 2 * 0.78 } // largeur d'une page × échelle
+
+  at(OPEN_END, { ...D_READ, flip: 0 }, { ...M_RIGHT, flip: 0 })
+  for (let k = 0; k < SPREADS; k++) {
+    const a = spreadStart(k)
+    const L = SPREAD_LEN
+    const hasLeft = k > 0 // la 1re double page a l'intérieur de couverture à gauche
+    const mLeft = hasLeft ? M_LEFT : M_RIGHT
+    at(a + L * 0.12, { ...D_READ, flip: k }, { ...mLeft, flip: k })
+    at(a + L * 0.32, { ...D_READ, flip: k }, { ...mLeft, flip: k })
+    at(a + L * 0.42, { ...D_READ, flip: k }, { ...M_RIGHT, flip: k })
+    if (k < LEAVES) {
+      at(a + L * TURN_FROM, { ...D_READ, flip: k }, { ...M_RIGHT, flip: k })
+      at(a + L * TURN_TO, { ...D_READ, flip: k + 1 }, { ...M_LEFT, flip: k + 1 })
+    } else {
+      at(a + L * 0.9, { ...D_READ, flip: k }, { ...M_RIGHT, flip: k })
+    }
+  }
+  // Fermeture : couverture et feuilles reviennent ensemble
+  at(CLOSE_START, { ...D_READ, flip: LEAVES }, { ...M_RIGHT, flip: LEAVES })
+  at(CLOSE_END, { ...D_FRONT, ry: 2 * TAU + 0.3, flip: LEAVES }, { ...M_FRONT, y: -0.6, ry: 2 * TAU + 0.3, flip: LEAVES })
+  at(1, { ...D_FRONT, ry: 2 * TAU + 0.42, flip: LEAVES }, { ...M_FRONT, y: -0.6, ry: 2 * TAU + 0.42, flip: LEAVES })
+  return frames
+}
 
 const HIDDEN_TOP = pose({ y: 7, rx: -0.9, ry: 0.9, s: 0.9 })
 const HIDDEN_BOTTOM = pose({ y: -7, rx: 0.6, ry: -0.6, s: 0.9 })
@@ -66,43 +129,7 @@ const KEYFRAMES: Keyframe[] = [
     desktop: pose({ x: 0, y: -2.9, z: -9, ry: 3.6, rx: 0.1, rz: -0.08 }),
     mobile: pose({ x: 0, y: -3.2, z: -9, ry: 3.6, rx: 0.1, s: 0.7 }),
   },
-  {
-    section: 'discover',
-    p: 0.08,
-    desktop: pose({ x: 1.3, y: -0.05, ry: TAU + 0.38 }),
-    mobile: pose({ x: 0, y: -0.75, s: 0.6, ry: TAU + 0.38 }),
-  },
-  {
-    section: 'discover',
-    p: 0.18,
-    desktop: pose({ x: 1.3, y: -0.05, ry: TAU + 0.38 }),
-    mobile: pose({ x: 0, y: -0.75, s: 0.6, ry: TAU + 0.38 }),
-  },
-  {
-    // tour complet : dos, tranche, puis retour face
-    section: 'discover',
-    p: 0.56,
-    desktop: pose({ x: 1.3, y: 0, rx: 0.12, ry: 2 * TAU + 0.38 }),
-    mobile: pose({ x: 0, y: -0.7, s: 0.6, rx: 0.12, ry: 2 * TAU + 0.38 }),
-  },
-  {
-    section: 'discover',
-    p: 0.64,
-    desktop: pose({ x: 1.3, y: 0, ry: 2 * TAU + 0.1 }),
-    mobile: pose({ x: 0, y: -0.7, s: 0.6, ry: 2 * TAU + 0.1 }),
-  },
-  {
-    section: 'discover',
-    p: 0.9,
-    desktop: pose({ x: 1.95, y: -0.05, rx: 0.2, ry: 2 * TAU - 0.12, s: 0.95, open: 1 }),
-    mobile: pose({ x: 0.5, y: -0.85, s: 0.5, rx: 0.2, ry: 2 * TAU - 0.1, open: 1 }),
-  },
-  {
-    section: 'discover',
-    p: 1,
-    desktop: pose({ x: 1.95, y: -0.05, rx: 0.2, ry: 2 * TAU - 0.12, s: 0.95, open: 1 }),
-    mobile: pose({ x: 0.5, y: -0.85, s: 0.5, rx: 0.2, ry: 2 * TAU - 0.1, open: 1 }),
-  },
+  ...readingKeyframes(),
   {
     section: 'pillars',
     p: 0,
@@ -167,7 +194,7 @@ export function measureChoreography() {
 }
 
 const smooth = (t: number) => t * t * (3 - 2 * t)
-const KEYS = ['x', 'y', 'z', 'rx', 'ry', 'rz', 's', 'open'] as const
+const KEYS = ['x', 'y', 'z', 'rx', 'ry', 'rz', 's', 'open', 'flip'] as const
 
 export function targetPose(scrollY: number, out: Pose): Pose {
   if (resolved.length === 0) return Object.assign(out, KEYFRAMES[0].desktop)

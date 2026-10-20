@@ -27,8 +27,45 @@ export const discover = {
     { value: 'PDF', label: 'à lire sur écran ou à imprimer' },
     { value: '2–14', label: 'ans : des repères adaptés à chaque âge' },
   ],
-  openTitle: '8 chapitres courts. 1 plan. 3 outils.',
-  openText: "Comprendre pourquoi ils décrochent si mal, poser un plan familial, gérer la crise quand on coupe, remplacer l'écran, puis tenir dans la durée.",
+  /** Une légende par double page feuilletée (voir config.media.reading pour les pages). */
+  spreads: [
+    {
+      eyebrow: 'Le sommaire',
+      title: '8 chapitres courts, 1 plan, 3 outils.',
+      text: 'Pensé pour être lu en une soirée et appliqué dès le lendemain.',
+    },
+    {
+      eyebrow: 'Avant de commencer · Chapitre 1',
+      title: 'Comprendre pourquoi ils décrochent si mal.',
+      text: "Ce qui se joue chez votre enfant au moment où vous éteignez l'écran.",
+    },
+    {
+      eyebrow: 'Chapitres 3 et 4',
+      title: 'Des repères par âge, un plan familial.',
+      text: "Ce qui est raisonnable de 2 à 14 ans, et des règles valables pour tous, adultes compris.",
+    },
+    {
+      eyebrow: 'Chapitres 5 et 7',
+      title: "Gérer la crise, remplacer l'écran.",
+      text: "La méthode en 5 temps quand on coupe, et des alternatives concrètes selon l'âge.",
+    },
+    {
+      eyebrow: 'Outil 1 · Bonus 1',
+      title: 'Le plan familial et le défi de 14 jours.',
+      text: 'Des fiches à remplir et des affiches à accrocher, pour que le plan vive au quotidien.',
+    },
+    {
+      eyebrow: 'Bonus 2 · Bonus 3',
+      title: '30 idées sans écran, et la fiche pour la nounou.',
+      text: "Pour que tout le monde applique les mêmes règles, même quand vous n'êtes pas là.",
+    },
+  ],
+  final: {
+    eyebrow: 'Le guide complet',
+    title: 'Le guide + 3 bonus.',
+    text: "25 pages, le plan en 14 jours, 3 affiches, 30 cartes d'idées et la fiche grands-parents.",
+    cta: 'Obtenir le guide',
+  },
 }
 
 export const pillars = [

@@ -27,6 +27,23 @@ export const media = {
   mockup: asset('product', 'book-mockup.png'),
   /** Sommaire du guide : page visible quand le livre 3D s'ouvre. */
   sommaire: asset('pages', 'sommaire.jpg'),
+  /**
+   * Pages feuilletées quand le livre 3D s'ouvre, dans l'ordre : recto/verso de chaque feuille,
+   * puis la dernière page (posée sur le bloc). Voir three/reading.ts.
+   */
+  reading: [
+    asset('pages', 'sommaire.jpg'),
+    asset('pages', 'page-03.jpg'),
+    asset('pages', 'page-05.jpg'),
+    asset('pages', 'page-09.jpg'),
+    asset('pages', 'page-11.jpg'),
+    asset('pages', 'page-13.jpg'),
+    asset('pages', 'page-17.jpg'),
+    asset('pages', 'page-22.jpg'),
+    asset('bonus', 'affiche-defi-14-jours.jpg'),
+    asset('bonus', 'cartes-idees.jpg'),
+    asset('bonus', 'fiche-grands-parents.jpg'),
+  ],
   sceneFamille: asset('scenes', 'scene-famille.jpg'),
   detailTablette: asset('scenes', 'detail-tablette.jpg'),
   bonus: {

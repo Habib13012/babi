@@ -4,6 +4,8 @@ import { ContactShadows, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import { media } from '../config'
 import { interaction, isOffstage, targetPose, type Pose } from './choreography'
+import { Leaves } from './Leaves'
+import { LEAVES } from './reading'
 import {
   backTexture,
   innerCoverTexture,
@@ -16,6 +18,9 @@ const W = 2
 const H = 2.83
 const D = 0.2
 const C = 0.022 // épaisseur de la couverture
+const PAGE_GAP = 0.024 // espace pour les feuilles mobiles
+
+const TEXTURE_URLS = [media.coverFront, ...media.reading]
 
 type Props = { reducedMotion: boolean; onReady: () => void }
 
@@ -25,12 +30,15 @@ export function Book({ reducedMotion, onReady }: Props) {
   const hinge = useRef<THREE.Group>(null)
   const gl = useThree((s) => s.gl)
 
-  const [cover, sommaire] = useTexture([media.coverFront, media.sommaire], (loaded) => {
+  const textures = useTexture(TEXTURE_URLS, (loaded) => {
     for (const t of Array.isArray(loaded) ? loaded : [loaded]) {
       t.colorSpace = THREE.SRGBColorSpace
       t.anisotropy = gl.capabilities.getMaxAnisotropy()
     }
   })
+  const cover = textures[0]
+  const pages = useMemo(() => textures.slice(1), [textures])
+  const leafPages = useMemo(() => pages.slice(0, LEAVES * 2), [pages])
   const tex = useMemo(() => {
     const spine = spineTexture()
     spine.center.set(0.5, 0.5)
@@ -72,11 +80,12 @@ export function Book({ reducedMotion, onReady }: Props) {
     })
     const inner = new THREE.MeshStandardMaterial({ map: tex.inner, roughness: 0.8 })
     const paper = new THREE.MeshStandardMaterial({ color: '#f1ece0', roughness: 0.92 })
-    const titlePage = new THREE.MeshStandardMaterial({ map: sommaire, roughness: 0.9 })
+    // dernière page, visible sous toutes les feuilles tournées
+    const titlePage = new THREE.MeshStandardMaterial({ map: pages[LEAVES * 2], roughness: 0.9 })
     const edgeSide = new THREE.MeshStandardMaterial({ map: tex.edgeSide, roughness: 0.95 })
     const edgeTop = new THREE.MeshStandardMaterial({ map: tex.edgeTop, roughness: 0.95 })
     return { navy, coverMat, backMat, spineMat, inner, paper, titlePage, edgeSide, edgeTop }
-  }, [cover, sommaire, tex])
+  }, [cover, pages, tex])
 
   useEffect(
     () => () => {
@@ -105,7 +114,7 @@ export function Book({ reducedMotion, onReady }: Props) {
   )
 
   const current = useRef<Pose | null>(null)
-  const target = useMemo<Pose>(() => ({ x: 0, y: 0, z: 0, rx: 0, ry: 0, rz: 0, s: 1, open: 0 }), [])
+  const target = useMemo<Pose>(() => ({ x: 0, y: 0, z: 0, rx: 0, ry: 0, rz: 0, s: 1, open: 0, flip: 0 }), [])
   const notified = useRef(false)
 
   useFrame((state, delta) => {
@@ -137,7 +146,7 @@ export function Book({ reducedMotion, onReady }: Props) {
     g.position.set(cur.x, cur.y + float, cur.z)
     g.scale.setScalar(cur.s)
     b.rotation.set(cur.rx - py * 0.12, cur.ry + px * 0.22 + interaction.dragY, cur.rz)
-    h.rotation.y = -cur.open * Math.PI * 0.82
+    h.rotation.y = -THREE.MathUtils.clamp(cur.open, 0, 1) * Math.PI * 0.985
     g.visible = !isOffstage(cur)
 
     if (!notified.current) {
@@ -149,10 +158,18 @@ export function Book({ reducedMotion, onReady }: Props) {
   return (
     <group ref={root}>
       <group ref={body}>
-        {/* Bloc de pages */}
-        <mesh position={[0.012, 0, 0]} material={pagesMaterials} castShadow>
-          <boxGeometry args={[W - 0.05, H - 0.06, D - C * 2]} />
+        {/* Bloc de pages (abaissé pour laisser la place aux feuilles qui tournent) */}
+        <mesh position={[0.012, 0, -PAGE_GAP / 2]} material={pagesMaterials} castShadow>
+          <boxGeometry args={[W - 0.05, H - 0.06, D - C * 2 - PAGE_GAP]} />
         </mesh>
+        <Leaves
+          pose={current}
+          pages={leafPages}
+          width={W - C - 0.04}
+          height={H - 0.07}
+          hingeX={-W / 2 + C}
+          baseZ={D / 2 - C - PAGE_GAP + 0.001}
+        />
         {/* 4e de couverture */}
         <mesh position={[0, 0, -D / 2 + C / 2]} material={backMaterials}>
           <boxGeometry args={[W, H, C]} />

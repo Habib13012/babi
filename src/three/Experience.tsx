@@ -12,7 +12,7 @@ type Props = { reducedMotion: boolean; onReady: () => void; onContextLost: () =>
 function FrameloopController() {
   const setFrameloop = useThree((s) => s.setFrameloop)
   useEffect(() => {
-    const probe: Pose = { x: 0, y: 0, z: 0, rx: 0, ry: 0, rz: 0, s: 1, open: 0 }
+    const probe: Pose = { x: 0, y: 0, z: 0, rx: 0, ry: 0, rz: 0, s: 1, open: 0, flip: 0 }
     let running = true
     let idle: number | undefined
     const check = () => {
