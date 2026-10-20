@@ -77,7 +77,7 @@ export function Header() {
           <div className="flex items-center">
             <a
               href="/cart"
-              className="flex items-center gap-2 text-sm font-semibold text-paper/85 transition-colors hover:text-paper md:hidden"
+              className="flex items-center gap-2 text-sm font-semibold text-paper/85 transition-colors hover:text-paper lg:hidden"
             >
               Panier
               {cartCount > 0 && (
@@ -86,8 +86,8 @@ export function Header() {
                 </span>
               )}
             </a>
-            <nav aria-label="Navigation principale" className="hidden md:block">
-              <ul className="flex items-center gap-7">
+            <nav aria-label="Navigation principale" className="hidden lg:block">
+              <ul className="flex items-center gap-5 xl:gap-7">
                 {site.menu.map((link) => (
                   <li key={link.url}>
                     <a
@@ -120,7 +120,7 @@ export function Header() {
           <div className="flex items-center justify-end gap-6">
             <a
               href="/cart"
-              className="hidden items-center gap-2 text-sm font-semibold text-paper/75 transition-colors hover:text-paper md:flex"
+              className="hidden items-center gap-2 text-sm font-semibold text-paper/75 transition-colors hover:text-paper lg:flex"
             >
               Panier
               {cartCount > 0 && (
@@ -139,7 +139,7 @@ export function Header() {
               aria-controls="menu-mobile"
               aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
               onClick={() => setOpen((v) => !v)}
-              className="relative grid h-11 w-11 place-items-center rounded-full border border-paper/15 bg-ink/40 backdrop-blur md:hidden"
+              className="relative grid h-11 w-11 place-items-center rounded-full border border-paper/15 bg-ink/40 backdrop-blur lg:hidden"
             >
               <span aria-hidden="true" className="relative block h-3 w-5">
                 <span
@@ -159,7 +159,7 @@ export function Header() {
         id="menu-mobile"
         ref={panel}
         hidden={!open}
-        className="grain fixed inset-0 z-[45] flex flex-col bg-navy px-6 pt-28 pb-[max(2rem,env(safe-area-inset-bottom))] md:hidden"
+        className="grain fixed inset-0 z-[45] flex flex-col bg-navy px-6 pt-28 pb-[max(2rem,env(safe-area-inset-bottom))] lg:hidden"
       >
         <nav aria-label="Menu" className="flex-1">
           <ul className="flex flex-col gap-2">
