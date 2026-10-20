@@ -32,6 +32,9 @@
               >
             </div>
           </li>
+          {%- if item.product.handle == 'mon-enfant-et-les-ecrans' -%}
+            <li class="cart-bonus-row">{% render 'cart-bonus' %}</li>
+          {%- endif -%}
         {%- endfor -%}
       </ul>
 
@@ -40,6 +43,10 @@
           <div class="muted">Total</div>
           <div class="cart-summary__total">{{ cart.total_price | money_with_currency }}</div>
           <div class="muted">Taxes incluses le cas échéant, calculées au paiement.</div>
+          {%- assign has_guide = cart.items | map: 'product' | map: 'handle' | join: ',' -%}
+          {%- if has_guide contains 'mon-enfant-et-les-ecrans' -%}
+            <p class="cart-summary__perks">✓ Le guide + 3 bonus offerts<br>✓ Fichiers PDF à télécharger juste après le paiement</p>
+          {%- endif -%}
         </div>
         <div class="form-row">
           <button type="submit" name="update" class="btn btn--ghost">Mettre à jour</button>

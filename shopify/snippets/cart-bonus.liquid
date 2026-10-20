@@ -1,0 +1,33 @@
+{%- comment -%}
+  Bonus inclus avec le guide, affichés sous la ligne du panier.
+  Ils sont livrés avec le guide (fichiers attachés au produit) : aucune ligne de commande supplémentaire.
+{%- endcomment -%}
+<ul class="cart-bonus" aria-label="Bonus offerts avec le guide">
+  <li class="cart-bonus__item">
+    {{ 'affiche-plan-familial.jpg' | asset_url | image_tag: alt: '', width: 900, height: 1273, loading: 'lazy' }}
+    <div>
+      <span class="cart-bonus__tag">Bonus 1</span>
+      <span class="cart-bonus__title">3 affiches à imprimer</span>
+      <span class="muted">Plan familial, les 5 temps, défi de 14 jours</span>
+    </div>
+    <span class="cart-bonus__free">Offert</span>
+  </li>
+  <li class="cart-bonus__item">
+    {{ 'cartes-idees.jpg' | asset_url | image_tag: alt: '', width: 900, height: 1273, loading: 'lazy' }}
+    <div>
+      <span class="cart-bonus__tag">Bonus 2</span>
+      <span class="cart-bonus__title">30 cartes d'idées sans écran</span>
+      <span class="muted">Trois âges : 2–5, 6–9 et 10–14 ans</span>
+    </div>
+    <span class="cart-bonus__free">Offert</span>
+  </li>
+  <li class="cart-bonus__item">
+    {{ 'fiche-grands-parents.jpg' | asset_url | image_tag: alt: '', width: 900, height: 1273, loading: 'lazy' }}
+    <div>
+      <span class="cart-bonus__tag">Bonus 3</span>
+      <span class="cart-bonus__title">La fiche grands-parents et nounou</span>
+      <span class="muted">« Les écrans chez nous : mode d'emploi »</span>
+    </div>
+    <span class="cart-bonus__free">Offert</span>
+  </li>
+</ul>

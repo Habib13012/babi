@@ -763,3 +763,73 @@ textarea.field {
 .related h2 {
   font-size: 1.6rem;
 }
+
+/* Bonus offerts dans le panier */
+.cart-bonus-row {
+  padding: 0 0 20px;
+  border-bottom: 1px solid var(--line);
+  list-style: none;
+}
+
+.cart-bonus {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0 0 0 0;
+  list-style: none;
+}
+
+.cart-bonus__item {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 14px;
+  border: 1px dashed rgba(232, 132, 60, 0.4);
+  border-radius: 14px;
+  background: rgba(232, 132, 60, 0.06);
+}
+
+.cart-bonus__item img {
+  width: 44px;
+  border-radius: 3px;
+  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.6);
+}
+
+.cart-bonus__item div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  font-size: 0.85rem;
+}
+
+.cart-bonus__tag {
+  color: var(--ember);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cart-bonus__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.cart-bonus__free {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--ember);
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.cart-summary__perks {
+  margin: 12px 0 0;
+  color: #9fd3b5;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.7;
+}
