@@ -187,3 +187,14 @@ html.lenis body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Illustrations des 14 jours */
+.day-art .l {
+  stroke: color-mix(in srgb, var(--color-paper) 55%, transparent);
+}
+.day-art .a {
+  stroke: var(--color-ember);
+}
+.day-art .f {
+  fill: var(--color-ember);
+}

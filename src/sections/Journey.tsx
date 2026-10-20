@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
 import { days, journey } from '../content'
+import { DayIllustration } from '../components/DayIllustration'
 
 type Props = { reducedMotion: boolean }
 
@@ -37,21 +38,28 @@ export function Journey({ reducedMotion }: Props) {
       )
       if (reducedMotion) return
 
-      // Chaque jour « s'allume » quand il traverse le centre de l'écran
+      // Chaque jour « s'allume » quand il traverse le centre de l'écran, et son illustration se dessine
       gsap.utils.toArray<HTMLElement>('[data-day]').forEach((day) => {
+        const lit = {
+          trigger: day,
+          containerAnimation: horizontal,
+          start: 'left 85%',
+          end: 'left 35%',
+          scrub: true,
+        }
+        gsap.fromTo(
+          day.querySelectorAll('.day-art [pathLength]'),
+          { strokeDasharray: 1, strokeDashoffset: 1 },
+          { strokeDashoffset: 0, ease: 'none', stagger: 0.08, scrollTrigger: lit },
+        )
+        gsap.fromTo(day.querySelectorAll('.day-art .f'), { autoAlpha: 0 }, { autoAlpha: 1, ease: 'none', scrollTrigger: lit })
         gsap.fromTo(
           day.querySelector('[data-day-fill]'),
           { clipPath: 'inset(100% 0 0 0)' },
           {
             clipPath: 'inset(0% 0 0 0)',
             ease: 'none',
-            scrollTrigger: {
-              trigger: day,
-              containerAnimation: horizontal,
-              start: 'left 85%',
-              end: 'left 35%',
-              scrub: true,
-            },
+            scrollTrigger: lit,
           },
         )
         gsap.fromTo(
@@ -116,6 +124,9 @@ export function Journey({ reducedMotion }: Props) {
                         <span key={x} className={`h-1.5 w-1 rounded-full ${x < d ? 'bg-ember' : 'bg-paper/15'}`} />
                       ))}
                     </span>
+                  </div>
+                  <div className="flex min-h-0 flex-1 items-center justify-center py-3">
+                    <DayIllustration day={d} className="h-full max-h-[150px] w-auto max-w-[85%]" />
                   </div>
                   <div>
                     <div className="relative">
