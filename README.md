@@ -53,7 +53,8 @@ Tous les visuels proviennent des PDF du guide et des bonus. Les PDF eux-mêmes n
 | `public/images/product/cover-front.jpg` | Page 1 du guide, 1800 × 2546 px | Texture de la couverture du livre 3D |
 | `public/images/pages/sommaire.jpg` | Page 2 du guide | Page visible quand le livre 3D s'ouvre |
 | `public/images/pages/page-03…22.jpg` | Pages 3, 5, 9, 13, 17, 22 | Galerie « Feuilletez le guide » |
-| `public/images/scenes/scene-famille.jpg` | Photo intégrée à la couverture, 1400 × 1980 px | Piliers 1 et 2 |
+| `public/images/scenes/pilier-regles.jpg` | Photo 4:5, 922 × 1152 px | Pilier 1 « Règles claires » |
+| `public/images/scenes/pilier-phrases.jpg` | Photo 4:5, 922 × 1152 px | Pilier 2 « Phrases prêtes à dire » |
 | `public/images/scenes/detail-tablette.jpg` | Recadrage de la même photo | Fond de la phrase « On range la tablette » |
 | `public/images/bonus/*.jpg` | Pages des 3 bonus | Pilier 3 et « Ce que vous recevez » |
 | `public/images/product/book-mockup.png` | Mockup de la boutique (715 px) | Version 2D et section « Ce que vous recevez » |

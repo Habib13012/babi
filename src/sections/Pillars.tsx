@@ -143,18 +143,13 @@ export function Pillars({ reducedMotion }: Props) {
               <div data-p-media className="absolute inset-0">
                 {p.visual.kind === 'photo' ? (
                   <img
-                    src={media.sceneFamille}
+                    src={media[p.visual.image]}
                     alt={p.alt}
                     loading="lazy"
                     decoding="async"
-                    width={1400}
-                    height={1980}
+                    width={922}
+                    height={1152}
                     className="h-full w-full object-cover"
-                    style={{
-                      objectPosition: p.visual.position,
-                      transform: `scale(${p.visual.zoom})`,
-                      transformOrigin: p.visual.position,
-                    }}
                   />
                 ) : (
                   <div role="img" aria-label={p.alt} className="h-full w-full">

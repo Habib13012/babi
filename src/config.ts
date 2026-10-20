@@ -57,7 +57,8 @@ export const media = {
     asset('bonus', 'cartes-idees.jpg'),
     asset('bonus', 'fiche-grands-parents.jpg'),
   ],
-  sceneFamille: asset('scenes', 'scene-famille.jpg'),
+  pilierRegles: asset('scenes', 'pilier-regles.jpg'),
+  pilierPhrases: asset('scenes', 'pilier-phrases.jpg'),
   detailTablette: asset('scenes', 'detail-tablette.jpg'),
   bonus: {
     planFamilial: asset('bonus', 'affiche-plan-familial.jpg'),
