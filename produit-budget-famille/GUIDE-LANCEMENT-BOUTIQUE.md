@@ -17,7 +17,7 @@ Outils budget pour les familles : Excel, Google Sheets et PDF en français
 Bienvenue ! Des tableaux de budget simples et automatiques, pensés pour les parents. Téléchargement immédiat, 100 % en français.
 
 **À propos (histoire)**
-Je suis maman, et comme beaucoup de familles, j'ai longtemps eu du mal à savoir où passait notre argent : crèche, cantine, couches, anniversaires… J'ai donc créé des outils simples, en français, qui font les calculs à votre place. Mon objectif : vous faire gagner du temps et un peu de sérénité en fin de mois.
+Je suis parent, et comme beaucoup de familles, j'ai longtemps eu du mal à savoir où passait notre argent : crèche, cantine, couches, anniversaires… J'ai donc créé des outils simples, en français, qui font les calculs à votre place. Mon objectif : vous faire gagner du temps et un peu de sérénité en fin de mois.
 *(Adaptez ce texte à votre vraie histoire : il doit être sincère.)*
 
 **Politiques (produits numériques)**
