@@ -9,6 +9,12 @@
       if handles contains 'mon-enfant-et-les-ecrans'
         assign has_guide = true
       endif
+      # Minuteur sans guide : on propose le guide (le -5 € s'applique au minuteur)
+      assign guide = all_products['mon-enfant-et-les-ecrans']
+      assign show_guide_offer = false
+      if guide != blank and guide.available and has_guide == false and handles contains 'minuteur-visuel-enfant'
+        assign show_guide_offer = true
+      endif
       assign upsell = all_products['minuteur-visuel-enfant']
       assign show_upsell = false
       if upsell != blank and upsell.available
@@ -75,6 +81,25 @@
         {%- endfor -%}
       </ul>
 
+      {%- if show_guide_offer -%}
+        {%- assign gv = guide.selected_or_first_available_variant -%}
+        <section class="upsell" aria-labelledby="guide-offer-title">
+          <a class="upsell__image" href="{{ guide.url }}" tabindex="-1">
+            {{ guide.featured_image | image_url: width: 300 | image_tag: alt: guide.title, loading: 'lazy' }}
+          </a>
+          <div class="upsell__body">
+            <p class="upsell__tag">Offre duo : -5 € sur votre minuteur</p>
+            <p id="guide-offer-title" class="upsell__title"><a href="{{ guide.url }}">{{ guide.title }}</a></p>
+            <p class="muted upsell__text">Ajoutez le guide : vous économisez 5 € sur le minuteur. Le guide vous revient à {{ gv.price | minus: 500 | money }}.</p>
+            <div class="upsell__buy">
+              <span class="upsell__price">{{ gv.price | money }}</span>
+              <button form="guide-offer-form" type="submit" class="btn upsell__add">+ Ajouter le guide</button>
+            </div>
+            <p class="upsell__ship">PDF + 3 bonus à imprimer · accès immédiat</p>
+          </div>
+        </section>
+      {%- endif -%}
+
       {%- if show_upsell -%}
         {%- assign uv = upsell.selected_or_first_available_variant -%}
         <section class="upsell" aria-labelledby="upsell-title">
@@ -136,6 +161,12 @@
         </div>
       </div>
     </form>
+    {%- if show_guide_offer -%}
+      <form id="guide-offer-form" action="{{ routes.cart_add_url }}" method="post" hidden>
+        <input type="hidden" name="id" value="{{ guide.selected_or_first_available_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+      </form>
+    {%- endif -%}
     {%- if show_upsell -%}
       <form id="upsell-form" action="{{ routes.cart_add_url }}" method="post" hidden>
         <input type="hidden" name="quantity" value="1">
