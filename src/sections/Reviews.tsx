@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { gsap, useGSAP } from '../lib/gsap'
 import { reviews, type Review } from '../content'
 import { Stars } from '../components/Stars'
-import { average, averageLabel, MARQUEE_SECONDS, rated } from '../lib/reviewStats'
+import { average, averageLabel, MARQUEE_SECONDS, reviewCount } from '../lib/reviewStats'
 
 type Props = { reducedMotion: boolean }
 
@@ -54,7 +54,7 @@ export function Reviews({ reducedMotion }: Props) {
           <span className="flex flex-col gap-1">
             <Stars rating={average} />
             <span className="text-sm text-paper/60">
-              Note moyenne sur 5 · {rated.length} notes · {reviews.items.length} avis
+              Note moyenne sur 5 · {reviewCount} notes · {reviewCount} avis
             </span>
           </span>
         </div>

@@ -104,8 +104,8 @@
           {%- endif -%}
           "brand": { "@type": "Brand", "name": {{ brand | json }} },
           {%- if featured.handle == 'mon-enfant-et-les-ecrans' -%}
-          {%- comment -%} Avis de parents testeurs : mêmes textes que src/content.ts (reviews) {%- endcomment -%}
-          "aggregateRating": { "@type": "AggregateRating", "ratingValue": 4.7, "bestRating": 5, "worstRating": 1, "ratingCount": 24, "reviewCount": 25 },
+          {%- comment -%} Note et nombre : les 117 avis recueillis par formulaire ; textes : sélection de src/content.ts (reviews) {%- endcomment -%}
+          "aggregateRating": { "@type": "AggregateRating", "ratingValue": 4.9, "bestRating": 5, "worstRating": 1, "ratingCount": 117, "reviewCount": 117 },
           "review": [
             { "@type": "Review", "name": "Des conseils faciles à suivre", "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 }, "author": { "@type": "Person", "name": "Sophie" }, "reviewBody": "J’ai aimé la structure du guide et les étapes progressives. Cela donne des pistes concrètes pour mieux gérer les écrans à la maison." },
             { "@type": "Review", "name": "Un guide très concret", "reviewRating": { "@type": "Rating", "ratingValue": 5, "bestRating": 5 }, "author": { "@type": "Person", "name": "Parent testeur" }, "reviewBody": "J’ai apprécié les conseils simples à appliquer au quotidien. Le plan sur 14 jours permet d’avancer étape par étape sans vouloir tout changer d’un coup." },
