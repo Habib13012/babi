@@ -1,0 +1,12 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="pdf.css"><script src="common-pdf.js"></script></head><body><div id="d"></div><script>
+document.getElementById('d').innerHTML =
+ page(head('Bien-être','Mes habitudes du mois','Écrivez vos habitudes et cochez chaque jour réussi.','g') +
+  '<div class="field">Mois : <i></i></div>' +
+  '<table class="g" style="margin-top:10px;font-size:7pt"><tr><th style="width:24%">Habitude</th>' + Array.from({length:31},(_,d)=>'<th style="text-align:center;padding:5px 0">'+(d+1)+'</th>').join('') + '</tr>' + Array.from({length:12},()=>'<tr style="height:44px"><td></td>'+'<td></td>'.repeat(31)+'</tr>').join('') + '</table>' +
+  '<div class="card" style="margin-top:10px"><h3>Idées d\'habitudes</h3><p style="font-size:9pt;line-height:1.6">Boire 1,5 L d\'eau · 10 min de marche · Se coucher avant 23 h · Pas d\'écran au lit · 5 fruits et légumes · Lire 10 pages · Respirer 5 min · Appeler un proche · Ranger 10 min · Journée sans sucre ajouté</p></div>' +
+  '<div class="card" style="margin-top:9px;flex:1"><h3>Bilan du mois</h3>'+L(5)+'</div>') +
+ page(head('Bien-être','Ma semaine bien-être','Humeur, eau, sommeil et gratitude, en 2 minutes par jour.','y') +
+  '<div class="field">Semaine du : <i></i></div>' +
+  '<table class="g" style="margin-top:10px;font-size:9pt"><tr><th style="width:14%"></th><th style="width:20%">Humeur</th><th style="width:26%">Eau (1 verre = 1 goutte)</th><th style="width:14%">Sommeil (h)</th><th style="width:26%">Une chose positive</th></tr>' + JOURS.map(j=>'<tr style="height:62px"><td style="vertical-align:middle">'+j+'</td><td style="vertical-align:middle;font-size:13pt;white-space:nowrap">😞 😐 🙂 😄</td><td style="vertical-align:middle;font-size:10pt;white-space:nowrap">💧💧💧💧💧💧💧💧</td><td></td><td></td></tr>').join('') + '</table>' +
+  '<div class="grid2" style="margin-top:10px;flex:1"><div class="card"><h3>Je suis reconnaissant·e pour…</h3>'+L(6)+'</div><div class="card"><h3>La semaine prochaine, je veux…</h3>'+L(6)+'</div></div>');
+</script></body></html>

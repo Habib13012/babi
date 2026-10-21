@@ -1,0 +1,11 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="pdf.css"><script src="common-pdf.js"></script></head><body><div id="d"></div><script>
+document.getElementById('d').innerHTML =
+ page(head('Suivi bébé','Journal de bébé','Repas, couches, sommeil : tout noter pour la journée (et pour les rendez-vous médicaux).') +
+  '<div class="field">Date : <i></i> &nbsp; Prénom : <i></i></div>' +
+  '<table class="g" style="margin-top:10px"><tr><th style="width:11%">Heure</th><th style="width:25%">Repas (sein G/D · biberon ml)</th><th style="width:17%">Couche<br>💧 pipi · 💩 selles</th><th style="width:20%">Sommeil (début – fin)</th><th>Notes</th></tr>' + '<tr style="height:10.2mm"><td></td><td></td><td style="text-align:center;vertical-align:middle"><span class="box"></span> 💧 &nbsp;<span class="box"></span> 💩</td><td></td><td></td></tr>'.repeat(18) + '</table>' +
+  '<div class="grid3" style="margin-top:9px"><div class="card"><h3>Total repas</h3>'+L(1)+'</div><div class="card"><h3>Total couches</h3>'+L(1)+'</div><div class="card"><h3>Total sommeil</h3>'+L(1)+'</div></div>') +
+ page(head('Suivi bébé','Sommeil de la semaine','Coloriez les heures de sommeil : les rythmes apparaissent d\'un coup d\'œil.','g') +
+  '<div class="field">Semaine du : <i></i></div>' +
+  '<table class="g" style="margin-top:10px;font-size:7pt"><tr><th style="width:12%"></th>' + Array.from({length:24},(_,h)=>'<th style="text-align:center;padding:5px 0">'+h+'h</th>').join('') + '</tr>' + JOURS.map(j=>'<tr style="height:46px"><td style="font-size:9pt">'+j+'</td>'+'<td></td>'.repeat(24)+'</tr>').join('') + '</table>' +
+  '<div class="grid2" style="margin-top:12px;flex:1"><div class="card"><h3>Ce que j\'observe</h3>'+L(9)+'</div><div class="card"><h3>Questions pour le pédiatre</h3>'+L(9)+'</div></div>');
+</script></body></html>

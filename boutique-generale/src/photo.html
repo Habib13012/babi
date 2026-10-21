@@ -1,0 +1,63 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="brand.css">
+<style>.pg{position:absolute;border:9px solid #fff;box-shadow:0 26px 54px rgba(31,42,46,.22);border-radius:6px;background:#fff}
+.lbl{position:absolute;font-weight:800;font-size:15px;color:var(--teal);text-align:center}
+.logo{position:absolute;right:30px;top:26px;display:flex;align-items:center;gap:8px;font-weight:800;color:var(--teal);font-size:16px}</style></head><body>
+<div class="blob" style="width:480px;height:480px;background:#DCEFE8;right:-150px;top:-170px"></div>
+<div class="blob" style="width:300px;height:300px;background:#FBE1D6;left:-100px;bottom:-120px"></div>
+<div id="s"></div>
+<script>
+const D = {
+ repas:{tag:'À imprimer', t:'Planning repas & liste de courses', s:'Menu de la semaine, liste de courses par rayon et 30 idées de repas rapides en famille.', p:['A4 · 3 pages','En français','Réutilisable'], n:3, lab:['Menu de la semaine','Liste de courses','30 idées de repas']},
+ routines:{tag:'Enfants', t:'Routines matin & soir pour enfants', s:'Des tableaux illustrés pour des matins plus calmes et des couchers sans bataille.', p:['A4 · 2 pages','Pictogrammes','À plastifier'], n:2, lab:['Routine du matin','Routine du soir']},
+ grossesse:{tag:'Grossesse', t:'Suivi de grossesse + valise maternité', s:'Rendez-vous, contacts, journal des 40 semaines et checklist complète de la valise.', p:['A4 · 3 pages','En français','Cadeau future maman'], n:3, lab:['Suivi et rendez-vous','40 semaines','Valise maternité']},
+ bebe:{tag:'Bébé', t:'Journal de bébé : repas, couches, sommeil', s:'Tout noter facilement, et avoir les bonnes infos pour le pédiatre.', p:['A4 · 2 pages','Imprimable à volonté','En français'], n:2, lab:['Journal de la journée','Sommeil de la semaine']},
+ habitudes:{tag:'Bien-être', t:'Tracker d\'habitudes & bien-être', s:'Habitudes du mois, humeur, eau, sommeil et gratitude, en 2 minutes par jour.', p:['A4 · 2 pages','À imprimer','En français'], n:2, lab:['Habitudes du mois','Semaine bien-être']},
+ recompenses:{tag:'Enfants', t:'Tableau de récompenses enfants', s:'Motivez vos enfants avec des étoiles, et 28 idées d\'objectifs et de récompenses (souvent gratuites).', p:['A4 · 3 pages','2 couleurs','En français'], n:3, lab:['Tableau corail','Idées','Tableau jaune']},
+ valise:{tag:'Grossesse', t:'Checklist valise maternité', s:'Tout ce qu\'il faut pour la maman, pour bébé et les papiers, à cocher au fur et à mesure.', p:['A4 · 1 page','À imprimer','En français'], n:1, dir:'grossesse', pages:[3], lab:['Checklist valise']},
+ naissance:{tag:'Excel & Google Sheets', t:'Budget naissance : arrivée de bébé', s:'33 achats déjà listés, prévu ou payé, neuf, occasion ou offert : vous savez exactement où vous en êtes.', p:['Excel','Google Sheets','Automatique'], n:2, xls:true, lab:['Synthèse automatique','Liste des achats']},
+};
+const PK = {
+ pack1:{t:'Pack jeune parent', s:'Suivi de grossesse, valise maternité, journal de bébé et budget naissance : tout pour accueillir bébé sereinement.', p:['4 produits','PDF + Excel','-40 % vs à l\'unité'], imgs:['grossesse/page-1','grossesse/page-3','bebe/page-1','naissance/page-2']},
+ pack2:{t:'Pack organisation famille', s:'Planning repas, routines enfants, tableau de récompenses et tracker bien-être pour une maison plus calme.', p:['4 produits','PDF à imprimer','-40 % vs à l\'unité'], imgs:['repas/page-1','routines/page-1','recompenses/page-1','habitudes/page-1']},
+ pack3:{t:'Méga pack Nid Serein', s:'Toute la boutique : budgets, défi économies, repas, routines, grossesse, bébé, bien-être.', p:['10 produits','PDF + Excel','Meilleure offre'], imgs:['repas/page-1','routines/page-1','grossesse/page-1','bebe/page-1','habitudes/page-1','recompenses/page-1']},
+};
+const q = new URLSearchParams(location.search), k = q.get('k'), t = q.get('t');
+if (PK[k]) {
+  const d = PK[k], n = d.imgs.length;
+  let h = '<div class="logo"><img src="../visuels/logo-icone-boutique-500x500.png" style="width:34px;height:34px;border-radius:50%">Nid Serein</div>';
+  h += `<div style="position:absolute;left:64px;top:120px;width:440px"><span class="tag">Lot · économisez</span><h1 style="margin-top:20px;font-size:56px">${d.t}</h1><p class="lead">${d.s}</p><div class="pills" style="max-width:440px">${d.p.map(x => '<span class="pill">✓ ' + x + '</span>').join('')}</div></div>`;
+  d.imgs.forEach((im, i) => { const nc = n === 4 ? 2 : 3, col = i % nc, row = Math.floor(i / nc), x = (n === 4 ? 590 : 540) + col * (n === 4 ? 280 : 205), y = 60 + row * 410 + (col % 2) * 30;
+    h += `<img class="pg" src="../produits/${im}.png" style="left:${x}px;top:${y}px;width:${n === 4 ? 250 : 210}px;transform:rotate(${[-4, 3, -2, 4, -3, 2][i]}deg)">`; });
+  document.getElementById('s').innerHTML = h; throw 'done';
+}
+const d = D[k];
+const dir = '../produits/' + (d.dir || k) + '/', pages = d.pages || Array.from({length: d.n}, (_, i) => i + 1);
+const img = i => dir + 'page-' + i + '.png';
+const logo = '<div class="logo"><img src="../visuels/logo-icone-boutique-500x500.png" style="width:34px;height:34px;border-radius:50%">Nid Serein</div>';
+let h = logo;
+if (t === '1') {
+  h += `<div style="position:absolute;left:64px;top:120px;width:470px"><span class="tag">${d.tag}</span>
+   <h1 style="margin-top:20px;font-size:54px">${d.t}</h1><p class="lead">${d.s}</p>
+   <div class="pills" style="max-width:460px">${d.p.map(x => '<span class="pill">✓ ' + x + '</span>').join('')}</div></div>`;
+  if (d.xls) {
+    h += `<img class="pg" src="${img(2)}" style="left:800px;top:110px;width:380px;transform:rotate(4deg)"><img class="pg" src="${img(1)}" style="left:540px;top:330px;width:620px">`;
+  } else if (pages.length === 1) {
+    h += `<img class="pg" src="${img(pages[0])}" style="left:640px;top:70px;height:760px;transform:rotate(-2deg)">`;
+  } else {
+    const ps = pages.slice(0, 3).reverse(), n = ps.length;
+    ps.forEach((p, i) => { const j = n - 1 - i; h += `<img class="pg" src="${img(p)}" style="left:${600 + j * 130}px;top:${80 + j * 30}px;height:${700 - j * 60}px;transform:rotate(${[-3, 3, 7][j]}deg)">`; });
+  }
+} else {
+  h += `<div style="position:absolute;left:0;right:0;top:60px;text-align:center"><h2>Ce que vous recevez</h2><p class="lead" style="margin-top:6px">${d.t} · téléchargement immédiat</p></div>`;
+  const n = pages.length, W = d.xls ? 1040 : 1072, gap = 30;
+  if (d.xls) {
+    h += `<img class="pg" src="${img(1)}" style="left:64px;top:230px;width:640px"><div class="lbl" style="left:64px;width:640px;top:620px">${d.lab[0]}</div>`;
+    h += `<img class="pg" src="${img(2)}" style="left:760px;top:200px;height:540px"><div class="lbl" style="left:760px;width:432px;top:760px">${d.lab[1]}</div>`;
+  } else {
+    const ph = n === 1 ? 600 : (n === 2 ? 580 : 470), pw = ph / 1.414, tot = n * pw + (n - 1) * gap, x0 = (1200 - tot) / 2;
+    pages.forEach((p, i) => { const x = x0 + i * (pw + gap); h += `<img class="pg" src="${img(p)}" style="left:${x}px;top:200px;height:${ph}px"><div class="lbl" style="left:${x}px;width:${pw}px;top:${215 + ph}px">${d.lab[i]}</div>`; });
+  }
+  h += `<div style="position:absolute;left:0;right:0;bottom:40px;text-align:center;font-size:15px;color:var(--muted)">Produit numérique : aucun objet ne sera envoyé · Usage personnel</div>`;
+}
+document.getElementById('s').innerHTML = h;
+</script></body></html>

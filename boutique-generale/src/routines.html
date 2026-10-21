@@ -1,0 +1,11 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="pdf.css"><script src="common-pdf.js"></script></head><body><div id="d"></div><script>
+function routine(tag, titre, steps, tcls) {
+  return page(head(tag, titre, '', tcls) + '<div class="field">Prénom : <i></i></div>' +
+   '<table class="g" style="margin-top:12px;font-size:12pt"><tr><th style="width:44%">Je fais…</th>' + J1.map(j=>'<th style="text-align:center">'+j+'</th>').join('') + '</tr>' +
+   steps.map(([e,t])=>'<tr style="height:26mm"><td style="font-size:13pt;vertical-align:middle;color:#1F2A2E"><span style="font-size:24pt;margin-right:10px;vertical-align:middle">'+e+'</span>'+t+'</td>'+J1.map(()=>'<td style="text-align:center;vertical-align:middle"><span class="circ" style="width:22px;height:22px"></span></td>').join('')+'</tr>').join('') + '</table>' +
+   '<div class="card" style="margin-top:10px;text-align:center;font-weight:800;color:#2E7D6B;font-size:12pt">Bravo ! Quand toute la ligne est cochée, je suis prêt·e 🌟</div>');
+}
+document.getElementById('d').innerHTML =
+ routine('Routine enfant','Ma routine du matin ☀️',[['⏰','Je me lève'],['🚽','Je vais aux toilettes'],['👕','Je m\'habille'],['🥣','Je prends mon petit-déjeuner'],['🪥','Je me brosse les dents'],['💇','Je me coiffe'],['👟','Je mets mes chaussures'],['🎒','Je prends mon sac']]) +
+ routine('Routine enfant','Ma routine du soir 🌙',[['🍎','Je prends mon goûter'],['✏️','Je fais mes devoirs'],['🧸','Je range mes jouets'],['🛁','Je prends mon bain'],['🍽️','Je dîne'],['🪥','Je me brosse les dents'],['📖','On lit une histoire'],['😴','Au lit !']],'g');
+</script></body></html>
