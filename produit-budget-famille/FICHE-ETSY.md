@@ -51,3 +51,32 @@ Dans `visuels/photos-etsy/` (3000 × 2250 px, format 4:3), à mettre dans cet or
 
 Vidéo : `visuels/video-etsy.mp4` (15 s, sans son, 1920 × 1440).
 Sources modifiables : `visuels/src/` (HTML).
+
+---
+
+# Fiche Etsy : édition 12 mois
+
+Fichier : `Budget-Famille-Sans-Stress-12-mois.xlsx`. Prix conseillé : **12,90 €**, à mettre dans une annonce séparée de la version 1 mois.
+
+## Titre
+Budget familial 12 mois Excel Google Sheets en français, planner budget famille annuel automatique, suivi dépenses parents, défi économies
+
+## Tags (13)
+budget familial · budget annuel · budget 12 mois · budget maman · budget bébé · budget famille · tableau budget · google sheets · budget excel · suivi dépenses · planner budget · défi économies · budget enfants
+
+## Description
+Toute votre année de budget familial dans un seul fichier, pensé pour les parents.
+
+✔ Un seul journal pour toute l'année : chaque dépense se range automatiquement dans le bon mois grâce à sa date
+✔ Tableau de bord mensuel : choisissez le mois dans la liste, tout se recalcule (revenus, dépensé, reste à vivre, objectif d'épargne)
+✔ Bilan annuel : vos 12 mois d'un coup d'œil, catégorie par catégorie, avec les dépassements en rouge et l'écart avec votre budget de l'année
+✔ Revenus différents chaque mois (primes, 13e mois, CAF…)
+✔ Catégories pensées pour les familles : crèche/nounou, cantine, couches, activités des enfants…
+✔ Alertes couleur : orange à 80 % du budget, rouge en cas de dépassement
+✔ Réutilisable chaque année : changez simplement l'année
+✔ BONUS : défi 30 jours d'économies en famille
+✔ Fonctionne sur Excel et Google Sheets (gratuit), 100 % en français
+
+**Ce que vous recevez** : 1 fichier .xlsx à télécharger immédiatement, avec 6 onglets (Mode d'emploi, Paramètres, Dépenses, Tableau de bord, Bilan annuel, Défi 30 jours).
+
+Produit numérique : aucun objet ne sera envoyé. Usage personnel uniquement.
