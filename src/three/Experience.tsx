@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Environment, Lightformer } from '@react-three/drei'
 import * as THREE from 'three'
@@ -6,7 +6,7 @@ import { ScrollTrigger } from '../lib/gsap'
 import { Book } from './Book'
 import { isOffstage, measureChoreography, targetPose, type Pose } from './choreography'
 
-type Props = { reducedMotion: boolean; onReady: () => void; onContextLost: () => void }
+type Props = { reducedMotion: boolean; onContextLost: () => void }
 
 /** Met la boucle de rendu en pause quand le livre est hors champ (sections pleines). */
 function FrameloopController() {
@@ -55,9 +55,17 @@ function Measure() {
   return null
 }
 
-export default function Experience({ reducedMotion, onReady, onContextLost }: Props) {
+export default function Experience({ reducedMotion, onContextLost }: Props) {
+  // Le livre apparaît en fondu à sa première image : la page est déjà affichée et lisible avant
+  const [shown, setShown] = useState(false)
+  const onReady = useCallback(() => setShown(true), [])
+
   return (
-    <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
+    <div
+      className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-700 ease-out"
+      style={{ opacity: shown ? 1 : 0 }}
+      aria-hidden="true"
+    >
       <Canvas
         dpr={[1, 1.75]}
         camera={{ position: [0, 0, 7.6], fov: 32, near: 0.1, far: 40 }}

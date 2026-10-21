@@ -3,10 +3,8 @@ import { ScrollTrigger } from './lib/gsap'
 import { hasWebGL, prefersReducedMotion } from './lib/env'
 import { scrollToTarget, startSmoothScroll } from './lib/smoothScroll'
 import { interaction } from './three/choreography'
-import { media } from './config'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { Header } from './components/Header'
-import { Loader } from './components/Loader'
 import { StickyBuy } from './components/StickyBuy'
 import { Hero } from './sections/Hero'
 import { Moment } from './sections/Moment'
@@ -34,8 +32,6 @@ export default function App() {
   const [reducedMotion] = useState(prefersReducedMotion)
   const [webgl, setWebgl] = useState(() => hasWebGL())
   const [fontsReady, setFontsReady] = useState(false)
-  const [sceneReady, setSceneReady] = useState(false)
-  const [introDone, setIntroDone] = useState(false)
 
   useEffect(() => {
     waitForFonts().then(() => setFontsReady(true))
@@ -46,19 +42,9 @@ export default function App() {
     if (webgl) void import('./three/Experience')
   }, [webgl])
 
-  // Sans 3D, on attend seulement l'image de remplacement
-  useEffect(() => {
-    if (webgl) return
-    const img = new Image()
-    img.onload = img.onerror = () => setSceneReady(true)
-    img.src = media.mockup
-  }, [webgl])
-
-  // Filet de sécurité : la page ne reste jamais bloquée sur l'écran de chargement
-  useEffect(() => {
-    const t = window.setTimeout(() => setSceneReady(true), 8000)
-    return () => window.clearTimeout(t)
-  }, [])
+  // Pas d'écran de chargement : le titre s'anime dès que la police est là (préchargée, ou 2,5 s au plus).
+  // Le livre 3D apparaît en fondu quand il est prêt, sans faire attendre le reste de la page.
+  const introDone = fontsReady
 
   useEffect(() => {
     if (reducedMotion) return
@@ -81,8 +67,6 @@ export default function App() {
     if (fontsReady) ScrollTrigger.refresh()
   }, [fontsReady])
 
-  const onSceneReady = useCallback(() => setSceneReady(true), [])
-  const onIntroDone = useCallback(() => setIntroDone(true), [])
 
   // Lien entrant avec ancre (ex. /#extrait depuis le blog) : la section n'existait pas
   // encore au chargement, on y défile une fois l'ouverture terminée
@@ -101,12 +85,11 @@ export default function App() {
       >
         Aller au contenu
       </a>
-      <Loader ready={sceneReady} reducedMotion={reducedMotion} onDone={onIntroDone} />
 
       {webgl && fontsReady && (
         <ErrorBoundary onError={disable3D}>
           <Suspense fallback={null}>
-            <Experience reducedMotion={reducedMotion} onReady={onSceneReady} onContextLost={disable3D} />
+            <Experience reducedMotion={reducedMotion} onContextLost={disable3D} />
           </Suspense>
         </ErrorBoundary>
       )}
