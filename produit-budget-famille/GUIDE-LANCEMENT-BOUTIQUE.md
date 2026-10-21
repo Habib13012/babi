@@ -2,8 +2,8 @@
 
 ## 1. Ce que vous devez faire vous-même (environ 45 min)
 1. Créer la boutique sur etsy.com/sell : nom, identité, compte bancaire, informations fiscales. Personne ne peut le faire à votre place.
-2. Logo : `visuels/boutique/logo-boutique-500x500.png`
-3. Bannière : `visuels/boutique/banniere-etsy-3360x840.jpg` (« grande bannière »). Sur mobile, Etsy recadre la bannière : vérifiez l'aperçu.
+2. Logo et bannière de la boutique « Nid Serein » : voir `boutique-generale/BOUTIQUE-NID-SEREIN.md` (les anciens fichiers `visuels/boutique/` sont les versions « budget » seules)
+3. Les textes de la boutique (titre, annonce, à propos, rubriques) sont aussi dans `boutique-generale/BOUTIQUE-NID-SEREIN.md`, et ils remplacent ceux de la section 2.
 4. Coller les textes de la section 2.
 5. Créer les annonces (section 3), dans cet ordre : 12 mois → 1 mois → Défi 30 jours.
 6. Lancer Etsy Ads et Pinterest (sections 5 et 6).
