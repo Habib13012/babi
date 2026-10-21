@@ -29,6 +29,8 @@ export function Loader({ ready, reducedMotion, onDone }: Props) {
       return
     }
     const tl = gsap.timeline({ onComplete: finish })
+    // Rideau plus vif : une fois la scène prête, le visiteur n'attend plus que ~1 s
+    tl.timeScale(1.6)
     tl.to(line.current, { scaleX: 1, duration: 0.6, ease: 'power2.inOut' })
       .to(root.current, { clipPath: 'inset(0 0 100% 0)', duration: 1.1, ease: 'expo.inOut' }, '+=0.1')
       // le contenu démarre pendant que le rideau se lève

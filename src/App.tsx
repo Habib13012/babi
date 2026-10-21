@@ -41,6 +41,11 @@ export default function App() {
     waitForFonts().then(() => setFontsReady(true))
   }, [])
 
+  // La scène 3D se télécharge pendant qu'on attend la police (elle n'est montée qu'après)
+  useEffect(() => {
+    if (webgl) void import('./three/Experience')
+  }, [webgl])
+
   // Sans 3D, on attend seulement l'image de remplacement
   useEffect(() => {
     if (webgl) return
