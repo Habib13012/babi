@@ -1,0 +1,11 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="style.css"><script src="common.js"></script></head><body>
+<div style="position:absolute;left:64px;top:44px;width:1080px">
+  <span class="tag">Édition 12 mois</span>
+  <h2 style="margin-top:14px">Votre <em>année entière</em> d'un coup d'œil</h2>
+</div>
+<div id="w" style="position:absolute;left:64px;top:220px;width:1072px;height:560px"></div>
+<div class="call coral" style="left:760px;top:790px;width:380px;background:#B3261E">🔴 Les mois de dépassement en rouge</div>
+<div class="call teal" style="left:64px;top:790px;width:420px">Revenus, dépenses et reste à vivre par mois</div>
+<div class="note" style="bottom:4px">Données d'exemple</div>
+<script>document.getElementById('w').innerHTML = sheet({active:'Bilan annuel', tabs:['Mode d\'emploi','Paramètres','Dépenses','Tableau de bord','Bilan annuel','Défi 30 jours'], body: bilanBody()}); document.querySelector('#w .win').style.height='560px';</script>
+</body></html>

@@ -1,0 +1,57 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><script src="common.js"></script>
+<style>
+@page { size:A4; margin:0; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:Inter, Arial, sans-serif; color:#1F2A2E; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.page { width:210mm; height:297mm; padding:14mm 13mm; background:#FBF6EE; position:relative; page-break-after:always; overflow:hidden; }
+.tag { display:inline-block; background:#E9785A; color:#fff; font-weight:800; font-size:9pt; letter-spacing:1.5px; padding:4px 10px; border-radius:6px; }
+h1 { font-size:26pt; color:#2E7D6B; letter-spacing:-.5px; margin-top:8px; line-height:1.05; }
+.sub { color:#5E6B70; font-size:10.5pt; margin-top:4px; }
+.grid { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; margin-top:12px; }
+.cell { background:#fff; border:1px solid #ECE6DA; border-radius:10px; padding:7px 8px; height:39.5mm; display:flex; flex-direction:column; }
+.cell .n { display:flex; justify-content:space-between; align-items:center; }
+.cell .n b { background:#E3F2EE; color:#2E7D6B; font-size:10pt; border-radius:6px; padding:1px 7px; }
+.cell .box { width:15px; height:15px; border:2px solid #2E7D6B; border-radius:4px; }
+.cell .t { font-size:8.3pt; line-height:1.25; margin-top:6px; flex:1; font-weight:600; }
+.cell .eco { font-size:8pt; color:#5E6B70; border-top:1px dashed #D9D2C4; padding-top:4px; }
+.foot { position:absolute; bottom:9mm; left:13mm; right:13mm; display:flex; justify-content:space-between; font-size:8pt; color:#5E6B70; }
+.card { background:#fff; border:1px solid #ECE6DA; border-radius:14px; padding:14px 16px; margin-top:12px; }
+.card h2 { font-size:13pt; color:#2E7D6B; margin-bottom:8px; }
+.line { border-bottom:1px solid #D9D2C4; height:24px; }
+.jar { display:grid; grid-template-columns:repeat(10,1fr); gap:5px; }
+.jar div { height:30px; border:2px solid #2E7D6B; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:9pt; color:#2E7D6B; font-weight:700; }
+.two { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.big { font-size:22pt; font-weight:800; color:#2E7D6B; border-bottom:2px solid #2E7D6B; height:44px; margin-top:4px; }
+ul.tips { list-style:none; font-size:9.5pt; line-height:1.55; }
+ul.tips li::before { content:"•"; color:#E9785A; font-weight:800; margin-right:8px; }
+</style></head><body>
+<div class="page">
+  <span class="tag">DÉFI EN FAMILLE</span>
+  <h1>30 jours d'économies</h1>
+  <p class="sub">Un petit geste par jour. Cochez la case quand c'est fait et notez ce que vous avez économisé.</p>
+  <div class="grid" id="g"></div>
+  <div class="foot"><span>Budget Famille Sans Stress</span><span>Usage personnel — ne pas revendre</span></div>
+</div>
+<div class="page">
+  <span class="tag">SUIVI</span>
+  <h1>Notre tirelire du défi</h1>
+  <p class="sub">Coloriez une case par jour réussi. À la fin, mettez l'argent économisé de côté !</p>
+  <div class="card"><h2>Nos 30 jours</h2><div class="jar" id="jar"></div></div>
+  <div class="two">
+    <div class="card"><h2>Notre objectif</h2><p style="font-size:9.5pt;color:#5E6B70">Pour quoi économise-t-on ? (vacances, Noël, coussin de sécurité…)</p><div class="line"></div><div class="line"></div>
+      <p style="font-size:9.5pt;color:#5E6B70;margin-top:10px">Montant visé</p><div class="big">€</div></div>
+    <div class="card"><h2>Bilan</h2><p style="font-size:9.5pt;color:#5E6B70">Jours réussis</p><div class="big">/ 30</div>
+      <p style="font-size:9.5pt;color:#5E6B70;margin-top:10px">Total économisé</p><div class="big">€</div></div>
+  </div>
+  <div class="card"><h2>Ce qu'on a appris / ce qu'on garde</h2><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  <div class="card"><h2>Astuces pour réussir</h2><ul class="tips">
+    <li>Affichez le défi sur le frigo : toute la famille le voit.</li>
+    <li>Laissez les enfants colorier les cases de la tirelire.</li>
+    <li>Une journée ratée ? Pas grave, on reprend le lendemain.</li>
+    <li>Transférez l'argent économisé sur un compte épargne chaque semaine.</li></ul></div>
+  <div class="foot"><span>Budget Famille Sans Stress</span><span>Usage personnel — ne pas revendre</span></div>
+</div>
+<script>
+document.getElementById('g').innerHTML = DEFIS.map((d,i)=>`<div class="cell"><div class="n"><b>Jour ${i+1}</b><span class="box"></span></div><div class="t">${d}</div><div class="eco">Économie : ........ €</div></div>`).join('');
+document.getElementById('jar').innerHTML = Array.from({length:30},(_,i)=>`<div>${i+1}</div>`).join('');
+</script></body></html>

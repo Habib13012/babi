@@ -69,3 +69,22 @@ function defiBody({done = 12} = {}) {
   ${DEFIS.slice(0, 14).map((d, i) => `<tr class="${i < done ? 'ok' : ''}"><td class="c">${i + 1}</td><td>${d}</td><td class="c">${i < done ? 'Oui ✓' : ''}</td><td class="n">${i < done && ECO[i] ? eur(ECO[i]) : ''}</td></tr>`).join('')}
   </table>`;
 }
+// Bilan annuel (édition 12 mois)
+const ABR = ['Janv.', 'Févr.', 'Mars', 'Avr.', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'];
+function bilanBody({months = 6} = {}) {
+  const dep = [2310, 2195, 2402, 2260, 2588, 2140].slice(0, months);
+  const cats = [['Loyer / crédit', 900, [900, 900, 900, 900, 900, 900]], ['Courses', 550, [512, 534, 571, 498, 603, 520]],
+    ['Crèche / nounou', 250, [250, 250, 250, 250, 250, 250]], ['Couches & puériculture', 60, [58, 49, 66, 52, 71, 55]],
+    ['Transport', 150, [132, 118, 141, 160, 125, 119]], ['Activités enfants', 40, [40, 25, 40, 40, 65, 40]],
+    ['Cadeaux & anniversaires', 30, [0, 45, 0, 20, 30, 0]], ['Sorties adultes', 60, [48, 70, 55, 30, 82, 41]]];
+  const k = v => v ? Math.round(v).toLocaleString('fr-FR').replace(/ /g, ' ') + ' €' : '-';
+  const th = ABR.map(a => `<th style="text-align:right">${a}</th>`).join('');
+  const cell = (v, i, b) => i < months ? `<td class="n" style="${b && v > b ? 'background:var(--red);color:var(--redink);font-weight:700' : ''}">${k(v)}</td>` : '<td class="n" style="color:#bbb">-</td>';
+  return `<div class="sh-title">Bilan annuel <small>2027</small></div>
+  <table class="t bil"><tr><th>Synthèse</th>${th}</tr>
+  <tr><td><b>Revenus</b></td>${ABR.map(() => `<td class="n">${k(3450)}</td>`).join('')}</tr>
+  <tr><td><b>Dépenses</b></td>${ABR.map((_, i) => cell(dep[i], i)).join('')}</tr>
+  <tr style="background:var(--teal2)"><td style="color:var(--teal)"><b>Reste à vivre</b></td>${ABR.map((_, i) => i < months ? `<td class="n" style="color:var(--teal);font-weight:700">${k(3450 - dep[i])}</td>` : '<td class="n" style="color:#bbb">-</td>').join('')}</tr></table>
+  <table class="t bil" style="margin-top:14px"><tr><th>Catégorie</th>${th}</tr>
+  ${cats.map(c => `<tr><td>${c[0]}</td>${ABR.map((_, i) => cell(c[2][i], i, c[1])).join('')}</tr>`).join('')}</table>`;
+}

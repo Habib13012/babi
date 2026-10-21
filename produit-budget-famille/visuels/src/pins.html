@@ -1,0 +1,25 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="style.css"><script src="common.js"></script>
+<style>html,body{width:500px;height:750px} .top{position:absolute;left:36px;right:36px;top:40px} .top h2{font-size:38px;line-height:1.08} .cta{position:absolute;left:36px;right:36px;bottom:34px;background:var(--teal);color:#fff;border-radius:14px;padding:14px;text-align:center;font-weight:800;font-size:19px}
+.mock{position:absolute;left:36px;width:700px;transform-origin:0 0} .lst{position:absolute;left:36px;right:36px;background:#fff;border-radius:18px;padding:20px 22px;border:1px solid #ECE6DA;font-size:17px;line-height:1.75;font-weight:600}
+.lst b{color:var(--coral);margin-right:8px}</style></head><body>
+<div class="blob" style="width:340px;height:340px;background:#DCEFE8;right:-120px;top:-120px"></div>
+<div class="blob" style="width:240px;height:240px;background:#FBE1D6;left:-90px;bottom:-90px"></div>
+<div id="s"></div>
+<script>
+const n = +location.hash.slice(1);
+const mock = (html, top, scale, h = 640) => `<div class="mock" style="top:${top}px;transform:scale(${scale});height:${h}px">${html}</div>`;
+const dash = r => sheet({active:'Tableau de bord', body: dashboardBody({rows:r})});
+const P = [
+ () => `<div class="top"><span class="tag">Pour les parents</span><h2 style="margin-top:12px">Le tableau de budget <em>qui calcule tout</em> à votre place</h2></div>${mock(dash(11), 240, .611, 670)}<div class="cta">Excel & Google Sheets · en français</div>`,
+ () => `<div class="top"><h2>Fini les <em>fins de mois</em> difficiles</h2><p class="lead" style="font-size:18px">Voyez en un coup d'œil ce qu'il vous reste.</p></div>${mock(dash(11), 220, .611, 690)}<div class="cta">Budget Famille Sans Stress</div>`,
+ () => `<div class="top"><span class="tag">À imprimer</span><h2 style="margin-top:12px">Défi 30 jours d'économies <em>en famille</em></h2></div><img src="defi-page-1.png" style="position:absolute;left:90px;top:250px;width:320px;transform:rotate(-3deg);box-shadow:0 20px 40px rgba(0,0,0,.2)"><div class="cta">PDF A4 · téléchargement immédiat</div>`,
+ () => `<div class="top"><h2>10 idées pour <em>économiser</em> en famille</h2></div><div class="lst" style="top:180px">${DEFIS.filter((d,i)=>[1,2,5,7,8,9,14,15,20,25].includes(i)).map((d,i)=>`<div><b>${i+1}.</b>${d}</div>`).join('')}</div><div class="cta">+ 20 autres dans le défi 30 jours</div>`,
+ () => `<div class="top"><span class="tag">Édition 12 mois</span><h2 style="margin-top:12px">Votre budget <em>2027</em> sur un seul fichier</h2></div>${mock(sheet({active:'Bilan annuel', tabs:['Paramètres','Dépenses','Tableau de bord','Bilan annuel'], body: bilanBody()}), 240, .611, 670)}<div class="cta">Excel & Google Sheets · en français</div>`,
+ () => `<div class="top"><h2>5 dépenses que les parents <em>oublient</em> dans leur budget</h2></div><div class="lst" style="top:230px;font-size:20px;line-height:2.1">${['🍽️ La cantine','🎁 Les cadeaux d\'anniversaire','⚽ Les activités des enfants','🍼 Couches et pharmacie','☂️ Les imprévus'].map((t,i)=>`<div><b>${i+1}.</b>${t}</div>`).join('')}</div><div class="cta">Elles sont déjà dans notre tableau</div>`,
+ () => `<div class="top"><h2>Notez une dépense en <em>10 secondes</em></h2></div>${mock(sheet({active:'Dépenses', body: journalBody({deps: DEPENSES.slice(4), typing:['15/11/2026','Goûter anniversaire','Cadeaux et anniversaires','12,50 €']})}), 200, .611, 720)}<div class="cta">Le tableau range tout tout seul</div>`,
+ () => `<div class="top"><span class="tag">Budget maman</span><h2 style="margin-top:12px">Crèche, cantine, couches : <em>tout est prévu</em></h2></div><div style="position:absolute;left:36px;right:36px;top:270px;display:grid;grid-template-columns:1fr 1fr;gap:10px">${[['🧸','Crèche / nounou'],['🍽️','Cantine'],['🍼','Couches'],['👕','Vêtements'],['⚽','Activités'],['🎁','Anniversaires']].map(([e,t])=>`<div style="background:#fff;border-radius:14px;padding:16px;border:1px solid #ECE6DA;font-weight:700;font-size:17px;display:flex;gap:10px;align-items:center"><span style="font-size:28px">${e}</span>${t}</div>`).join('')}</div><div class="cta">Le budget pensé pour les familles</div>`,
+ () => `<div class="top"><h2>Calculez votre <em>reste à vivre</em> en 1 minute</h2></div><div style="position:absolute;left:36px;right:36px;top:230px;display:grid;gap:12px">${[['Revenus du mois','3 450,00 €',''],['Dépensé','1 949,89 €',''],['Reste à vivre','1 500,11 €','good']].map(([l,v,c])=>`<div class="kpi ${c}" style="padding:20px"><span style="font-size:15px">${l}</span><b style="font-size:34px">${v}</b></div>`).join('')}</div><div class="note" style="right:36px;bottom:110px">Données d'exemple</div><div class="cta">Automatique · Excel & Google Sheets</div>`,
+ () => `<div class="top"><span class="tag">Nouvelle année</span><h2 style="margin-top:12px">Janvier : on reprend son budget <em>en main</em></h2></div>${mock(dash(11), 240, .611, 670)}<div class="cta">Budget Famille Sans Stress · 2027</div>`,
+];
+document.getElementById('s').innerHTML = P[n - 1]();
+</script></body></html>

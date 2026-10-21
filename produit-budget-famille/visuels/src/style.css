@@ -55,3 +55,5 @@ tr.typing td { box-shadow:inset 0 0 0 2px #1A73E8; position:relative; }
 .laptop .base { height:20px; background:linear-gradient(#D9D6CF,#BEBAB2); border-radius:0 0 18px 18px; margin:0 -36px; }
 .phone { position:absolute; background:#1F2A2E; border-radius:38px; padding:12px; box-shadow:0 30px 60px rgba(31,42,46,.28); }
 .phone .inner { background:#fff; border-radius:28px; overflow:hidden; height:100%; }
+table.bil { font-size:12px; table-layout:fixed; } table.bil td:first-child, table.bil th:first-child { width:21%; } table.bil td, table.bil th { padding:6px 5px; } table.bil th { font-size:11.5px; }
+.pin h1 { font-size:46px; } .pin h2 { font-size:40px; }
