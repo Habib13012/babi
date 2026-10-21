@@ -19,7 +19,7 @@ Fini les fins de mois stressantes : ce tableau calcule tout pour vous.
 
 **Budget Famille Sans Stress** est un tableau de budget automatique pensé pour les parents. Notez vos dépenses, le tableau fait le reste.
 
-✔ Fonctionne sur Google Sheets (gratuit), Excel et Numbers, sur ordinateur, tablette ou téléphone
+✔ Fonctionne sur Google Sheets (gratuit) et Excel, sur ordinateur, tablette ou téléphone
 ✔ 100 % en français, catégories pensées pour les familles : crèche/nounou, cantine, couches, activités des enfants…
 ✔ Tableau de bord automatique : budget prévu, dépensé, reste par catégorie
 ✔ Alertes couleur : orange à 80 % du budget, rouge en cas de dépassement
@@ -40,12 +40,14 @@ Fini les fins de mois stressantes : ce tableau calcule tout pour vous.
 - Usage personnel uniquement, revente interdite.
 - Une question ? Écrivez-moi via la messagerie Etsy, je réponds rapidement.
 
-## Photos à créer dans Canva (gratuit), format 2000 × 1600 px
-1. Couverture : capture du tableau de bord sur un écran d'ordinateur/téléphone + titre « Budget Famille Sans Stress ».
-2. Tableau de bord avec les alertes orange/rouge, flèches « calcul automatique ».
-3. Journal des dépenses avec la liste déroulante des catégories.
-4. Défi 30 jours.
-5. « Ce que vous recevez » + « Compatible Google Sheets, Excel, Numbers ».
-6. Si vous en ajoutez une, vidéo de 5 à 10 s : enregistrement d'écran pendant qu'on saisit une dépense et que le tableau se met à jour.
+## Photos et vidéo (déjà prêtes)
+Dans `visuels/photos-etsy/` (3000 × 2250 px, format 4:3), à mettre dans cet ordre :
+1. `1-couverture.jpg`
+2. `2-tableau-de-bord.jpg`
+3. `3-depenses.jpg`
+4. `4-defi.jpg`
+5. `5-categories.jpg`
+6. `6-contenu.jpg`
 
-Pour les captures : ouvrir le fichier dans Google Sheets, garder les données d'exemple et ajouter quelques dépenses pour que le tableau de bord « vive ».
+Vidéo : `visuels/video-etsy.mp4` (15 s, sans son, 1920 × 1440).
+Sources modifiables : `visuels/src/` (HTML).

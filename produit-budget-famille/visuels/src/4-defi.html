@@ -1,0 +1,13 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="style.css"><script src="common.js"></script></head><body>
+<div class="blob" style="width:380px;height:380px;background:#FBE1D6;right:-100px;top:-120px"></div>
+<div style="position:absolute;left:64px;top:44px;width:1080px">
+  <span class="tag">Bonus offert</span>
+  <h2 style="margin-top:14px">Le défi <em>30 jours d'économies</em> en famille</h2>
+  <p class="lead" style="margin-top:6px">Un petit geste concret par jour, un compteur qui grimpe.</p>
+</div>
+<div id="w" style="position:absolute;left:64px;top:250px;width:780px;height:620px"></div>
+<div class="call teal" style="left:870px;top:310px;width:280px">30 idées faciles<small>Goûter maison, troc de vêtements, sortie gratuite…</small></div>
+<div class="call coral" style="left:870px;top:470px;width:280px">Compteur automatique<small>Jours réussis et euros économisés</small></div>
+<div class="note">Données d'exemple</div>
+<script>document.getElementById('w').innerHTML = sheet({active:'Défi 30 jours', body: defiBody({done:12})}); document.querySelector('#w .win').style.height='620px';</script>
+</body></html>

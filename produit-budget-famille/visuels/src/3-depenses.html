@@ -1,0 +1,13 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="style.css"><script src="common.js"></script></head><body>
+<div style="position:absolute;left:64px;top:44px;width:1080px">
+  <h2>Notez une dépense en <em>10 secondes</em></h2>
+  <p class="lead" style="margin-top:6px">Date, description, catégorie dans la liste, montant. C'est tout.</p>
+</div>
+<div id="w" style="position:absolute;left:64px;top:190px;width:820px;height:670px"></div>
+<div class="call coral" style="left:900px;top:520px;width:250px">Liste déroulante<small>Toutes vos catégories, aucune faute de frappe</small></div>
+<div class="call teal" style="left:900px;top:250px;width:250px">300 lignes par mois<small>De la place pour toute la famille</small></div>
+<div class="note">Données d'exemple</div>
+<script>document.getElementById('w').innerHTML = sheet({active:'Dépenses', body: journalBody({typing:['15/11/2026','Goûter anniversaire Inès','Cadeaux et anniversaires'], dropdown:true})}); document.querySelector('#w .win').style.height='670px';
+document.querySelector('.ddlist').innerHTML = ['Courses alimentaires','Couches, hygiène, puériculture','Vêtements enfants','Activités et loisirs enfants','Cadeaux et anniversaires','Sorties et loisirs adultes','Imprévus'].map(t=>'<div class="'+(t==='Cadeaux et anniversaires'?'sel':'')+'">'+t+'</div>').join('');
+document.querySelector('.ddlist').style.top='auto'; document.querySelector('.ddlist').style.bottom='30px';</script>
+</body></html>

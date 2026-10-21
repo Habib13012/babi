@@ -1,0 +1,22 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="style.css"><script src="common.js"></script></head><body>
+<div class="blob" style="width:520px;height:520px;background:#DCEFE8;right:-120px;top:-140px"></div>
+<div class="blob" style="width:300px;height:300px;background:#FBE1D6;left:-90px;bottom:-110px"></div>
+<div style="position:absolute;left:64px;top:92px;width:470px">
+  <span class="tag">Téléchargement immédiat</span>
+  <h1 style="margin-top:22px">Budget<br>Famille<br>Sans Stress</h1>
+  <p class="lead">Le tableau de budget <b>automatique</b> pensé pour les parents. Vous notez, il calcule tout.</p>
+  <div class="pills" style="max-width:400px"><span class="pill">✓ Excel</span><span class="pill">✓ Google Sheets</span><span class="pill">✓ 100 % en français</span><span class="pill">🎁 Défi 30 jours offert</span></div>
+</div>
+<div class="laptop" style="left:560px;top:150px;width:600px">
+  <div class="screen"><div id="lap" style="width:880px;height:600px;transform:scale(.649);transform-origin:0 0;margin-bottom:-210px"></div></div>
+  <div class="base"></div>
+</div>
+<div class="phone" style="left:540px;top:490px;width:200px;height:380px">
+  <div class="inner"><div id="ph" style="width:380px;height:690px;transform:scale(.464);transform-origin:0 0"></div></div>
+</div>
+<script>
+document.getElementById('lap').innerHTML = sheet({active:'Tableau de bord', body: dashboardBody({rows:12})});
+document.getElementById('ph').innerHTML = '<div style="padding:18px">' + dashboardBody({rows:11}).replace('class="kpis"','class="kpis" style="grid-template-columns:1fr 1fr"') + '</div>';
+document.querySelectorAll('#ph table td:nth-child(n+4), #ph table th:nth-child(n+4)').forEach(e=>e.remove());
+</script>
+</body></html>

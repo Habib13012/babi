@@ -1,0 +1,13 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="style.css"><script src="common.js"></script></head><body>
+<div style="position:absolute;left:64px;top:44px;width:1080px">
+  <h2>Tout se calcule <em>tout seul</em></h2>
+  <p class="lead" style="margin-top:6px">Budget prévu, dépensé, reste : votre mois en un coup d'œil.</p>
+</div>
+<div id="w" style="position:absolute;left:64px;top:190px;width:760px;height:690px"></div>
+<div class="call teal" style="left:850px;top:240px;width:300px">Reste à vivre calculé<small>Revenus − dépenses, en temps réel</small></div>
+<div class="call" style="left:850px;top:420px;width:300px;background:#C77A1C">🟠 Orange à 80 %<small>Vous approchez de la limite</small></div>
+<div class="call coral" style="left:850px;top:560px;width:300px;background:#B3261E">🔴 Rouge si dépassé<small>Vous voyez tout de suite où ça coince</small></div>
+<div class="call" style="left:850px;top:700px;width:300px">Objectif d'épargne<small>Atteint ou pas : le tableau vous le dit</small></div>
+<div class="note">Données d'exemple</div>
+<script>document.getElementById('w').innerHTML = sheet({active:'Tableau de bord', body: dashboardBody({rows:14})}); document.querySelector('#w .win').style.height='690px';</script>
+</body></html>

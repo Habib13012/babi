@@ -1,0 +1,62 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="style.css"><script src="common.js"></script>
+<style>
+.scene { position:absolute; inset:0; }
+.center { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+#stage .win { height:100%; }
+.cap { position:absolute; left:0; right:0; top:44px; text-align:center; }
+</style></head><body>
+<div class="blob" style="width:520px;height:520px;background:#DCEFE8;right:-160px;top:-180px"></div>
+<div class="blob" style="width:360px;height:360px;background:#FBE1D6;left:-120px;bottom:-140px"></div>
+<div id="stage" class="scene"></div>
+<script>
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = x => { x = clamp(x); return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
+const typed = (s, t0, t1, t) => s.slice(0, Math.round(s.length * clamp((t - t0) / (t1 - t0))));
+function fade(t, a, b, d = .35) { return Math.min(clamp((t - a) / d), clamp((b - t) / d)); }
+function win(html, w, h, x, y, extra = '') { const z = 1.2; return `<div style="position:absolute;left:${x}px;top:${y}px;width:${w / z}px;height:${h / z}px;zoom:${z};${extra}">${html}</div>`; }
+function render(t) {
+  const st = document.getElementById('stage'); let h = '';
+  // 1. titre (0 – 2.6 s)
+  if (t < 2.6) {
+    const o = fade(t, 0, 2.6), y = 20 * (1 - ease(t / .8));
+    h = `<div class="center" style="opacity:${o};transform:translateY(${y}px)"><span class="tag">Fin de mois difficile ?</span>
+      <h1 style="font-size:92px;margin-top:26px">Budget Famille<br>Sans Stress</h1>
+      <p class="lead" style="font-size:28px">Le tableau de budget automatique pour les parents</p></div>`;
+  }
+  // 2. saisie d'une dépense (2.6 – 8 s)
+  else if (t < 8) {
+    const o = fade(t, 2.6, 8);
+    const date = typed('16/11/2026', 3.0, 3.6, t), desc = typed('Couches + lingettes', 3.7, 4.9, t);
+    const ddOpen = t > 5.0 && t < 6.3, cat = t >= 6.3 ? 'Couches, hygiène, puériculture' : '';
+    const amt = typed('24,90 €', 6.6, 7.3, t);
+    const caret = t < 4.95 ? 1 : (t < 6.5 ? 2 : 3);
+    const ty = [date, desc, cat, amt]; ty.caret = caret;
+    ty.ddSel = t > 5.6 ? 'Couches, hygiène, puériculture' : 'Courses alimentaires';
+    let body = journalBody({deps: DEPENSES.slice(6), typing: ty, dropdown: ddOpen});
+    h = `<div class="cap" style="opacity:${o}"><h2>1. Notez votre dépense</h2></div>` + win(sheet({active: 'Dépenses', body}), 960, 640, 120, 170, `opacity:${o}`);
+  }
+  // 3. tableau de bord qui se met à jour (8 – 11.6 s)
+  else if (t < 11.6) {
+    const o = fade(t, 8, 11.6), k = ease((t - 8.7) / .9);
+    const cats = CATS.map(c => c.slice()); cats[7][2] = 71.4 - 24.9 + 24.9 * k; // couches : 46,50 € -> 71,40 €
+    const body = dashboardBody({cats, highlight: 7, rows: 10});
+    const callO = clamp((t - 9.4) / .4);
+    h = `<div class="cap" style="opacity:${o}"><h2>2. Le tableau <em>calcule tout seul</em></h2></div>` + win(sheet({active: 'Tableau de bord', body}), 960, 650, 120, 170, `opacity:${o}`)
+      + `<div class="call" style="left:640px;top:745px;width:380px;background:#B3261E;opacity:${callO * o}">🔴 Budget couches dépassé<small>Vous le voyez tout de suite</small></div>`;
+  }
+  // 4. défi 30 jours (11.6 – 13.6 s)
+  else if (t < 13.6) {
+    const o = fade(t, 11.6, 13.6), done = Math.round(4 + 8 * ease((t - 11.9) / 1.2));
+    h = `<div class="cap" style="opacity:${o}"><h2>3. Le défi <em>30 jours d'économies</em></h2></div>` + win(sheet({active: 'Défi 30 jours', body: defiBody({done})}), 960, 650, 120, 170, `opacity:${o}`);
+  }
+  // 5. fin (13.6 – 15 s)
+  else {
+    const o = clamp((t - 13.6) / .35);
+    h = `<div class="center" style="opacity:${o}"><h1 style="font-size:80px">Budget Famille<br>Sans Stress</h1>
+      <div class="pills" style="justify-content:center"><span class="pill">✓ Excel</span><span class="pill">✓ Google Sheets</span><span class="pill">✓ En français</span></div>
+      <p class="lead" style="font-size:28px;margin-top:26px"><b style="color:var(--coral)">Téléchargement immédiat</b> après l'achat</p></div>`;
+  }
+  st.innerHTML = h + '<div class="note">Données d\'exemple</div>';
+}
+render(0);
+</script></body></html>

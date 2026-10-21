@@ -1,0 +1,11 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="style.css"><script src="common.js"></script><div style="position:absolute;left:0;right:0;bottom:70px;text-align:center"><span class="pill" style="font-size:20px">＋ 4 lignes libres pour vos propres catégories</span></div></head><body>
+<div style="position:absolute;left:64px;top:56px;width:1080px;text-align:center">
+  <h2>Des catégories pensées <em>pour les parents</em></h2>
+  <p class="lead" style="margin-top:8px">Déjà prêtes, et 4 lignes libres pour ajouter les vôtres.</p>
+</div>
+<div id="g" style="position:absolute;left:64px;top:270px;width:1072px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px"></div>
+<script>
+const items=[['🏠','Loyer / crédit'],['💡','Énergie & eau'],['📶','Internet & téléphones'],['🛡️','Assurances'],['🧸','Crèche / nounou'],['🍽️','Cantine & périscolaire'],['🛒','Courses'],['🍼','Couches & puériculture'],['👕','Vêtements enfants'],['⚽','Activités enfants'],['💊','Santé'],['🚗','Transport'],['🎉','Sorties adultes'],['🎁','Cadeaux & anniversaires'],['📺','Abonnements'],['☂️','Imprévus']];
+document.getElementById('g').innerHTML = items.map(([e,t])=>'<div style="background:#fff;border-radius:16px;padding:30px 18px;border:1px solid #ECE6DA;box-shadow:0 6px 16px rgba(31,42,46,.06);display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px"><span style="font-size:32px">'+e+'</span>'+t+'</div>').join('');
+</script><div style="position:absolute;left:0;right:0;bottom:70px;text-align:center"><span class="pill" style="font-size:20px">＋ 4 lignes libres pour vos propres catégories</span></div>
+</body></html>
