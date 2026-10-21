@@ -19,9 +19,11 @@ export default defineConfig(({ mode }) => {
         rollupOptions: {
           input: 'src/main.tsx',
           output: {
-            // un seul fichier : Shopify ajoute ?v=… aux URL, ce qui casserait les imports entre morceaux
-            inlineDynamicImports: true,
+            // La scène 3D (three.js) reste dans un fichier à part, chargé seulement sur ordinateur.
+            // Le thème charge immersive.js sans le ?v=… de Shopify : les morceaux s'importent
+            // entre eux par la même URL, donc React n'est jamais chargé deux fois.
             entryFileNames: 'immersive.js',
+            chunkFileNames: 'immersive-[name].js',
             // CSS → immersive.css ; polices sous leur nom d'origine (réutilisées par base.css)
             assetFileNames: (info) => (info.names[0]?.endsWith('.css') ? 'immersive.css' : '[name][extname]'),
           },

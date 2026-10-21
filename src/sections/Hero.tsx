@@ -133,6 +133,7 @@ export function Hero({ introDone, use3D, reducedMotion }: Props) {
       ) : (
         <img
           src={media.mockup}
+          fetchPriority="high"
           alt="Le guide « Mon enfant et les écrans » de Habib Tahrat"
           width={715}
           height={803}

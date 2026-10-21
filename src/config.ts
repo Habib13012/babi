@@ -40,7 +40,7 @@ export const media = {
   /** Couverture à plat, utilisée comme texture du livre 3D. */
   coverFront: asset('product', 'cover-front.jpg'),
   /** Mockup détouré (PNG transparent) — affiché si la 3D n'est pas disponible. */
-  mockup: asset('product', 'book-mockup.png'),
+  mockup: asset('product', 'book-mockup.webp'),
   /** Sommaire du guide : page visible quand le livre 3D s'ouvre. */
   sommaire: asset('pages', 'sommaire.jpg'),
   /**

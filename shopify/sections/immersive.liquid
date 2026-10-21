@@ -28,7 +28,7 @@
     assign price = ''
   endif
 
-  assign files = 'cover-front.jpg,book-mockup.png,sommaire.jpg,page-11.jpg,pilier-regles.jpg,pilier-phrases.jpg,detail-tablette.jpg,affiche-plan-familial.jpg,affiche-5-temps.jpg,affiche-defi-14-jours.jpg,cartes-mode-emploi.jpg,cartes-idees.jpg,fiche-grands-parents.jpg,page-03.jpg,page-05.jpg,page-09.jpg,page-13.jpg,page-17.jpg,page-22.jpg' | split: ','
+  assign files = 'cover-front.jpg,book-mockup.webp,sommaire.jpg,page-11.jpg,pilier-regles.jpg,pilier-phrases.jpg,detail-tablette.jpg,affiche-plan-familial.jpg,affiche-5-temps.jpg,affiche-defi-14-jours.jpg,cartes-mode-emploi.jpg,cartes-idees.jpg,fiche-grands-parents.jpg,page-03.jpg,page-05.jpg,page-09.jpg,page-13.jpg,page-17.jpg,page-22.jpg' | split: ','
 -%}
 
 <script>
@@ -61,6 +61,8 @@
 </script>
 
 {{ 'immersive.css' | asset_url | stylesheet_tag }}
+{%- comment -%} Livre affiché en haut de page sur téléphone : téléchargé en même temps que le script {%- endcomment -%}
+<link rel="preload" as="image" type="image/webp" href="{{ 'book-mockup.webp' | asset_url }}" fetchpriority="high">
 
 {%- comment -%}
   Contenu rendu côté serveur (lu par les moteurs de recherche et affiché sans JavaScript).
@@ -80,7 +82,11 @@
   </main>
 </div>
 
-<script type="module" src="{{ 'immersive.js' | asset_url }}"></script>
+{%- comment -%}
+  Sans « ?v=… » : immersive.js importe ses autres morceaux (scène 3D) par des chemins relatifs,
+  qui doivent désigner exactement les mêmes URL. Chaque nouveau thème a son propre dossier, donc pas de cache périmé.
+{%- endcomment -%}
+<script type="module" src="{{ 'immersive.js' | asset_url | split: '?' | first }}"></script>
 
 {% schema %}
 {

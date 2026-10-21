@@ -15,3 +15,11 @@ export function hasWebGL(): boolean {
 }
 
 export const isMobileViewport = (): boolean => window.innerWidth < 768
+
+/**
+ * Téléphones et tablettes (écran tactile ou petit écran) : pas de scène 3D.
+ * Le livre en image s'affiche tout de suite, sans télécharger three.js
+ * (les visiteurs venus des pubs ouvrent la page dans le navigateur de Facebook/Instagram, souvent en 4G).
+ */
+export const isLightDevice = (): boolean =>
+  window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768

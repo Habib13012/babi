@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
 import { ScrollTrigger } from './lib/gsap'
-import { hasWebGL, prefersReducedMotion } from './lib/env'
+import { hasWebGL, isLightDevice, prefersReducedMotion } from './lib/env'
 import { scrollToTarget, startSmoothScroll } from './lib/smoothScroll'
 import { interaction } from './three/choreography'
 import { media } from './config'
@@ -32,7 +32,8 @@ function waitForFonts() {
 
 export default function App() {
   const [reducedMotion] = useState(prefersReducedMotion)
-  const [webgl, setWebgl] = useState(() => hasWebGL())
+  const [lightDevice] = useState(isLightDevice)
+  const [webgl, setWebgl] = useState(() => !lightDevice && hasWebGL())
   const [fontsReady, setFontsReady] = useState(false)
   const [sceneReady, setSceneReady] = useState(false)
   const [introDone, setIntroDone] = useState(false)
@@ -51,7 +52,7 @@ export default function App() {
 
   // Filet de sécurité : la page ne reste jamais bloquée sur l'écran de chargement
   useEffect(() => {
-    const t = window.setTimeout(() => setSceneReady(true), 8000)
+    const t = window.setTimeout(() => setSceneReady(true), 4000)
     return () => window.clearTimeout(t)
   }, [])
 
@@ -96,7 +97,7 @@ export default function App() {
       >
         Aller au contenu
       </a>
-      <Loader ready={sceneReady} reducedMotion={reducedMotion} onDone={onIntroDone} />
+      <Loader ready={sceneReady} reducedMotion={reducedMotion} quick={lightDevice} onDone={onIntroDone} />
 
       {webgl && fontsReady && (
         <ErrorBoundary onError={disable3D}>

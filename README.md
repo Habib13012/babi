@@ -57,7 +57,8 @@ Tous les visuels proviennent des PDF du guide et des bonus. Les PDF eux-mêmes n
 | `public/images/scenes/pilier-phrases.jpg` | Photo 4:5, 922 × 1152 px | Pilier 2 « Phrases prêtes à dire » |
 | `public/images/scenes/detail-tablette.jpg` | Recadrage de la même photo | Fond de la phrase « On range la tablette » |
 | `public/images/bonus/*.jpg` | Pages des 3 bonus | Pilier 3 et « Ce que vous recevez » |
-| `public/images/product/book-mockup.png` | Mockup de la boutique (715 px) | Version 2D et section « Ce que vous recevez » |
+| `public/images/product/book-mockup.png` | Mockup de la boutique (715 px) | Image de partage (og:image) en développement |
+| `public/images/product/book-mockup.webp` | Même mockup en WebP (65 Ko) | Version 2D, section « Ce que vous recevez » |
 
 Pour régénérer un aperçu après une mise à jour du PDF (poppler-utils) :
 
