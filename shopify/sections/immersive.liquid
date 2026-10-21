@@ -61,8 +61,6 @@
 </script>
 
 {{ 'immersive.css' | asset_url | stylesheet_tag }}
-{%- comment -%} Livre affiché en haut de page sur téléphone : téléchargé en même temps que le script {%- endcomment -%}
-<link rel="preload" as="image" type="image/webp" href="{{ 'book-mockup.webp' | asset_url }}" fetchpriority="high">
 
 {%- comment -%}
   Contenu rendu côté serveur (lu par les moteurs de recherche et affiché sans JavaScript).

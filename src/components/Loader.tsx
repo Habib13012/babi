@@ -3,10 +3,10 @@ import { gsap } from '../lib/gsap'
 import { setScrollLocked } from '../lib/smoothScroll'
 import { site } from '../config'
 
-type Props = { ready: boolean; reducedMotion: boolean; quick?: boolean; onDone: () => void }
+type Props = { ready: boolean; reducedMotion: boolean; onDone: () => void }
 
 /** Rideau d'ouverture : reste en place le temps que la scène soit prête, puis se lève. */
-export function Loader({ ready, reducedMotion, quick = false, onDone }: Props) {
+export function Loader({ ready, reducedMotion, onDone }: Props) {
   const root = useRef<HTMLDivElement>(null)
   const line = useRef<HTMLDivElement>(null)
   const [gone, setGone] = useState(false)
@@ -28,9 +28,7 @@ export function Loader({ ready, reducedMotion, quick = false, onDone }: Props) {
       onDone()
       return
     }
-    // Sur téléphone, le rideau se lève deux fois plus vite : chaque seconde d'attente fait partir des visiteurs
     const tl = gsap.timeline({ onComplete: finish })
-    tl.timeScale(quick ? 2 : 1)
     tl.to(line.current, { scaleX: 1, duration: 0.6, ease: 'power2.inOut' })
       .to(root.current, { clipPath: 'inset(0 0 100% 0)', duration: 1.1, ease: 'expo.inOut' }, '+=0.1')
       // le contenu démarre pendant que le rideau se lève
@@ -38,7 +36,7 @@ export function Loader({ ready, reducedMotion, quick = false, onDone }: Props) {
     return () => {
       tl.kill()
     }
-  }, [ready, reducedMotion, quick, onDone])
+  }, [ready, reducedMotion, onDone])
 
   if (gone) return null
 

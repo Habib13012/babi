@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
         rollupOptions: {
           input: 'src/main.tsx',
           output: {
-            // La scène 3D (three.js) reste dans un fichier à part, chargé seulement sur ordinateur.
+            // La scène 3D (three.js) est dans un fichier à part : le reste de la page démarre sans l'attendre.
             // Le thème charge immersive.js sans le ?v=… de Shopify : les morceaux s'importent
             // entre eux par la même URL, donc React n'est jamais chargé deux fois.
             entryFileNames: 'immersive.js',
