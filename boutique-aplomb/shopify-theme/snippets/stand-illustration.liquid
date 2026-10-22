@@ -1,0 +1,17 @@
+{%- comment -%} Illustration indicative (image de remplacement de la 3D). {%- endcomment -%}
+{%- assign c = color | default: '#C9CCD1' -%}
+<svg viewBox="0 0 600 420" role="img" aria-label="Illustration indicative du support déplié">
+  <defs>
+    <linearGradient id="si-metal-{{ id }}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="{{ c }}"/><stop offset="1" stop-color="#15171a" stop-opacity=".35"/></linearGradient>
+    <radialGradient id="si-shadow-{{ id }}" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#15171a" stop-opacity=".28"/><stop offset="1" stop-color="#15171a" stop-opacity="0"/></radialGradient>
+  </defs>
+  <ellipse cx="300" cy="352" rx="250" ry="34" fill="url(#si-shadow-{{ id }})"/>
+  <path d="M90 330 300 368 512 318 302 288Z" fill="url(#si-metal-{{ id }})" stroke="#15171a" stroke-opacity=".25"/>
+  <path d="M410 316 268 168 286 162 430 312Z" fill="{{ c }}" stroke="#15171a" stroke-opacity=".3"/>
+  <path d="M196 342 120 196 138 190 216 338Z" fill="{{ c }}" stroke="#15171a" stroke-opacity=".3" opacity=".7"/>
+  <path d="M96 196 300 120 528 176 330 262Z" fill="url(#si-metal-{{ id }})" stroke="#15171a" stroke-opacity=".3"/>
+  <g stroke="#15171a" stroke-opacity=".22" stroke-width="5" stroke-linecap="round">
+    <line x1="143" y1="191" x2="340" y2="244"/><line x1="172" y1="180" x2="368" y2="232"/><line x1="201" y1="169" x2="396" y2="219"/><line x1="230" y1="158" x2="425" y2="207"/><line x1="259" y1="147" x2="453" y2="195"/><line x1="288" y1="136" x2="481" y2="182"/>
+  </g>
+  <path d="M96 196 330 262 330 280 96 212Z" fill="{{ c }}" stroke="#15171a" stroke-opacity=".3"/>
+</svg>

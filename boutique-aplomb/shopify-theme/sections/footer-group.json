@@ -1,0 +1,13 @@
+{
+  "type": "footer",
+  "name": "Groupe pied de page",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": { "menu-1": { "type": "menu", "settings": { "title": "Boutique", "menu": "footer" } } },
+      "block_order": ["menu-1"],
+      "settings": {}
+    }
+  },
+  "order": ["footer"]
+}

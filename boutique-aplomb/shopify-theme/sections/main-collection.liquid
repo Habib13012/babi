@@ -1,0 +1,22 @@
+<div class="page-width section" style="padding-top: 3.5rem">
+  <h1 class="display" style="font-size: 3rem">{{ collection.title }}</h1>
+  {%- paginate collection.products by 12 -%}
+    <ul class="benefits" style="list-style: none">
+      {%- for p in collection.products -%}
+        <li class="card benefit">
+          <a href="{{ p.url }}" style="text-decoration: none">
+            {%- if p.featured_image -%}{{ p.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: p.featured_image.alt }}{%- endif -%}
+            <h2 class="h3" style="margin-top: 1rem">{{ p.title }}</h2>
+            <p class="muted">{{ p.price | money }}</p>
+          </a>
+        </li>
+      {%- else -%}
+        <li>Aucun produit.</li>
+      {%- endfor -%}
+    </ul>
+    {{ paginate | default_pagination }}
+  {%- endpaginate -%}
+</div>
+{% schema %}
+{ "name": "Collection" }
+{% endschema %}

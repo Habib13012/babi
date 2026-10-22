@@ -1,0 +1,6 @@
+{%- assign v = variant | default: product.selected_or_first_available_variant -%}
+<p>
+  <span class="price" data-price>{{ v.price | money }}</span>
+  {%- comment -%} Aucun prix barré : on n'affiche compare_at_price que s'il est réel et justifiable — désactivé par défaut. {%- endcomment -%}
+  <span class="price-note">{{ settings.tax_note }}</span>
+</p>

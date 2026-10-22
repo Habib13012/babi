@@ -1,0 +1,11 @@
+<div class="page-width section" style="text-align: center; min-height: 50vh; display: grid; place-items: center">
+  <div class="stack">
+    <div style="width: 4rem; margin-inline: auto; transform: rotate(-12deg)">{% render 'logo', variant: 'mark' %}</div>
+    <h1 class="display" style="font-size: 3rem">Page introuvable</h1>
+    <p class="lead">Cette page n'existe pas ou a été déplacée.</p>
+    <p><a href="{{ routes.root_url }}" class="btn btn--primary">Accueil</a></p>
+  </div>
+</div>
+{% schema %}
+{ "name": "404" }
+{% endschema %}

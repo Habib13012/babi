@@ -16,7 +16,8 @@
     "test:e2e": "playwright test",
     "check:launch": "tsx scripts/check-launch.ts",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build",
-    "prebuild": "node scripts/guard-production-build.mjs"
+    "prebuild": "node scripts/guard-production-build.mjs",
+    "shopify:build": "esbuild shopify-src/aplomb-3d.js --bundle --minify --format=esm --target=es2020 --outfile=shopify-theme/assets/aplomb-3d.js --legal-comments=eof && cd shopify-theme && rm -f ../shopify/aplomb-theme-shopify.zip && zip -qr ../shopify/aplomb-theme-shopify.zip assets config layout locales sections snippets templates"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.3.0",
@@ -38,6 +39,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@types/three": "^0.186.0",
+    "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.4.2",
     "tailwindcss": "^4.3.3",

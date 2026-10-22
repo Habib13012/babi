@@ -1,0 +1,10 @@
+{
+  "current": {
+    "store_in_preparation": true,
+    "preparation_message": "Site en préparation — informations en cours de vérification, aucune vente ouverte.",
+    "tax_note": "Prix toutes taxes comprises. Livraison en sus.",
+    "shipping_zone": "France métropolitaine uniquement",
+    "returns_paid_by": "unset",
+    "max_quantity": 5
+  }
+}

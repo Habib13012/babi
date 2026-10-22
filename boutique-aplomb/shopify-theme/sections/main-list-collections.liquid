@@ -1,0 +1,7 @@
+<div class="page-width section" style="padding-top: 3.5rem">
+  <h1 class="display" style="font-size: 3rem">Collections</h1>
+  <ul class="stack-sm" style="list-style: none; margin-top: 2rem">{%- for c in collections -%}<li><a class="link" href="{{ c.url }}">{{ c.title }}</a></li>{%- endfor -%}</ul>
+</div>
+{% schema %}
+{ "name": "Liste des collections" }
+{% endschema %}

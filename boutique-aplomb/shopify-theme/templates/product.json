@@ -1,0 +1,162 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "spec-1": {
+          "type": "spec",
+          "settings": {
+            "label": "Matériau",
+            "value": "Alliage d'aluminium anodisé (cible)",
+            "verified": false
+          }
+        },
+        "spec-2": {
+          "type": "spec",
+          "settings": {
+            "label": "Dimensions plié",
+            "value": "≈ 26 × 22 × 2 cm (cible)",
+            "verified": false
+          }
+        },
+        "spec-3": {
+          "type": "spec",
+          "settings": {
+            "label": "Hauteur réglable",
+            "value": "≈ 5 à 18 cm (cible)",
+            "verified": false
+          }
+        },
+        "spec-4": {
+          "type": "spec",
+          "settings": {
+            "label": "Poids du support",
+            "value": "≈ 900 g (cible)",
+            "verified": false
+          }
+        },
+        "spec-5": {
+          "type": "spec",
+          "settings": {
+            "label": "Compatibilité",
+            "value": "Ordinateurs de 11 à 16 pouces (cible)",
+            "verified": false
+          }
+        },
+        "spec-6": {
+          "type": "spec",
+          "settings": {
+            "label": "Charge maximale",
+            "value": "À définir avec le fabricant (test de charge)",
+            "verified": false
+          }
+        },
+        "spec-7": {
+          "type": "spec",
+          "settings": {
+            "label": "Patins",
+            "value": "Silicone antidérapant (cible)",
+            "verified": false
+          }
+        },
+        "box-1": {
+          "type": "box_item",
+          "settings": {
+            "label": "Support Socle 01",
+            "value": "1",
+            "verified": false
+          }
+        },
+        "box-2": {
+          "type": "box_item",
+          "settings": {
+            "label": "Housse de rangement",
+            "value": "1 (à confirmer)",
+            "verified": false
+          }
+        },
+        "box-3": {
+          "type": "box_item",
+          "settings": {
+            "label": "Notice d'utilisation et de sécurité (FR)",
+            "value": "1",
+            "verified": false
+          }
+        }
+      },
+      "block_order": [
+        "spec-1",
+        "spec-2",
+        "spec-3",
+        "spec-4",
+        "spec-5",
+        "spec-6",
+        "spec-7",
+        "box-1",
+        "box-2",
+        "box-3"
+      ],
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {},
+      "blocks": {
+        "question-1": {
+          "type": "question",
+          "settings": {
+            "question": "Quels ordinateurs sont compatibles ?",
+            "answer": "<p>Les limites de taille et de poids sont indiquées dans les caractéristiques de la fiche produit. En cas de doute, écrivez-nous avec le modèle de votre ordinateur avant de commander.</p>"
+          }
+        },
+        "question-2": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je retourner le produit ?",
+            "answer": "<p>Oui. Vous disposez de 14 jours après réception pour vous rétracter, sans avoir à vous justifier. Nous vous remboursons au plus tard 14 jours après votre demande (nous pouvons attendre la réception du produit ou la preuve de son expédition).</p>"
+          }
+        },
+        "question-3": {
+          "type": "question",
+          "settings": {
+            "question": "Le support soulage-t-il les douleurs de dos ou de nuque ?",
+            "answer": "<p>Socle 01 n'est pas un dispositif médical et ne traite aucune douleur. Il permet de surélever l'écran ; pour toute douleur persistante, consultez un professionnel de santé.</p>"
+          }
+        },
+        "question-4": {
+          "type": "question",
+          "settings": {
+            "question": "Le rendu 3D correspond-il exactement au produit ?",
+            "answer": "<p>Non. Le modèle 3D est un prototype indicatif qui illustre le principe de fonctionnement. Les photos et les caractéristiques font foi.</p>"
+          }
+        },
+        "question-5": {
+          "type": "question",
+          "settings": {
+            "question": "Quelle garantie s'applique ?",
+            "answer": "<p>Vous bénéficiez de la garantie légale de conformité (2 ans à compter de la livraison) et de la garantie contre les vices cachés. Aucune garantie commerciale supplémentaire n'est proposée.</p>"
+          }
+        },
+        "question-6": {
+          "type": "question",
+          "settings": {
+            "question": "Mes données bancaires sont-elles stockées ?",
+            "answer": "<p>Non. Le paiement est traité par Shopify ; nous n'avons jamais accès à vos numéros de carte.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question-1",
+        "question-2",
+        "question-3",
+        "question-4",
+        "question-5",
+        "question-6"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "faq"
+  ]
+}

@@ -1,0 +1,29 @@
+{%- assign yes = section.settings.for | newline_to_br | split: '<br />' -%}
+{%- assign no = section.settings.not_for | newline_to_br | split: '<br />' -%}
+<section class="page-width" aria-labelledby="t-{{ section.id }}">
+  <div class="audience reveal">
+    <div>
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 id="t-{{ section.id }}" class="h2" style="margin-top: 1rem">{{ section.settings.title }}</h2>
+      <ul class="bullets">{%- for l in yes -%}{%- assign t = l | strip -%}{%- if t != blank -%}<li>{{ t }}</li>{%- endif -%}{%- endfor -%}</ul>
+    </div>
+    <div>
+      <h3 class="h3" style="margin-top: 2.5rem">{{ section.settings.title_no }}</h3>
+      <ul class="bullets bullets--muted">{%- for l in no -%}{%- assign t = l | strip -%}{%- if t != blank -%}<li>{{ t }}</li>{%- endif -%}{%- endfor -%}</ul>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Pour qui",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Pour qui" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Pensé pour vous si…" },
+    { "type": "textarea", "id": "for", "label": "Pour (une ligne par point)", "default": "Vous travaillez plusieurs heures par jour sur un ordinateur portable.\nVous alternez bureau, domicile et espace partagé et voulez un support transportable.\nVous utilisez déjà, ou prévoyez, un clavier et une souris séparés." },
+    { "type": "text", "id": "title_no", "label": "Titre « moins adapté »", "default": "Moins adapté si…" },
+    { "type": "textarea", "id": "not_for", "label": "Moins adapté (une ligne par point)", "default": "Les ordinateurs dont le poids ou la taille dépassent les limites indiquées dans les caractéristiques.\nUn usage comme dispositif médical : Socle 01 ne traite ni ne prévient aucune pathologie." }
+  ],
+  "presets": [ { "name": "Pour qui" } ]
+}
+{% endschema %}

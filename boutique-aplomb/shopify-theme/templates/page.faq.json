@@ -1,0 +1,68 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {},
+      "blocks": {
+        "question-1": {
+          "type": "question",
+          "settings": {
+            "question": "Quels ordinateurs sont compatibles ?",
+            "answer": "<p>Les limites de taille et de poids sont indiquées dans les caractéristiques de la fiche produit. En cas de doute, écrivez-nous avec le modèle de votre ordinateur avant de commander.</p>"
+          }
+        },
+        "question-2": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je retourner le produit ?",
+            "answer": "<p>Oui. Vous disposez de 14 jours après réception pour vous rétracter, sans avoir à vous justifier. Nous vous remboursons au plus tard 14 jours après votre demande (nous pouvons attendre la réception du produit ou la preuve de son expédition).</p>"
+          }
+        },
+        "question-3": {
+          "type": "question",
+          "settings": {
+            "question": "Le support soulage-t-il les douleurs de dos ou de nuque ?",
+            "answer": "<p>Socle 01 n'est pas un dispositif médical et ne traite aucune douleur. Il permet de surélever l'écran ; pour toute douleur persistante, consultez un professionnel de santé.</p>"
+          }
+        },
+        "question-4": {
+          "type": "question",
+          "settings": {
+            "question": "Le rendu 3D correspond-il exactement au produit ?",
+            "answer": "<p>Non. Le modèle 3D est un prototype indicatif qui illustre le principe de fonctionnement. Les photos et les caractéristiques font foi.</p>"
+          }
+        },
+        "question-5": {
+          "type": "question",
+          "settings": {
+            "question": "Quelle garantie s'applique ?",
+            "answer": "<p>Vous bénéficiez de la garantie légale de conformité (2 ans à compter de la livraison) et de la garantie contre les vices cachés. Aucune garantie commerciale supplémentaire n'est proposée.</p>"
+          }
+        },
+        "question-6": {
+          "type": "question",
+          "settings": {
+            "question": "Mes données bancaires sont-elles stockées ?",
+            "answer": "<p>Non. Le paiement est traité par Shopify ; nous n'avons jamais accès à vos numéros de carte.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question-1",
+        "question-2",
+        "question-3",
+        "question-4",
+        "question-5",
+        "question-6"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "faq"
+  ]
+}

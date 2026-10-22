@@ -1,0 +1,16 @@
+<div class="page-width section" style="padding-top: 3.5rem">
+  <h1 class="display" style="font-size: 3rem">Recherche</h1>
+  <form action="{{ routes.search_url }}" method="get" role="search" style="margin-top: 2rem; display: flex; gap: 0.75rem; max-width: 36rem">
+    <label class="visually-hidden" for="q">Rechercher</label>
+    <input class="field" id="q" type="search" name="q" value="{{ search.terms | escape }}">
+    <button class="btn btn--primary">Rechercher</button>
+  </form>
+  {%- if search.performed -%}
+    <ul class="stack-sm" style="list-style: none; margin-top: 2rem">
+      {%- for item in search.results -%}<li><a class="link" href="{{ item.url }}">{{ item.title }}</a></li>{%- else -%}<li>Aucun résultat.</li>{%- endfor -%}
+    </ul>
+  {%- endif -%}
+</div>
+{% schema %}
+{ "name": "Recherche" }
+{% endschema %}

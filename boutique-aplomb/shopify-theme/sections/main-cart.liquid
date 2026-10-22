@@ -1,0 +1,45 @@
+<div class="page-width section" style="padding-top: 3rem">
+  <h1 class="display" style="font-size: 3rem; margin-bottom: 2.5rem">Panier</h1>
+  {%- if cart.item_count == 0 -%}
+    <div class="card" style="padding: 2.5rem; text-align: center">
+      <p class="lead">Votre panier est vide.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary" style="margin-top: 1.5rem">Voir le produit</a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-grid" novalidate>
+      <ul class="cart-lines">
+        {%- for item in cart.items -%}
+          <li class="cart-line">
+            <div class="cart-line__img">{% if item.image %}{{ item.image | image_url: width: 160 | image_tag: alt: item.title, loading: 'lazy' }}{% endif %}</div>
+            <div class="cart-line__info">
+              <p style="font-weight: 600"><a href="{{ item.url }}">{{ item.product.title }}</a></p>
+              {%- unless item.product.has_only_default_variant -%}<p class="small muted">{{ item.variant.title }}</p>{%- endunless -%}
+            </div>
+            <label class="small">Quantité <input class="field" style="width: 5rem; min-height: 2.5rem; padding: 0.4rem 0.6rem" type="number" name="updates[]" value="{{ item.quantity }}" min="0" max="{{ settings.max_quantity | default: 5 }}"></label>
+            <p style="width: 6rem; text-align: right; font-weight: 600">{{ item.final_line_price | money }}</p>
+            <a class="small muted" href="{{ item.url_to_remove }}">Retirer<span class="visually-hidden"> {{ item.title }}</span></a>
+          </li>
+        {%- endfor -%}
+      </ul>
+      <aside class="card stack" style="padding: 1.75rem; height: fit-content" aria-label="Récapitulatif">
+        <h2 class="h3" style="font-family: var(--font-sans); font-size: 1.1rem; font-weight: 600">Récapitulatif</h2>
+        <div class="totals small">
+          <div><span>Sous-total</span><span>{{ cart.total_price | money }}</span></div>
+          <p class="xs muted">{{ settings.tax_note }} Les frais de livraison exacts sont calculés et affichés à l'étape suivante, avant le paiement.</p>
+          {%- if settings.shipping_summary != blank -%}<p class="xs muted">Livraison : {{ settings.shipping_summary }}</p>{%- endif -%}
+        </div>
+        <label class="checkbox">
+          <input type="checkbox" name="terms" required data-terms>
+          <span>J'ai lu et j'accepte les {% if shop.terms_of_service %}<a class="link" href="{{ shop.terms_of_service.url }}" target="_blank">conditions générales de vente</a>{% else %}{% render 'missing', label: 'CGV (Paramètres › Politiques)' %}{% endif %} et j'ai pris connaissance de la {% if shop.privacy_policy %}<a class="link" href="{{ shop.privacy_policy.url }}" target="_blank">politique de confidentialité</a>{% else %}politique de confidentialité{% endif %}.</span>
+        </label>
+        <button type="submit" name="checkout" class="btn btn--primary btn--block" onclick="var t=this.form.querySelector('[data-terms]');if(!t.checked){t.focus();t.reportValidity();return false;}">Passer au paiement sécurisé</button>
+        <button type="submit" name="update" class="btn btn--ghost btn--block">Mettre à jour le panier</button>
+        <p class="xs muted">Le bouton final « Payer maintenant » de la page de paiement Shopify vaut commande avec obligation de paiement.</p>
+      </aside>
+    </form>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{ "name": "Panier" }
+{% endschema %}

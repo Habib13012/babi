@@ -1,0 +1,55 @@
+{%- comment -%}
+  Formulaire de contact Shopify (les messages arrivent à l'e-mail de la boutique).
+  Variante « rétractation » : sert de fonction de rétractation en ligne (directive UE 2023/2673).
+{%- endcomment -%}
+{%- liquid
+  assign withdrawal = false
+  if section.settings.mode == 'withdrawal'
+    assign withdrawal = true
+  endif
+-%}
+<div class="page-width section" style="padding-top: 3.5rem">
+  <div class="split">
+    <div class="stack">
+      <h1 class="display" style="font-size: clamp(2.5rem, 2rem + 2vw, 3.75rem)">{{ page.title }}</h1>
+      <div class="rte lead">{{ page.content }}</div>
+      {%- unless withdrawal -%}
+        <dl class="dl">
+          <div><dt>E-mail</dt><dd>{% if settings.contact_email != blank %}<a class="link" href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a>{% else %}{% render 'missing', label: 'e-mail' %}{% endif %}</dd></div>
+          <div><dt>Téléphone</dt><dd>{% if settings.contact_phone != blank %}{{ settings.contact_phone }}{% else %}{% render 'missing', label: 'téléphone' %}{% endif %}</dd></div>
+          <div><dt>Adresse</dt><dd>{% if settings.legal_address != blank %}{{ settings.legal_name }}<br>{{ settings.legal_address }}{% else %}{% render 'missing', label: 'adresse' %}{% endif %}</dd></div>
+        </dl>
+      {%- endunless -%}
+    </div>
+    <div class="card" style="padding: 2rem">
+      {%- form 'contact', class: 'stack' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="form-success" role="status">
+            {%- if withdrawal -%}Votre rétractation a bien été envoyée le {{ 'now' | date: '%d/%m/%Y à %H:%M' }}. Nous vous adressons un accusé de réception par e-mail. Conservez une capture de ce message.{%- else -%}Merci, votre message a été envoyé. Nous répondons par e-mail les jours ouvrés.{%- endif -%}
+          </p>
+        {%- endif -%}
+        {%- if form.errors -%}<div class="form-error" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+        {%- if withdrawal -%}<input type="hidden" name="contact[sujet]" value="RÉTRACTATION">{%- endif -%}
+        <div><label class="label" for="c-name-{{ section.id }}">Nom et prénom *</label><input class="field" id="c-name-{{ section.id }}" name="contact[name]" autocomplete="name" required value="{{ form.name }}"></div>
+        <div><label class="label" for="c-email-{{ section.id }}">E-mail{% if withdrawal %} utilisé pour la commande{% endif %} *</label><input class="field" id="c-email-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}"></div>
+        <div><label class="label" for="c-order-{{ section.id }}">Numéro de commande{% if withdrawal %} *{% else %} <span class="muted">(facultatif)</span>{% endif %}</label><input class="field" id="c-order-{{ section.id }}" name="contact[commande]" {% if withdrawal %}required{% endif %}></div>
+        {%- if withdrawal -%}
+          <div><label class="label" for="c-items-{{ section.id }}">Articles concernés <span class="muted">(vide = toute la commande)</span></label><input class="field" id="c-items-{{ section.id }}" name="contact[articles]"></div>
+          <input type="hidden" name="contact[body]" value="Je notifie par la présente ma rétractation du contrat portant sur la commande indiquée.">
+        {%- else -%}
+          <div><label class="label" for="c-msg-{{ section.id }}">Message *</label><textarea class="field" id="c-msg-{{ section.id }}" name="contact[body]" rows="6" required>{{ form.body }}</textarea></div>
+        {%- endif -%}
+        <p class="xs muted">* champ obligatoire</p>
+        <button type="submit" class="btn btn--primary">{% if withdrawal %}Confirmer la rétractation{% else %}Envoyer le message{% endif %}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Formulaire de contact",
+  "settings": [
+    { "type": "select", "id": "mode", "label": "Usage", "default": "contact", "options": [ { "value": "contact", "label": "Contact" }, { "value": "withdrawal", "label": "Rétractation" } ] }
+  ]
+}
+{% endschema %}

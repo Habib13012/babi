@@ -1,0 +1,8 @@
+<article class="page-width section" style="padding-top: 3.5rem">
+  <h1 class="display" style="font-size: 3rem">{{ article.title }}</h1>
+  <p class="small muted" style="margin-top: 1rem">{{ article.published_at | date: '%d/%m/%Y' }}</p>
+  <div class="rte" style="max-width: 46rem; margin-top: 2rem">{{ article.content }}</div>
+</article>
+{% schema %}
+{ "name": "Article" }
+{% endschema %}

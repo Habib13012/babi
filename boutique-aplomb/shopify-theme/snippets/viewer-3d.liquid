@@ -1,0 +1,21 @@
+{%- comment -%}
+  Visionneuse 3D. Paramètres : id, mode ('hero' | 'story'), color, model_url, swatches (chaîne "Nom:#hex,Nom:#hex"), proto (bool).
+{%- endcomment -%}
+<div class="viewer" data-aplomb-viewer>
+  <div class="viewer__stage">
+    <div class="aplomb-3d" data-aplomb-3d data-mode="{{ mode | default: 'hero' }}" data-color="{{ color | default: '#C9CCD1' }}"{% if model_url != blank %} data-model-url="{{ model_url }}"{% endif %}></div>
+    <div class="viewer__poster" aria-hidden="false">{% render 'stand-illustration', id: id, color: color %}</div>
+  </div>
+  <div class="viewer__meta">
+    {%- if proto -%}<p class="proto-note">Prototype 3D — rendu indicatif, non contractuel</p>{%- endif -%}
+    {%- if swatches != blank -%}
+      <div class="swatches" role="radiogroup" aria-label="Finition affichée en 3D">
+        {%- assign pairs = swatches | split: ',' -%}
+        {%- for pair in pairs -%}
+          {%- assign parts = pair | split: ':' -%}
+          <button type="button" class="swatch-btn" role="radio" aria-checked="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="Afficher la finition {{ parts[0] | strip | escape }}" data-swatch="{{ parts[1] | strip }}" style="background: {{ parts[1] | strip }}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>

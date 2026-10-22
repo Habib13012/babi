@@ -1,0 +1,41 @@
+<header class="header" data-header>
+  <div class="page-width header__inner">
+    <a href="{{ routes.root_url }}" class="header__logo" aria-label="{{ shop.name | escape }} — accueil">{% render 'logo' %}</a>
+    <nav class="header__nav" aria-label="Navigation principale">
+      <ul>
+        {%- for link in section.settings.menu.links -%}
+          <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title | escape }}</a></li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+    <div class="header__actions">
+      <a href="{{ routes.cart_url }}" class="icon-btn" aria-label="Panier, {{ cart.item_count }} article(s)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1.2 11.1a1 1 0 0 1-1 .9H7.2a1 1 0 0 1-1-.9L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+        <span>Panier</span>
+        <span class="cart-count" data-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+      </a>
+      <button type="button" class="icon-btn menu-toggle" aria-expanded="false" aria-controls="menu-mobile" data-menu-toggle>
+        <span class="visually-hidden" data-label>Ouvrir le menu</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="menu-mobile" class="mobile-nav" hidden>
+    <nav class="page-width" aria-label="Navigation mobile">
+      <ul>
+        {%- for link in section.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{%- endfor -%}
+        <li><a href="{{ routes.cart_url }}">Panier</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "En-tête",
+  "class": "section-header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

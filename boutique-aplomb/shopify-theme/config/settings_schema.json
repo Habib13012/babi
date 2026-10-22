@@ -1,0 +1,44 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Aplomb",
+    "theme_version": "1.0.0",
+    "theme_author": "Aplomb",
+    "theme_documentation_url": "https://shopify.dev/docs/storefronts/themes",
+    "theme_support_url": "https://help.shopify.com"
+  },
+  {
+    "name": "Mise en ligne",
+    "settings": [
+      { "type": "checkbox", "id": "store_in_preparation", "label": "Boutique en préparation (bandeau + noindex)", "default": true, "info": "Décochez uniquement quand toutes les informations réelles sont renseignées." },
+      { "type": "text", "id": "preparation_message", "label": "Message du bandeau", "default": "Site en préparation — informations en cours de vérification, aucune vente ouverte." }
+    ]
+  },
+  {
+    "name": "Identité du vendeur",
+    "settings": [
+      { "type": "paragraph", "content": "Ne saisissez que des informations réelles. Les champs vides s'affichent « [À compléter] » sur le site." },
+      { "type": "text", "id": "legal_name", "label": "Dénomination sociale ou nom de l'entrepreneur" },
+      { "type": "textarea", "id": "legal_address", "label": "Adresse postale" },
+      { "type": "text", "id": "contact_email", "label": "E-mail de contact" },
+      { "type": "text", "id": "contact_phone", "label": "Téléphone" }
+    ]
+  },
+  {
+    "name": "Informations commerciales",
+    "settings": [
+      { "type": "paragraph", "content": "Ces textes doivent correspondre EXACTEMENT aux réglages Shopify (Paramètres › Expédition et livraison, Politiques) et à Google Merchant Center." },
+      { "type": "text", "id": "tax_note", "label": "Mention de prix", "default": "Prix toutes taxes comprises. Livraison en sus.", "info": "Micro-entreprise en franchise : « Prix final — TVA non applicable, art. 293 B du CGI. Livraison en sus. »" },
+      { "type": "text", "id": "shipping_summary", "label": "Tarif et délai de livraison", "info": "Ex. « Colissimo suivi — 5,90 € — expédition sous 1 à 2 jours ouvrés, livraison en 2 à 3 jours ouvrés »" },
+      { "type": "text", "id": "shipping_zone", "label": "Zone de livraison", "default": "France métropolitaine uniquement" },
+      { "type": "text", "id": "ships_from", "label": "Lieu d'expédition (ville, pays)" },
+      { "type": "select", "id": "returns_paid_by", "label": "Frais de retour", "default": "unset", "options": [
+        { "value": "unset", "label": "Non renseigné" },
+        { "value": "customer", "label": "À la charge du client" },
+        { "value": "seller", "label": "Pris en charge par la boutique" }
+      ] },
+      { "type": "text", "id": "payment_methods", "label": "Moyens de paiement réellement activés", "info": "Ex. « Carte bancaire, Apple Pay, Google Pay (Shopify Payments) »" },
+      { "type": "range", "id": "max_quantity", "label": "Quantité maximale proposée par article", "min": 1, "max": 10, "step": 1, "default": 5 }
+    ]
+  }
+]

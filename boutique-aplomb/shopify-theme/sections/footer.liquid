@@ -1,0 +1,50 @@
+<footer class="footer">
+  <div class="page-width footer__grid">
+    <div class="stack-sm">
+      <div class="footer__logo">{% render 'logo', tone: 'chalk' %}</div>
+      {%- if section.settings.tagline != blank -%}<p class="small">{{ section.settings.tagline }}</p>{%- endif -%}
+      <address>
+        {%- if settings.legal_name != blank -%}{{ settings.legal_name }}{%- else -%}{% render 'missing', label: 'identité du vendeur' %}{%- endif -%}<br>
+        {%- if settings.legal_address != blank -%}{{ settings.legal_address }}{%- else -%}{% render 'missing', label: 'adresse' %}{%- endif -%}<br>
+        {%- if settings.contact_email != blank -%}{{ settings.contact_email }}{%- else -%}{% render 'missing', label: 'e-mail' %}{%- endif -%} ·
+        {% if settings.contact_phone != blank -%}{{ settings.contact_phone }}{%- else -%}{% render 'missing', label: 'téléphone' %}{%- endif -%}
+      </address>
+    </div>
+    {%- for block in section.blocks -%}
+      <nav aria-label="{{ block.settings.title | escape }}" {{ block.shopify_attributes }}>
+        <h2>{{ block.settings.title }}</h2>
+        <ul>{%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>{%- endfor -%}</ul>
+      </nav>
+    {%- endfor -%}
+    <nav aria-label="Informations légales">
+      <h2>Informations légales</h2>
+      <ul>
+        {%- for policy in shop.policies -%}<li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>{%- endfor -%}
+        {%- if shop.policies.size == 0 -%}<li>{% render 'missing', label: 'politiques Shopify (Paramètres › Politiques)' %}</li>{%- endif -%}
+      </ul>
+    </nav>
+  </div>
+  <div class="footer__bottom">
+    <div class="page-width">
+      <p>© {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ settings.tax_note }}</p>
+      <p>Paiement sécurisé par Shopify. Aucune donnée bancaire n'est stockée par {{ shop.name }}.</p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Pied de page",
+  "settings": [
+    { "type": "text", "id": "tagline", "label": "Accroche", "default": "Un seul objet, conçu pour remettre l'écran à la bonne hauteur." }
+  ],
+  "blocks": [
+    { "type": "menu", "name": "Menu", "settings": [
+      { "type": "text", "id": "title", "label": "Titre", "default": "Boutique" },
+      { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+    ] }
+  ],
+  "max_blocks": 2,
+  "default": { "blocks": [ { "type": "menu", "settings": { "title": "Boutique" } } ] }
+}
+{% endschema %}

@@ -1,0 +1,18 @@
+{%- comment -%}
+  Informations essentielles avant achat, issues des réglages du thème (Paramètres du thème › Informations commerciales).
+  Elles doivent correspondre EXACTEMENT aux réglages Shopify (Livraison, Politiques) et à Merchant Center.
+{%- endcomment -%}
+<dl class="dl">
+  <div><dt>Disponibilité</dt><dd>{% if product.available %}En stock{% else %}Indisponible pour le moment{% endif %}</dd></div>
+  <div><dt>Livraison</dt><dd>
+    {%- if settings.shipping_summary != blank -%}{{ settings.shipping_summary }}{%- else -%}{% render 'missing', label: 'tarif et délai de livraison' %}{%- endif -%}
+  </dd></div>
+  <div><dt>Zone</dt><dd>{% if settings.shipping_zone != blank %}{{ settings.shipping_zone }}{% else %}{% render 'missing', label: 'zone de livraison' %}{% endif %}</dd></div>
+  <div><dt>Expédié depuis</dt><dd>{% if settings.ships_from != blank %}{{ settings.ships_from }}{% else %}{% render 'missing', label: "lieu d'expédition" %}{% endif %}</dd></div>
+  <div><dt>Retours</dt><dd>
+    14 jours pour changer d'avis après réception,
+    {% if settings.returns_paid_by == 'customer' %}frais de retour à votre charge{% elsif settings.returns_paid_by == 'seller' %}frais de retour pris en charge par nous{% else %}{% render 'missing', label: 'prise en charge des frais de retour' %}{% endif %}.
+    {%- if shop.refund_policy %} <a class="link" href="{{ shop.refund_policy.url }}">Détails</a>{% endif -%}
+  </dd></div>
+  <div><dt>Paiement</dt><dd>{% if settings.payment_methods != blank %}{{ settings.payment_methods }}{% else %}{% render 'missing', label: 'moyens de paiement activés' %}{% endif %}</dd></div>
+</dl>

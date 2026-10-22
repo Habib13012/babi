@@ -1,0 +1,52 @@
+<section class="section section--chalk" aria-labelledby="t-{{ section.id }}">
+  <div class="page-width">
+    <div class="reveal" style="max-width: 42rem; margin-bottom: 3rem">
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 id="t-{{ section.id }}" class="h2" style="margin-top: 1rem">{{ section.settings.title }}</h2>
+    </div>
+    <div class="story" data-story>
+      <div class="story__stage">
+        <div class="story__frame">
+          <div class="aplomb-3d" data-aplomb-3d data-mode="story" data-color="{{ section.settings.color }}"{% if section.settings.model_url != blank %} data-model-url="{{ section.settings.model_url }}"{% endif %}></div>
+          <div class="viewer__poster">{% render 'stand-illustration', id: section.id, color: section.settings.color %}</div>
+          {%- if section.settings.prototype_notice -%}<p class="proto-note story__note">Prototype 3D — rendu indicatif, non contractuel</p>{%- endif -%}
+          <ol class="story__dots" aria-hidden="true">{%- for block in section.blocks -%}<li data-story-dot{% if forloop.first %} class="is-active"{% endif %}></li>{%- endfor -%}</ol>
+        </div>
+      </div>
+      <ol class="story__steps">
+        {%- for block in section.blocks -%}
+          <li class="story__step{% if forloop.first %} is-active{% endif %}" data-story-step="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            <p class="eyebrow">{{ block.settings.eyebrow }}</p>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.body }}</p>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Récit 3D au défilement",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "En détail" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Quatre gestes, un seul objet." },
+    { "type": "color", "id": "color", "label": "Couleur du prototype 3D", "default": "#C9CCD1" },
+    { "type": "url", "id": "model_url", "label": "URL d'un modèle GLB réel" },
+    { "type": "checkbox", "id": "prototype_notice", "label": "Afficher « Prototype 3D — rendu indicatif »", "default": true }
+  ],
+  "blocks": [ { "type": "step", "name": "Étape", "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "body", "label": "Texte" }
+  ] } ],
+  "max_blocks": 4,
+  "presets": [ { "name": "Récit 3D", "blocks": [
+    { "type": "step", "settings": { "eyebrow": "01 — Replié", "title": "À plat quand vous partez.", "body": "Les deux articulations se referment l'une sur l'autre : le support se range à plat dans un tiroir, une housse ou un sac." } },
+    { "type": "step", "settings": { "eyebrow": "02 — Articulations", "title": "Une hauteur pour chaque bureau.", "body": "Le bras avant et le plateau se règlent indépendamment pour rapprocher le haut de l'écran de la ligne des yeux." } },
+    { "type": "step", "settings": { "eyebrow": "03 — Plateau ajouré", "title": "L'air passe dessous.", "body": "Les lames du plateau laissent circuler l'air sous l'ordinateur. Aucun ventilateur : c'est une ventilation passive." } },
+    { "type": "step", "settings": { "eyebrow": "04 — Patins", "title": "Il reste en place.", "body": "Des patins antidérapants sous la base et sur le plateau limitent le glissement et protègent les surfaces." } }
+  ] } ]
+}
+{% endschema %}

@@ -1,0 +1,35 @@
+<section class="page-width section" aria-labelledby="t-{{ section.id }}">
+  <div class="reveal" style="max-width: 42rem">
+    <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+    <h2 id="t-{{ section.id }}" class="h2" style="margin-top: 1rem">{{ section.settings.title }}</h2>
+  </div>
+  <ul class="benefits">
+    {%- for block in section.blocks -%}
+      <li class="card benefit reveal" {{ block.shopify_attributes }}>
+        <span class="benefit__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+        <h3>{{ block.settings.title }}</h3>
+        <p>{{ block.settings.body }}</p>
+      </li>
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Bénéfices",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Ce qu'il fait" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Un objet simple, réglé pour le travail de tous les jours." }
+  ],
+  "blocks": [ { "type": "benefit", "name": "Bénéfice", "settings": [
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "body", "label": "Texte (vérifiable, sans promesse santé)" }
+  ] } ],
+  "max_blocks": 6,
+  "presets": [ { "name": "Bénéfices", "blocks": [
+    { "type": "benefit", "settings": { "title": "L'écran plus haut", "body": "Plusieurs hauteurs pour rapprocher le haut de l'écran de la ligne des yeux, selon votre taille et votre siège." } },
+    { "type": "benefit", "settings": { "title": "Repliable", "body": "Les deux articulations se referment : le support se range à plat dans un tiroir ou une housse." } },
+    { "type": "benefit", "settings": { "title": "Ouvert à l'air", "body": "Le plateau ajouré laisse circuler l'air sous l'ordinateur. Ce n'est pas un système de refroidissement actif." } }
+  ] } ]
+}
+{% endschema %}

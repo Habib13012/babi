@@ -1,0 +1,124 @@
+{%- comment -%}
+  Page produit. Les données structurées Product/Offer sont générées par Shopify ({{ product | structured_data }}),
+  à partir des mêmes prix, stocks et variantes que la page et le flux Google : aucune note ni avis n'est ajouté.
+{%- endcomment -%}
+<script type="application/ld+json">{{ product | structured_data }}</script>
+
+<div class="page-width" style="padding-top: 1.5rem">
+  <nav aria-label="Fil d'Ariane" class="small muted"><a href="{{ routes.root_url }}">Accueil</a> / <span aria-current="page">{{ product.title }}</span></nav>
+</div>
+
+<section class="page-width product-grid">
+  <div class="product-grid__media stack">
+    <div class="gallery">
+      {%- if product.media.size > 0 -%}
+        {%- assign main_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+        <div class="card">{{ main_media.preview_image | image_url: width: 1400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 1024px) 50vw, 100vw', alt: main_media.alt }}</div>
+        {%- if product.media.size > 1 -%}
+          <ul class="gallery__thumbs">
+            {%- for media in product.media -%}
+              {%- unless media.id == main_media.id -%}
+                <li class="card">{{ media.preview_image | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '(min-width: 1024px) 16vw, 33vw', alt: media.alt }}</li>
+              {%- endunless -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      {%- else -%}
+        <div class="card" style="position: relative; aspect-ratio: 4/3; display: grid; place-items: center">
+          {% render 'stand-illustration', id: 'gallery' %}
+          <p style="position: absolute; bottom: 1rem" class="small">{% render 'missing', label: 'photos réelles du produit' %}</p>
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="card" style="padding: 1rem">
+      {% render 'viewer-3d', id: section.id, mode: 'hero', color: section.settings.color, model_url: section.settings.model_url, swatches: section.settings.swatches, proto: section.settings.prototype_notice %}
+    </div>
+  </div>
+
+  <div class="stack">
+    <div class="stack-sm">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h1 class="display" style="font-size: clamp(2.5rem, 2rem + 2vw, 3.75rem)">{{ product.title }}</h1>
+    </div>
+    {% render 'price', product: product %}
+    {% render 'product-form', product: product, swatches: section.settings.swatches %}
+    {% render 'offer-summary', product: product %}
+
+    <div class="stack-sm">
+      <h2 class="h3">Description</h2>
+      <div class="rte">{{ product.description }}</div>
+    </div>
+
+    {%- assign specs = section.blocks | where: 'type', 'spec' -%}
+    <div id="caracteristiques" class="stack-sm" style="scroll-margin-top: 7rem">
+      <h2 class="h3">Caractéristiques</h2>
+      {%- if specs.size > 0 -%}
+        <dl class="dl specs">
+          {%- for block in specs -%}
+            <div {{ block.shopify_attributes }}><dt>{{ block.settings.label }}</dt><dd>{{ block.settings.value }}{% unless block.settings.verified %}<span class="tag">à confirmer</span>{% endunless %}</dd></div>
+          {%- endfor -%}
+        </dl>
+      {%- else -%}
+        <p>{% render 'missing', label: 'caractéristiques techniques confirmées' %}</p>
+      {%- endif -%}
+    </div>
+
+    {%- assign box = section.blocks | where: 'type', 'box_item' -%}
+    <div class="stack-sm">
+      <h2 class="h3">Contenu du colis</h2>
+      {%- if box.size > 0 -%}
+        <dl class="dl specs">
+          {%- for block in box -%}
+            <div {{ block.shopify_attributes }}><dt>{{ block.settings.label }}</dt><dd>{{ block.settings.value }}{% unless block.settings.verified %}<span class="tag">à confirmer</span>{% endunless %}</dd></div>
+          {%- endfor -%}
+        </dl>
+      {%- else -%}
+        <p>{% render 'missing', label: 'contenu exact du colis' %}</p>
+      {%- endif -%}
+      {%- if section.settings.not_included != blank -%}<p class="small muted">Non inclus : {{ section.settings.not_included }}</p>{%- endif -%}
+    </div>
+
+    <div class="stack-sm">
+      <h2 class="h3">Sécurité et traçabilité</h2>
+      <dl class="dl">
+        <div><dt>Fabricant</dt><dd>{% if section.settings.manufacturer != blank %}{{ section.settings.manufacturer }}{% else %}{% render 'missing', label: 'nom, adresse et contact du fabricant' %}{% endif %}</dd></div>
+        <div><dt>Responsable UE</dt><dd>{% if section.settings.eu_responsible != blank %}{{ section.settings.eu_responsible }}{% else %}{% render 'missing', label: 'personne responsable dans l’UE' %}{% endif %}</dd></div>
+        <div><dt>Fabriqué en</dt><dd>{% if section.settings.origin != blank %}{{ section.settings.origin }}{% else %}{% render 'missing', label: 'pays de fabrication' %}{% endif %}</dd></div>
+        <div><dt>Référence</dt><dd>{% for v in product.variants %}{{ v.sku | default: '—' }}{% unless forloop.last %}, {% endunless %}{% endfor %}</dd></div>
+        <div><dt>Consignes</dt><dd>{% if section.settings.safety != blank %}<div class="rte">{{ section.settings.safety }}</div>{% else %}{% render 'missing', label: 'consignes de sécurité du fabricant' %}{% endif %}</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Fiche produit",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Support d'ordinateur portable en aluminium" },
+    { "type": "text", "id": "swatches", "label": "Couleurs des variantes (Nom:#hex)", "default": "Argent:#C9CCD1,Graphite:#4A4D52" },
+    { "type": "text", "id": "not_included", "label": "Non inclus", "default": "ordinateur portable, clavier, souris." },
+    { "type": "header", "content": "Sécurité produit (RGSP, UE 2023/988)" },
+    { "type": "text", "id": "manufacturer", "label": "Fabricant : nom, adresse postale, contact" },
+    { "type": "text", "id": "eu_responsible", "label": "Personne responsable dans l'UE (si fabricant hors UE)" },
+    { "type": "text", "id": "origin", "label": "Pays de fabrication" },
+    { "type": "richtext", "id": "safety", "label": "Avertissements et consignes de sécurité" },
+    { "type": "header", "content": "3D" },
+    { "type": "color", "id": "color", "label": "Couleur du prototype", "default": "#C9CCD1" },
+    { "type": "url", "id": "model_url", "label": "URL d'un modèle GLB réel" },
+    { "type": "checkbox", "id": "prototype_notice", "label": "Afficher « Prototype 3D — rendu indicatif »", "default": true }
+  ],
+  "blocks": [
+    { "type": "spec", "name": "Caractéristique", "settings": [
+      { "type": "text", "id": "label", "label": "Libellé" },
+      { "type": "text", "id": "value", "label": "Valeur" },
+      { "type": "checkbox", "id": "verified", "label": "Vérifiée (fiche technique ou mesure sur échantillon)", "default": false }
+    ] },
+    { "type": "box_item", "name": "Élément du colis", "settings": [
+      { "type": "text", "id": "label", "label": "Élément" },
+      { "type": "text", "id": "value", "label": "Quantité", "default": "1" },
+      { "type": "checkbox", "id": "verified", "label": "Vérifié sur un colis réel", "default": false }
+    ] }
+  ]
+}
+{% endschema %}

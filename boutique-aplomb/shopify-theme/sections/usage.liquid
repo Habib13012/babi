@@ -1,0 +1,40 @@
+<section class="page-width section" aria-labelledby="t-{{ section.id }}">
+  <div class="split">
+    <div class="reveal stack">
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 id="t-{{ section.id }}" class="h2">{{ section.settings.title }}</h2>
+      {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+    <ol class="steps-grid">
+      {%- for block in section.blocks -%}
+        <li class="reveal" {{ block.shopify_attributes }}>
+          <span class="step-label">Étape {{ forloop.index }}</span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.body }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Utilisation",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Utilisation" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Installé en quelques secondes." },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Pour une utilisation prolongée en position surélevée, un clavier et une souris séparés sont recommandés (non inclus)." }
+  ],
+  "blocks": [ { "type": "step", "name": "Étape", "settings": [
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "body", "label": "Texte" }
+  ] } ],
+  "max_blocks": 6,
+  "presets": [ { "name": "Utilisation", "blocks": [
+    { "type": "step", "settings": { "title": "Dépliez", "body": "Ouvrez la base puis le plateau jusqu'au cran souhaité." } },
+    { "type": "step", "settings": { "title": "Posez", "body": "Placez l'ordinateur contre la butée avant du plateau." } },
+    { "type": "step", "settings": { "title": "Ajustez", "body": "Réglez la hauteur pour que le haut de l'écran arrive à hauteur des yeux." } },
+    { "type": "step", "settings": { "title": "Repliez", "body": "Refermez les deux articulations pour le ranger à plat." } }
+  ] } ]
+}
+{% endschema %}

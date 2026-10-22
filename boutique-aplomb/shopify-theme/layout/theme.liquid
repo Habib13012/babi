@@ -1,0 +1,41 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#f5f2ec">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="icon" type="image/svg+xml" href="{{ 'favicon.svg' | asset_url }}">
+    {{ 'fraunces-latin.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: true }}
+    {{ 'manrope-latin.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: true }}
+    <meta name="aplomb-3d-src" content="{{ 'aplomb-3d.js' | asset_url }}">
+
+    <title>{{ page_title }}{% if current_page != 1 %} – page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} · {{ shop.name }}{% endunless %}</title>
+    {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+    {% if settings.store_in_preparation %}<meta name="robots" content="noindex, nofollow">{% endif %}
+
+    {% render 'meta-tags' %}
+
+    <style>
+      @font-face { font-family: "Fraunces"; src: url("{{ 'fraunces-latin.woff2' | asset_url }}") format("woff2"); font-weight: 100 900; font-display: swap; }
+      @font-face { font-family: "Manrope"; src: url("{{ 'manrope-latin.woff2' | asset_url }}") format("woff2"); font-weight: 200 800; font-display: swap; }
+    </style>
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body>
+    <a class="skip-link" href="#MainContent">Aller au contenu</a>
+    {% if settings.store_in_preparation %}
+      <div class="announcement" role="note">{{ settings.preparation_message }}</div>
+    {% endif %}
+    {% sections 'header-group' %}
+    <main id="MainContent" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+    {% sections 'footer-group' %}
+  </body>
+</html>

@@ -1,0 +1,197 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-3d",
+      "settings": {}
+    },
+    "benefits": {
+      "type": "benefits",
+      "settings": {},
+      "blocks": {
+        "benefit-1": {
+          "type": "benefit",
+          "settings": {
+            "title": "L'écran plus haut",
+            "body": "Plusieurs hauteurs pour rapprocher le haut de l'écran de la ligne des yeux, selon votre taille et votre siège."
+          }
+        },
+        "benefit-2": {
+          "type": "benefit",
+          "settings": {
+            "title": "Repliable",
+            "body": "Les deux articulations se referment : le support se range à plat dans un tiroir ou une housse."
+          }
+        },
+        "benefit-3": {
+          "type": "benefit",
+          "settings": {
+            "title": "Ouvert à l'air",
+            "body": "Le plateau ajouré laisse circuler l'air sous l'ordinateur. Ce n'est pas un système de refroidissement actif."
+          }
+        }
+      },
+      "block_order": [
+        "benefit-1",
+        "benefit-2",
+        "benefit-3"
+      ]
+    },
+    "story": {
+      "type": "story-3d",
+      "settings": {},
+      "blocks": {
+        "step-1": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "01 — Replié",
+            "title": "À plat quand vous partez.",
+            "body": "Les deux articulations se referment l'une sur l'autre : le support se range à plat dans un tiroir, une housse ou un sac."
+          }
+        },
+        "step-2": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "02 — Articulations",
+            "title": "Une hauteur pour chaque bureau.",
+            "body": "Le bras avant et le plateau se règlent indépendamment pour rapprocher le haut de l'écran de la ligne des yeux."
+          }
+        },
+        "step-3": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "03 — Plateau ajouré",
+            "title": "L'air passe dessous.",
+            "body": "Les lames du plateau laissent circuler l'air sous l'ordinateur. Aucun ventilateur : c'est une ventilation passive."
+          }
+        },
+        "step-4": {
+          "type": "step",
+          "settings": {
+            "eyebrow": "04 — Patins",
+            "title": "Il reste en place.",
+            "body": "Des patins antidérapants sous la base et sur le plateau limitent le glissement et protègent les surfaces."
+          }
+        }
+      },
+      "block_order": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ]
+    },
+    "usage": {
+      "type": "usage",
+      "settings": {},
+      "blocks": {
+        "step-1": {
+          "type": "step",
+          "settings": {
+            "title": "Dépliez",
+            "body": "Ouvrez la base puis le plateau jusqu'au cran souhaité."
+          }
+        },
+        "step-2": {
+          "type": "step",
+          "settings": {
+            "title": "Posez",
+            "body": "Placez l'ordinateur contre la butée avant du plateau."
+          }
+        },
+        "step-3": {
+          "type": "step",
+          "settings": {
+            "title": "Ajustez",
+            "body": "Réglez la hauteur pour que le haut de l'écran arrive à hauteur des yeux."
+          }
+        },
+        "step-4": {
+          "type": "step",
+          "settings": {
+            "title": "Repliez",
+            "body": "Refermez les deux articulations pour le ranger à plat."
+          }
+        }
+      },
+      "block_order": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4"
+      ]
+    },
+    "audience": {
+      "type": "audience",
+      "settings": {}
+    },
+    "offer": {
+      "type": "offer",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {},
+      "blocks": {
+        "question-1": {
+          "type": "question",
+          "settings": {
+            "question": "Quels ordinateurs sont compatibles ?",
+            "answer": "<p>Les limites de taille et de poids sont indiquées dans les caractéristiques de la fiche produit. En cas de doute, écrivez-nous avec le modèle de votre ordinateur avant de commander.</p>"
+          }
+        },
+        "question-2": {
+          "type": "question",
+          "settings": {
+            "question": "Puis-je retourner le produit ?",
+            "answer": "<p>Oui. Vous disposez de 14 jours après réception pour vous rétracter, sans avoir à vous justifier. Nous vous remboursons au plus tard 14 jours après votre demande (nous pouvons attendre la réception du produit ou la preuve de son expédition).</p>"
+          }
+        },
+        "question-3": {
+          "type": "question",
+          "settings": {
+            "question": "Le support soulage-t-il les douleurs de dos ou de nuque ?",
+            "answer": "<p>Socle 01 n'est pas un dispositif médical et ne traite aucune douleur. Il permet de surélever l'écran ; pour toute douleur persistante, consultez un professionnel de santé.</p>"
+          }
+        },
+        "question-4": {
+          "type": "question",
+          "settings": {
+            "question": "Le rendu 3D correspond-il exactement au produit ?",
+            "answer": "<p>Non. Le modèle 3D est un prototype indicatif qui illustre le principe de fonctionnement. Les photos et les caractéristiques font foi.</p>"
+          }
+        },
+        "question-5": {
+          "type": "question",
+          "settings": {
+            "question": "Quelle garantie s'applique ?",
+            "answer": "<p>Vous bénéficiez de la garantie légale de conformité (2 ans à compter de la livraison) et de la garantie contre les vices cachés. Aucune garantie commerciale supplémentaire n'est proposée.</p>"
+          }
+        },
+        "question-6": {
+          "type": "question",
+          "settings": {
+            "question": "Mes données bancaires sont-elles stockées ?",
+            "answer": "<p>Non. Le paiement est traité par Shopify ; nous n'avons jamais accès à vos numéros de carte.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question-1",
+        "question-2",
+        "question-3",
+        "question-4",
+        "question-5",
+        "question-6"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "benefits",
+    "story",
+    "usage",
+    "audience",
+    "offer",
+    "faq"
+  ]
+}

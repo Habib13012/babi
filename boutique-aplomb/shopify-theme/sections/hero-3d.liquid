@@ -1,0 +1,44 @@
+{%- assign product = section.settings.product | default: collections.all.products.first -%}
+<section class="hero" aria-labelledby="hero-title-{{ section.id }}">
+  <div class="page-width hero__grid">
+    <div class="stack rise">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h1 id="hero-title-{{ section.id }}" class="display">{{ section.settings.title }}</h1>
+      <p class="lead">{{ section.settings.subtitle | default: product.description | strip_html | truncate: 180 }}</p>
+      {%- if product != blank -%}
+        {% render 'price', product: product %}
+        <div class="hero__actions">
+          <div>{% render 'product-form', product: product, compact: true %}</div>
+          <a href="{{ product.url }}" class="btn btn--ghost">Découvrir le produit</a>
+        </div>
+      {%- else -%}
+        <p>{% render 'missing', label: 'produit à sélectionner dans la section' %}</p>
+      {%- endif -%}
+      {%- if section.settings.facts != blank -%}
+        <ul class="facts">{%- assign facts = section.settings.facts | newline_to_br | split: '<br />' -%}{%- for f in facts -%}{%- assign t = f | strip -%}{%- if t != blank -%}<li>{{ t }}</li>{%- endif -%}{%- endfor -%}</ul>
+      {%- endif -%}
+    </div>
+    <div class="rise rise--late">
+      {% render 'viewer-3d', id: section.id, mode: 'hero', color: section.settings.color, model_url: section.settings.model_url, swatches: section.settings.swatches, proto: section.settings.prototype_notice %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Héro 3D",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Produit" },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "Aplomb Socle 01 · Support d'ordinateur portable en aluminium" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "L'écran à hauteur des yeux." },
+    { "type": "textarea", "id": "subtitle", "label": "Sous-titre (vide = description du produit)", "default": "Un support pliable en aluminium qui surélève l'écran de votre ordinateur portable pour le rapprocher de la hauteur des yeux." },
+    { "type": "textarea", "id": "facts", "label": "Points clés (un par ligne, uniquement des faits vérifiés)", "default": "Livraison en France métropolitaine\n14 jours pour changer d'avis\nPaiement sécurisé" },
+    { "type": "header", "content": "3D" },
+    { "type": "color", "id": "color", "label": "Couleur du prototype 3D", "default": "#C9CCD1" },
+    { "type": "text", "id": "swatches", "label": "Pastilles de finition (Nom:#hex, séparés par des virgules)", "default": "Argent:#C9CCD1,Graphite:#4A4D52" },
+    { "type": "url", "id": "model_url", "label": "URL d'un modèle GLB réel (remplace le prototype)", "info": "Téléversez le .glb dans Contenu › Fichiers et collez son URL." },
+    { "type": "checkbox", "id": "prototype_notice", "label": "Afficher « Prototype 3D — rendu indicatif »", "default": true, "info": "Ne décochez que si le modèle 3D a été vérifié face au produit réel." }
+  ],
+  "presets": [ { "name": "Héro 3D" } ]
+}
+{% endschema %}

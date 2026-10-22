@@ -1,0 +1,53 @@
+{%- comment -%}
+  Formulaire d'achat. Paramètres : product, compact (bool), swatches ("Nom:#hex,…").
+  « Acheter maintenant » ajoute au panier puis ouvre le paiement Shopify (return_to=/checkout).
+{%- endcomment -%}
+{%- assign current = product.selected_or_first_available_variant -%}
+{%- form 'product', product, data-product-form: '', class: 'stack' -%}
+  <script type="application/json" data-variants>
+    [{%- for v in product.variants -%}{"id": {{ v.id }}, "title": {{ v.title | json }}, "available": {{ v.available }}, "price": {{ v.price | money | json }}}{% unless forloop.last %},{% endunless %}{%- endfor -%}]
+  </script>
+
+  {%- if product.has_only_default_variant or compact -%}
+    <input type="hidden" name="id" value="{{ current.id }}">
+  {%- else -%}
+    <fieldset class="variant-picker">
+      <legend>{{ product.options.first }} : <span class="muted" data-selected-name>{{ current.title }}</span></legend>
+      <div class="variant-options">
+        {%- for v in product.variants -%}
+          {%- assign swatch = '' -%}
+          {%- assign pairs = swatches | split: ',' -%}
+          {%- for pair in pairs -%}
+            {%- assign parts = pair | split: ':' -%}
+            {%- assign key = parts[0] | strip | downcase -%}
+            {%- assign vt = v.title | downcase -%}
+            {%- if key == vt -%}{%- assign swatch = parts[1] | strip -%}{%- endif -%}
+          {%- endfor -%}
+          <label class="variant-option">
+            <input type="radio" name="id" value="{{ v.id }}" {% if v.id == current.id %}checked{% endif %}>
+            <span class="dot" aria-hidden="true"{% if swatch != blank %} style="background: {{ swatch }}"{% endif %}></span>
+            {{ v.title | escape }}{% unless v.available %} <span class="muted xs">— indisponible</span>{% endunless %}
+          </label>
+        {%- endfor -%}
+      </div>
+    </fieldset>
+  {%- endif -%}
+
+  <div class="buy-row">
+    {%- unless compact -%}
+      <div class="qty" data-qty role="group" aria-label="Quantité">
+        <button type="button" data-qty-minus aria-label="Diminuer la quantité">−</button>
+        <input type="number" name="quantity" value="1" min="1" max="{{ settings.max_quantity | default: 5 }}" aria-label="Quantité">
+        <button type="button" data-qty-plus aria-label="Augmenter la quantité">+</button>
+      </div>
+    {%- endunless -%}
+    <button type="submit" name="checkout" value="1" class="btn btn--primary" data-buy {% unless current.available %}disabled{% endunless %} onclick="this.form.querySelector('[name=return_to]').disabled=false">
+      {% if current.available %}Acheter maintenant{% else %}Indisponible{% endif %}
+    </button>
+    <input type="hidden" name="return_to" value="/checkout" disabled>
+    {%- unless compact -%}
+      <button type="submit" name="add" class="btn btn--ghost" data-buy {% unless current.available %}disabled{% endunless %}>Ajouter au panier</button>
+    {%- endunless -%}
+  </div>
+  <p class="small" role="status" aria-live="polite" data-status></p>
+{%- endform -%}

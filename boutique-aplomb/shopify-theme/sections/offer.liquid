@@ -1,0 +1,29 @@
+{%- assign product = section.settings.product | default: collections.all.products.first -%}
+<section id="offre" class="page-width section" aria-labelledby="t-{{ section.id }}">
+  <div class="split" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 26rem), 1fr))">
+    <div class="stack reveal">
+      <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 id="t-{{ section.id }}" class="h2">{{ section.settings.title }}</h2>
+      {%- if product != blank -%}
+        {% render 'price', product: product %}
+        {% render 'product-form', product: product, swatches: section.settings.swatches %}
+      {%- else -%}
+        <p>{% render 'missing', label: 'produit à sélectionner' %}</p>
+      {%- endif -%}
+    </div>
+    <div class="reveal">{% render 'offer-summary', product: product %}</div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Offre",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Produit" },
+    { "type": "text", "id": "eyebrow", "label": "Surtitre", "default": "L'offre" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Un prix, tout compris, affiché avant le paiement." },
+    { "type": "text", "id": "swatches", "label": "Couleurs des variantes (Nom:#hex)", "default": "Argent:#C9CCD1,Graphite:#4A4D52" }
+  ],
+  "presets": [ { "name": "Offre" } ]
+}
+{% endschema %}
