@@ -1,0 +1,158 @@
+{%- comment -%}
+  Page de vente rapide du guide, pour les publicités (modèle « product.vente », URL : /products/mon-enfant-et-les-ecrans?view=vente).
+  Sans 3D ni React : l'offre, le prix et le bouton sont visibles dès l'ouverture, même en 4G.
+{%- endcomment -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign buy_url = routes.cart_add_url | append: '?id=' | append: v.id | append: '&quantity=1'
+  assign discount = 0
+  if v.compare_at_price > v.price
+    assign discount = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+  endif
+-%}
+
+{%- capture price_block -%}
+  <p class="gv-price">
+    {%- if discount > 0 -%}<s>{{ v.compare_at_price | money }}</s>{%- endif -%}
+    <strong>{{ v.price | money }}</strong>
+    {%- if discount > 0 -%}<span class="gv-badge">-{{ discount }} %</span>{%- endif -%}
+  </p>
+{%- endcapture -%}
+
+{%- capture buy_button -%}
+  {%- if v.available -%}
+    <a class="gv-btn" href="{{ buy_url }}">Je veux le guide · {{ v.price | money }}</a>
+  {%- else -%}
+    <span class="gv-btn gv-btn--off">Bientôt disponible</span>
+  {%- endif -%}
+{%- endcapture -%}
+
+<style>
+  .gv{--c:#f4f2ec;--m:#a9b8c6;--o:#e8843c;max-width:640px;margin:0 auto;padding:12px 16px 120px;color:var(--c)}
+  .gv h1,.gv h2{letter-spacing:-.03em;line-height:1.1;margin:0}
+  .gv h1{font-size:clamp(30px,8vw,44px)}
+  .gv h2{font-size:clamp(24px,6vw,32px);margin-bottom:16px}
+  .gv em{font-family:'Instrument Serif',serif;font-weight:400;color:var(--o)}
+  .gv-eyebrow{color:var(--o);font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 10px}
+  .gv-hero{text-align:center}
+  .gv-hero p.gv-lead{color:var(--m);font-size:17px;margin:12px 0 0}
+  .gv-hero img{width:min(300px,72vw);margin:16px auto 4px;filter:drop-shadow(0 24px 40px rgba(0,0,0,.45))}
+  .gv-price{display:flex;align-items:center;justify-content:center;gap:12px;margin:8px 0 14px;font-size:18px}
+  .gv-price s{color:var(--m)}
+  .gv-price strong{font-size:34px;letter-spacing:-.03em}
+  .gv-badge{background:var(--o);color:#0b1a2b;font-weight:800;font-size:14px;padding:4px 10px;border-radius:999px}
+  .gv-btn{display:block;width:100%;background:var(--o);color:#0b1a2b;text-align:center;text-decoration:none;font-weight:800;font-size:19px;padding:18px 20px;border-radius:999px;box-shadow:0 12px 30px rgba(232,132,60,.35)}
+  .gv-btn--off{background:#3a4b5c;color:var(--m);box-shadow:none}
+  .gv-ticks{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:14px;color:var(--m)}
+  .gv-ticks li::before{content:'✓ ';color:var(--o);font-weight:800}
+  .gv-block{margin-top:48px}
+  .gv-pain p{margin:0 0 8px;font-size:18px}
+  .gv-pain p:last-child{color:var(--o);font-weight:700}
+  .gv-items{display:grid;gap:12px}
+  .gv-item{display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:center;background:rgba(244,242,236,.06);border:1px solid rgba(244,242,236,.1);border-radius:16px;padding:12px}
+  .gv-item img{width:76px;border-radius:8px}
+  .gv-item b{display:block;font-size:16px}
+  .gv-item span{color:var(--m);font-size:14px;line-height:1.45;display:block}
+  .gv-tag{color:var(--o)!important;font-weight:700;font-size:12px!important;text-transform:uppercase;letter-spacing:.12em}
+  .gv-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+  .gv-steps div{background:rgba(244,242,236,.06);border-radius:16px;padding:14px 8px}
+  .gv-steps b{display:block;color:var(--o);font-size:13px;text-transform:uppercase;letter-spacing:.1em}
+  .gv-steps span{font-size:14px;color:var(--m)}
+  .gv-reviews{display:grid;gap:12px}
+  .gv-review{background:rgba(244,242,236,.06);border-radius:16px;padding:16px}
+  .gv-review p{margin:6px 0 0;color:var(--m);font-size:15px}
+  .gv-stars{color:var(--o);letter-spacing:2px}
+  .gv-note{font-size:12px;color:var(--m);margin-top:8px}
+  .gv details{border-bottom:1px solid rgba(244,242,236,.12);padding:14px 0}
+  .gv summary{cursor:pointer;font-weight:700;font-size:16px}
+  .gv details p{color:var(--m);margin:8px 0 0}
+  .gv-final{text-align:center}
+  .gv-sticky{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(11,26,43,.94);backdrop-filter:blur(8px);border-top:1px solid rgba(244,242,236,.1);transform:translateY(110%);transition:transform .25s}
+  .gv-sticky.on{transform:none}
+  .gv-sticky .gv-btn{max-width:608px;margin:0 auto;padding:14px 20px;font-size:17px}
+</style>
+
+<div class="gv">
+  <section class="gv-hero">
+    <p class="gv-eyebrow">Guide PDF + 3 bonus · 2 à 14 ans</p>
+    <h1>Fini les cris quand on <em>éteint l'écran</em></h1>
+    <p class="gv-lead">Le plan en 14 jours, les phrases à dire pendant la crise et des règles simples pour toute la famille.</p>
+    <img src="{{ 'book-mockup.webp' | asset_url }}" alt="Le guide Mon enfant et les écrans" width="715" height="803" fetchpriority="high">
+    {{ price_block }}
+    <div id="gv-main-buy">{{ buy_button }}</div>
+    <ul class="gv-ticks">
+      <li>Accès immédiat par e-mail</li>
+      <li>Lisible sur téléphone</li>
+      <li>Paiement sécurisé</li>
+    </ul>
+  </section>
+
+  <section class="gv-block gv-pain">
+    <h2>Vous connaissez ce moment ?</h2>
+    <p>Il est l'heure d'éteindre. Vous le dites calmement.</p>
+    <p>Il négocie, il pleure, il crie. Vous finissez par crier aussi.</p>
+    <p>Ce guide est né pour ce moment-là.</p>
+  </section>
+
+  <section class="gv-block">
+    <h2>Ce que vous recevez</h2>
+    <div class="gv-items">
+      <div class="gv-item"><img src="{{ 'sommaire.jpg' | asset_url }}" alt="" loading="lazy" width="76" height="108"><div><span class="gv-tag">Guide</span><b>Le guide PDF de 25 pages</b><span>8 chapitres courts, à lire en une soirée. Des repères par âge et les phrases prêtes à dire.</span></div></div>
+      <div class="gv-item"><img src="{{ 'affiche-defi-14-jours.jpg' | asset_url }}" alt="" loading="lazy" width="76" height="108"><div><span class="gv-tag">Plan</span><b>Le plan en 14 jours</b><span>Un pas par jour : observer, préparer, appliquer.</span></div></div>
+      <div class="gv-item"><img src="{{ 'affiche-5-temps.jpg' | asset_url }}" alt="" loading="lazy" width="76" height="108"><div><span class="gv-tag">Bonus 1</span><b>3 affiches à imprimer</b><span>Le plan familial, les 5 temps quand on éteint, le défi de 14 jours.</span></div></div>
+      <div class="gv-item"><img src="{{ 'cartes-idees.jpg' | asset_url }}" alt="" loading="lazy" width="76" height="108"><div><span class="gv-tag">Bonus 2</span><b>30 cartes d'idées sans écran</b><span>À piocher quand il dit « je m'ennuie ». Classées par âge : 2–5, 6–9 et 10–14 ans.</span></div></div>
+      <div class="gv-item"><img src="{{ 'fiche-grands-parents.jpg' | asset_url }}" alt="" loading="lazy" width="76" height="108"><div><span class="gv-tag">Bonus 3</span><b>La fiche grands-parents et nounou</b><span>Pour que tout le monde applique les mêmes règles.</span></div></div>
+    </div>
+  </section>
+
+  <section class="gv-block">
+    <h2>14 jours, un pas par jour</h2>
+    <div class="gv-steps">
+      <div><b>Jours 1–3</b><span>Observer</span></div>
+      <div><b>Jours 4–7</b><span>Préparer</span></div>
+      <div><b>Jours 8–14</b><span>Appliquer</span></div>
+    </div>
+  </section>
+
+  <section class="gv-block">
+    <h2>Ce qu'en disent les parents</h2>
+    <div class="gv-reviews">
+      <div class="gv-review"><span class="gv-stars">★★★★★</span><b> Des conseils faciles à suivre</b><p>J’ai aimé la structure du guide et les étapes progressives. Cela donne des pistes concrètes pour mieux gérer les écrans à la maison. — Sophie</p></div>
+      <div class="gv-review"><span class="gv-stars">★★★★★</span><b> De bonnes idées d’activités</b><p>J’y ai trouvé des idées pour proposer davantage d’activités à mon enfant sans toujours passer par les écrans. — Julie</p></div>
+      <div class="gv-review"><span class="gv-stars">★★★★★</span><b> Clair et pratique</b><p>J’apprécie le format sur 14 jours qui permet de prendre le temps de mettre en place de nouvelles habitudes. — Émilie</p></div>
+    </div>
+    <p class="gv-note">Avis recueillis auprès de parents ayant testé le guide avant sa sortie.</p>
+  </section>
+
+  <section class="gv-block">
+    <h2>Questions fréquentes</h2>
+    <details><summary>Comment je reçois le guide ?</summary><p>Juste après le paiement, vous recevez un e-mail avec le lien de téléchargement du PDF (guide + bonus).</p></details>
+    <details><summary>Je peux le lire sur mon téléphone ?</summary><p>Oui. C'est un PDF avec un sommaire cliquable, lisible sur téléphone, tablette ou ordinateur. Les affiches et les cartes peuvent s'imprimer.</p></details>
+    <details><summary>Pour quel âge ?</summary><p>De 2 à 14 ans, avec des repères adaptés à chaque âge.</p></details>
+    <details><summary>C'est un abonnement ?</summary><p>Non. Un seul paiement de {{ v.price | money }}, le guide est à vous.</p></details>
+  </section>
+
+  <section class="gv-block gv-final">
+    <h2>Reprenez la main, <em>sans cris ni guerre</em></h2>
+    {{ price_block }}
+    {{ buy_button }}
+  </section>
+</div>
+
+<div class="gv-sticky" id="gv-sticky">{{ buy_button }}</div>
+
+<script>
+  // Bouton d'achat fixé en bas dès que le bouton principal n'est plus visible
+  (function () {
+    var main = document.getElementById('gv-main-buy'), bar = document.getElementById('gv-sticky');
+    if (!main || !bar || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (e) { bar.classList.toggle('on', !e[0].isIntersecting && e[0].boundingClientRect.top < 0); }).observe(main);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Page de vente du guide",
+  "settings": []
+}
+{% endschema %}

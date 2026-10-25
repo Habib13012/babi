@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "guide-vente",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
