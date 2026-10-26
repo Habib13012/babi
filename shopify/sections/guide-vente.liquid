@@ -35,8 +35,8 @@
   .gv em{font-family:'Instrument Serif',serif;font-weight:400;color:var(--o)}
   .gv-eyebrow{color:var(--o);font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 10px}
   .gv-hero{text-align:center}
-  .gv-hero p.gv-lead{color:var(--m);font-size:17px;margin:12px 0 0}
-  .gv-hero img{width:min(300px,72vw);margin:16px auto 4px;filter:drop-shadow(0 24px 40px rgba(0,0,0,.45))}
+  .gv-hero p.gv-lead{color:var(--m);font-size:16px;margin:10px 0 0}
+  .gv-hero img{width:min(210px,50vw);margin:10px auto 0;filter:drop-shadow(0 24px 40px rgba(0,0,0,.45))}
   .gv-price{display:flex;align-items:center;justify-content:center;gap:12px;margin:8px 0 14px;font-size:18px}
   .gv-price s{color:var(--m)}
   .gv-price strong{font-size:34px;letter-spacing:-.03em}
@@ -142,11 +142,11 @@
 <div class="gv-sticky" id="gv-sticky">{{ buy_button }}</div>
 
 <script>
-  // Bouton d'achat fixé en bas dès que le bouton principal n'est plus visible
+  // Bouton d'achat fixé en bas tant que le bouton principal n'est pas visible (petits écrans, ou après défilement)
   (function () {
     var main = document.getElementById('gv-main-buy'), bar = document.getElementById('gv-sticky');
     if (!main || !bar || !('IntersectionObserver' in window)) return;
-    new IntersectionObserver(function (e) { bar.classList.toggle('on', !e[0].isIntersecting && e[0].boundingClientRect.top < 0); }).observe(main);
+    new IntersectionObserver(function (e) { bar.classList.toggle('on', !e[0].isIntersecting); }).observe(main);
   })();
 </script>
 
