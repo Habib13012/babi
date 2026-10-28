@@ -1,0 +1,241 @@
+{%- comment -%}
+  Page de vente du lecteur de cartes parlantes (modèle « product.lecteur »).
+  Même principe que la page de vente du guide : rapide, sans 3D, offre et bouton visibles dès l'ouverture.
+  Les photos viennent du produit ; tant qu'il n'en a pas, une illustration du lecteur les remplace.
+{%- endcomment -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign discount = 0
+  if v.compare_at_price > v.price
+    assign discount = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+  endif
+  assign guide = all_products['mon-enfant-et-les-ecrans']
+-%}
+
+{%- capture price_block -%}
+  <p class="lv-price">
+    {%- if discount > 0 -%}<s>{{ v.compare_at_price | money }}</s>{%- endif -%}
+    <strong>{{ v.price | money }}</strong>
+    {%- if discount > 0 -%}<span class="lv-badge">-{{ discount }} %</span>{%- endif -%}
+  </p>
+{%- endcapture -%}
+
+{%- capture buy_label -%}
+  {%- if product.available -%}Je le veux · {{ v.price | money }}{%- else -%}Bientôt de retour{%- endif -%}
+{%- endcapture -%}
+
+<style>
+  .lv-wrap{background:#f7efe3;color:#1d2b3a}
+  .lv{--o:#e07a3a;--t:#5d9e96;--m:#5b6a77;max-width:640px;margin:0 auto;padding:16px 16px 120px}
+  .lv h1,.lv h2{letter-spacing:-.035em;line-height:1.08;margin:0;color:#1d2b3a}
+  .lv h1{font-size:clamp(28px,7.6vw,42px)}
+  .lv h2{font-size:clamp(23px,6vw,31px);margin-bottom:16px}
+  .lv em{font-family:'Instrument Serif',serif;font-weight:400;color:var(--o)}
+  .lv-eyebrow{display:inline-block;background:#ffe3d1;color:var(--o);font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:6px 14px;border-radius:999px;margin:0 0 12px}
+  .lv-hero{text-align:center}
+  .lv-lead{color:var(--m);font-size:16px;margin:10px 0 0}
+  .lv-gallery{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:14px -16px 0;padding:0 16px 6px}
+  .lv-gallery img{flex:0 0 78%;max-width:78%;height:auto;border-radius:20px;scroll-snap-align:center;background:#fff}
+  .lv-gallery img:only-child{flex-basis:100%;max-width:100%}
+  .lv-illu{width:min(170px,42vw);margin:14px auto 0;display:block}
+  .lv-gift{margin:14px 0 0;background:#fff;border:2px dashed var(--o);border-radius:16px;padding:12px 14px;font-size:15px;text-align:left}
+  .lv-gift b{color:var(--o)}
+  .lv-price{display:flex;align-items:center;justify-content:center;gap:12px;margin:14px 0 10px;font-size:18px}
+  .lv-price s{color:var(--m)}
+  .lv-price strong{font-size:34px;letter-spacing:-.03em}
+  .lv-badge{background:var(--o);color:#fff;font-weight:800;font-size:14px;padding:4px 10px;border-radius:999px}
+  .lv-colors{display:flex;justify-content:center;gap:10px;border:0;margin:0 0 12px;padding:0}
+  .lv-colors legend{width:100%;text-align:center;font-weight:700;font-size:14px;margin-bottom:8px}
+  .lv-colors label{position:relative}
+  .lv-colors input{position:absolute;opacity:0;inset:0;margin:0}
+  .lv-colors span{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;border:2px solid #e4d8c6;background:#fff;font-weight:700;font-size:15px;cursor:pointer}
+  .lv-colors span i{width:16px;height:16px;border-radius:50%;background:var(--dot,#ccc)}
+  .lv-colors input:checked+span{border-color:#1d2b3a}
+  .lv-colors input:focus-visible+span{outline:2px solid var(--o);outline-offset:2px}
+  .lv-btn{display:block;width:100%;border:0;cursor:pointer;background:var(--o);color:#fff;text-align:center;font:inherit;font-weight:800;font-size:19px;padding:18px 20px;border-radius:999px;box-shadow:0 12px 30px rgba(224,122,58,.35)}
+  .lv-btn[disabled]{background:#b9b0a4;box-shadow:none;cursor:default}
+  .lv-ticks{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:14px;color:var(--m)}
+  .lv-ticks li::before{content:'✓ ';color:var(--t);font-weight:800}
+  .lv-block{margin-top:48px}
+  .lv-pain p{margin:0 0 10px;font-size:17px;line-height:1.55}
+  .lv-pain p:last-child{color:var(--o);font-weight:700}
+  .lv-benefits{display:grid;gap:10px}
+  .lv-benefit{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;background:#fff;border-radius:16px;padding:14px}
+  .lv-benefit>span{font-size:28px;line-height:1}
+  .lv-benefit b{display:block;font-size:16px}
+  .lv-benefit p{margin:2px 0 0;color:var(--m);font-size:14px;line-height:1.45}
+  .lv-compare{width:100%;height:auto;border-radius:20px}
+  .lv-steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .lv-steps li{counter-increment:s;background:#e9f3f1;border-radius:16px;padding:14px;font-size:14px;color:var(--m)}
+  .lv-steps li::before{content:counter(s);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--t);color:#fff;font-weight:800;margin-bottom:8px}
+  .lv-steps b{display:block;color:#1d2b3a;font-size:16px}
+  .lv-box{list-style:none;padding:0;margin:0;background:#fff;border-radius:16px;padding:6px 16px}
+  .lv-box li{padding:12px 0;border-bottom:1px solid #f0e7da;font-size:15px}
+  .lv-box li:last-child{border-bottom:0}
+  .lv-cats{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .lv-cats span{background:#fff;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600}
+  .lv details{border-bottom:1px solid #e4d8c6;padding:14px 0}
+  .lv summary{cursor:pointer;font-weight:700;font-size:16px}
+  .lv details p{color:var(--m);margin:8px 0 0}
+  .lv-trust{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .lv-trust div{background:#fff;border-radius:16px;padding:14px;font-size:14px;color:var(--m)}
+  .lv-trust b{display:block;color:#1d2b3a;font-size:15px}
+  .lv-final{text-align:center}
+  .lv-sticky{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(247,239,227,.96);backdrop-filter:blur(8px);border-top:1px solid #e4d8c6;transform:translateY(110%);transition:transform .25s}
+  .lv-sticky.on{transform:none}
+  .lv-sticky .lv-btn{max-width:608px;margin:0 auto;padding:14px 20px;font-size:17px}
+</style>
+
+<div class="lv-wrap">
+<div class="lv">
+  <section class="lv-hero">
+    <p class="lv-eyebrow">Sans écran · français + anglais · 2 à 6 ans</p>
+    <h1>Il réclame la tablette ? Donne-lui des <em>mots</em>, pas des vidéos.</h1>
+    <p class="lv-lead">Il glisse une carte, il entend le mot, il le répète. 224 mots pour jouer et apprendre, loin des écrans.</p>
+
+    {%- if product.media.size > 0 -%}
+      <div class="lv-gallery">
+        {%- for m in product.media -%}
+          {%- if m.media_type == 'image' -%}
+            {%- if forloop.first -%}
+              {{ m.preview_image | image_url: width: 900 | image_tag: alt: product.title, widths: '450, 700, 900', sizes: '(min-width: 640px) 470px, 78vw', fetchpriority: 'high' }}
+            {%- else -%}
+              {{ m.preview_image | image_url: width: 900 | image_tag: alt: '', widths: '450, 700, 900', sizes: '(min-width: 640px) 470px, 78vw', loading: 'lazy' }}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <img class="lv-illu" src="{{ 'lecteur-illustration.webp' | asset_url }}" alt="Le lecteur de cartes parlantes" width="430" height="855" fetchpriority="high">
+    {%- endif -%}
+
+    {{ price_block }}
+
+    <form action="{{ routes.cart_add_url }}" method="post" id="lv-form">
+      {%- if product.has_only_default_variant -%}
+        <input type="hidden" name="id" value="{{ v.id }}">
+      {%- else -%}
+        <fieldset class="lv-colors">
+          <legend>{{ product.options.first }}</legend>
+          {%- for variant in product.variants -%}
+            {%- liquid
+              assign dot = '#cfcfcf'
+              assign t = variant.title | downcase
+              if t contains 'bleu'
+                assign dot = '#8fc7e0'
+              elsif t contains 'rose'
+                assign dot = '#f4b6c8'
+              endif
+            -%}
+            <label>
+              <input type="radio" name="id" value="{{ variant.id }}" {% if variant.id == v.id %}checked{% endif %} {% unless variant.available %}disabled{% endunless %}>
+              <span style="--dot:{{ dot }}"><i></i>{{ variant.title }}</span>
+            </label>
+          {%- endfor -%}
+        </fieldset>
+      {%- endif -%}
+      <input type="hidden" name="quantity" value="1">
+      <div id="lv-main-buy"><button type="submit" class="lv-btn" {% unless product.available %}disabled{% endunless %}>{{ buy_label }}</button></div>
+    </form>
+
+    {%- if guide != blank -%}
+      <p class="lv-gift">🎁 <b>Offert :</b> le guide « {{ guide.title | split: ' :' | first }} » ({{ guide.price | money }}), envoyé par e-mail après votre commande.</p>
+    {%- endif -%}
+
+    <ul class="lv-ticks">
+      <li>Livraison suivie offerte</li>
+      <li>Rechargeable USB</li>
+      <li>Paiement sécurisé</li>
+    </ul>
+  </section>
+
+  <section class="lv-block lv-pain">
+    <h2>Vous connaissez ce moment ?</h2>
+    <p>Vous avez besoin de 10 minutes pour cuisiner ou souffler. La tablette est là, à portée de main…</p>
+    <p>Et vous savez comment ça finit : un enfant hypnotisé, puis une crise quand il faut éteindre.</p>
+    <p>Et si ces 10 minutes devenaient un vrai moment d'éveil ?</p>
+  </section>
+
+  <section class="lv-block">
+    <h2>Pourquoi les parents l'adorent</h2>
+    <div class="lv-benefits">
+      <div class="lv-benefit"><span>📵</span><div><b>Zéro écran, 100 % éveil</b><p>Pas de lumière bleue, pas de vidéos qui s'enchaînent : il manipule, il écoute, il répète.</p></div></div>
+      <div class="lv-benefit"><span>🇫🇷</span><div><b>Bilingue dès le plus jeune âge</b><p>Chaque carte est lue en français, puis en anglais.</p></div></div>
+      <div class="lv-benefit"><span>📚</span><div><b>224 mots de son quotidien</b><p>Animaux, fruits, véhicules, couleurs, métiers, famille… 12 univers à découvrir.</p></div></div>
+      <div class="lv-benefit"><span>🧒</span><div><b>Il joue tout seul, et il est fier</b><p>Glisser la carte : un geste qu'il maîtrise en quelques minutes.</p></div></div>
+      <div class="lv-benefit"><span>🎒</span><div><b>Compact et nomade</b><p>10,8 × 9 cm : la voiture, la salle d'attente, chez mamie.</p></div></div>
+    </div>
+  </section>
+
+  <section class="lv-block">
+    <h2>15 minutes de tablette… ou de <em>mots</em> ?</h2>
+    <img class="lv-compare" src="{{ 'lecteur-comparaison.webp' | asset_url }}" alt="15 minutes de tablette : il regarde, il scrolle, crise à l'arrêt. 15 minutes de cartes parlantes : il manipule, il écoute, il parle, zéro écran." width="720" height="900" loading="lazy">
+  </section>
+
+  <section class="lv-block">
+    <h2>Comment ça marche ?</h2>
+    <ol class="lv-steps">
+      <li><b>J'allume</b>Un petit bouton sous le lecteur.</li>
+      <li><b>Je glisse une carte</b>Dans la fente du haut.</li>
+      <li><b>J'écoute</b>Le mot en français, puis en anglais.</li>
+      <li><b>Je recommence</b>« Répéter » relance le mot, le volume se règle.</li>
+    </ol>
+  </section>
+
+  <section class="lv-block">
+    <h2>Ce que vous recevez</h2>
+    <ul class="lv-box">
+      <li>🧸 1 lecteur de cartes parlant, bleu ou rose (10,8 × 9 cm)</li>
+      <li>🃏 112 cartes recto verso, soit 224 mots (9 × 6 cm)</li>
+      <li>🔌 1 câble USB de recharge</li>
+      <li>📖 1 livret d'instructions en français</li>
+      {%- if guide != blank -%}<li>🎁 Le guide PDF « Mon enfant et les écrans », offert</li>{%- endif -%}
+    </ul>
+    <div class="lv-cats">
+      <span>Animaux · 56</span><span>Objets du quotidien · 31</span><span>Véhicules · 25</span><span>Nourriture · 21</span><span>Fruits · 18</span><span>Légumes · 17</span><span>Vêtements · 16</span><span>Nature · 10</span><span>Couleurs · 9</span><span>Métiers · 8</span><span>Famille · 8</span><span>Formes · 5</span>
+    </div>
+  </section>
+
+  <section class="lv-block">
+    <h2>Questions fréquentes</h2>
+    <details><summary>À partir de quel âge ?</summary><p>Idéal de 2 à 6 ans. Les plus petits adorent le geste et les sons, les plus grands y apprennent leurs premiers mots d'anglais. Utilisation sous la surveillance d'un adulte.</p></details>
+    <details><summary>Comment le recharger ?</summary><p>Avec le câble USB fourni, sur un chargeur de téléphone ou un ordinateur. Pas de piles à acheter.</p></details>
+    <details><summary>Mon enfant peut-il l'utiliser tout seul ?</summary><p>Oui ! Le geste est très simple : glisser la carte. La plupart des enfants l'ont compris en quelques minutes.</p></details>
+    <details><summary>Quand vais-je le recevoir ?</summary><p>La livraison est suivie et offerte. Vous recevez le numéro de suivi par e-mail dès l'expédition.</p></details>
+    {%- if guide != blank -%}<details><summary>Comment je reçois le guide offert ?</summary><p>Par e-mail, juste après votre commande, avec le lien de téléchargement du PDF.</p></details>{%- endif -%}
+  </section>
+
+  <section class="lv-block">
+    <div class="lv-trust">
+      <div><b>🚚 Livraison offerte</b>Suivie jusqu'à chez vous</div>
+      <div><b>🔒 Paiement sécurisé</b>Carte, Apple Pay, Google Pay</div>
+      <div><b>↩️ Retours</b><a href="/policies/refund-policy">Voir nos conditions</a></div>
+      <div><b>💬 Une question ?</b>On répond sous 24 h</div>
+    </div>
+  </section>
+
+  <section class="lv-block lv-final">
+    <h2>Moins d'écran, plus de <em>mots</em></h2>
+    {{ price_block }}
+    <button type="submit" form="lv-form" class="lv-btn" {% unless product.available %}disabled{% endunless %}>{{ buy_label }}</button>
+  </section>
+</div>
+</div>
+
+<div class="lv-sticky" id="lv-sticky"><button type="submit" form="lv-form" class="lv-btn" {% unless product.available %}disabled{% endunless %}>{{ buy_label }}</button></div>
+
+<script>
+  // Bouton d'achat fixé en bas tant que le bouton principal n'est pas visible
+  (function () {
+    var main = document.getElementById('lv-main-buy'), bar = document.getElementById('lv-sticky');
+    if (!main || !bar || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (e) { bar.classList.toggle('on', !e[0].isIntersecting); }).observe(main);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Page de vente du lecteur",
+  "settings": []
+}
+{% endschema %}
