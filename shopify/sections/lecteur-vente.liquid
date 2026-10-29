@@ -45,6 +45,12 @@
   .lv-gallery{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:14px -16px 0;padding:0 16px 6px}
   .lv-gallery img{flex:0 0 78%;max-width:78%;height:auto;border-radius:20px;scroll-snap-align:center;background:#fff}
   .lv-gallery img:only-child{flex-basis:100%;max-width:100%}
+  .lv-gallery img{cursor:zoom-in}
+  .lv-zoom-hint{font-size:12px;color:var(--m);margin:6px 0 0}
+  .lv-lightbox{position:fixed;inset:0;z-index:100;background:rgba(15,22,30,.92);display:none;align-items:center;justify-content:center;padding:16px;overflow:auto;touch-action:pinch-zoom}
+  .lv-lightbox.on{display:flex}
+  .lv-lightbox img{max-width:100%;max-height:100%;border-radius:12px;background:#fff}
+  .lv-lightbox button{position:fixed;top:14px;right:14px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#1d2b3a;font-size:24px;line-height:1;cursor:pointer}
   .lv-illu{width:min(170px,42vw);margin:14px auto 0;display:block}
   .lv-gift{margin:14px 0 0;background:#fff;border:2px dashed var(--o);border-radius:16px;padding:12px 14px;font-size:15px;text-align:left}
   .lv-gift b{color:var(--o)}
@@ -106,22 +112,35 @@
       <div class="lv-gallery">
         {%- for m in p.media -%}
           {%- if m.media_type == 'image' -%}
-            {%- if forloop.first -%}
-              {{ m.preview_image | image_url: width: 900 | image_tag: alt: p.title, widths: '450, 700, 900', sizes: '(min-width: 640px) 470px, 78vw', fetchpriority: 'high' }}
-            {%- else -%}
-              {{ m.preview_image | image_url: width: 900 | image_tag: alt: '', widths: '450, 700, 900', sizes: '(min-width: 640px) 470px, 78vw', loading: 'lazy' }}
-            {%- endif -%}
+            {%- liquid
+              assign alt = m.alt | default: p.title
+              assign c = alt | downcase
+              assign color = ''
+              if c contains 'bleu'
+                assign color = 'bleu'
+              elsif c contains 'rose'
+                assign color = 'rose'
+              endif
+              assign full = m.preview_image | image_url: width: 1600
+              if forloop.first
+                assign load = 'eager'
+              else
+                assign load = 'lazy'
+              endif
+            -%}
+            {{ m.preview_image | image_url: width: 900 | image_tag: alt: alt, widths: '450, 700, 900', sizes: '(min-width: 640px) 470px, 78vw', loading: load, data-media: m.id, data-color: color, data-full: full }}
           {%- endif -%}
         {%- endfor -%}
       </div>
     {%- else -%}
       {%- comment -%} Photos fournies avec le thème, tant que le produit n'a pas les siennes {%- endcomment -%}
       <div class="lv-gallery">
-        <img src="{{ 'lecteur-bleu.jpg' | asset_url }}" alt="Le lecteur bleu et ses cartes" width="1000" height="1000" fetchpriority="high" data-color="bleu">
-        <img src="{{ 'lecteur-rose.jpg' | asset_url }}" alt="Le lecteur rose et ses cartes" width="1000" height="1000" loading="lazy" data-color="rose">
-        <img src="{{ 'lecteur-contenu.jpg' | asset_url }}" alt="Le contenu de la boîte : lecteur, 112 cartes, câble USB et livret" width="1000" height="1000" loading="lazy">
+        <img src="{{ 'lecteur-bleu.jpg' | asset_url }}" data-full="{{ 'lecteur-bleu.jpg' | asset_url }}" alt="Le lecteur bleu et ses cartes" width="1000" height="1000" fetchpriority="high" data-color="bleu">
+        <img src="{{ 'lecteur-rose.jpg' | asset_url }}" data-full="{{ 'lecteur-rose.jpg' | asset_url }}" alt="Le lecteur rose et ses cartes" width="1000" height="1000" loading="lazy" data-color="rose">
+        <img src="{{ 'lecteur-contenu.jpg' | asset_url }}" data-full="{{ 'lecteur-contenu.jpg' | asset_url }}" alt="Le contenu de la boîte : lecteur, 112 cartes, câble USB et livret" width="1000" height="1000" loading="lazy">
       </div>
     {%- endif -%}
+    <p class="lv-zoom-hint">👆 Touchez une photo pour l'agrandir</p>
 
     {{ price_block }}
 
@@ -142,7 +161,7 @@
               endif
             -%}
             <label>
-              <input type="radio" name="id" value="{{ variant.id }}" data-color="{{ variant.title | downcase | handleize }}" {% if variant.id == v.id %}checked{% endif %} {% unless variant.available %}disabled{% endunless %}>
+              <input type="radio" name="id" value="{{ variant.id }}" data-color="{{ variant.title | downcase | handleize }}" data-media="{{ variant.featured_media.id }}" {% if variant.id == v.id %}checked{% endif %} {% unless variant.available %}disabled{% endunless %}>
               <span style="--dot:{{ dot }}"><i></i>{{ variant.title }}</span>
             </label>
           {%- endfor -%}
@@ -237,6 +256,8 @@
 </div>
 </div>
 
+<div class="lv-lightbox" id="lv-lightbox" role="dialog" aria-modal="true" aria-label="Photo agrandie"><button type="button" aria-label="Fermer">×</button><img alt=""></div>
+
 <div class="lv-sticky" id="lv-sticky"><button type="submit" form="lv-form" class="lv-btn" {% unless p.available %}disabled{% endunless %}>{{ buy_label }}</button></div>
 
 {%- endif -%}
@@ -249,16 +270,35 @@
     new IntersectionObserver(function (e) { bar.classList.toggle('on', !e[0].isIntersecting); }).observe(main);
   })();
 
-  // Couleur choisie : la galerie montre la photo correspondante
+  // Couleur choisie : la galerie montre la photo de cette couleur
   (function () {
     var g = document.querySelector('.lv-gallery');
     if (!g) return;
     document.querySelectorAll('.lv-colors input').forEach(function (i) {
       i.addEventListener('change', function () {
-        var img = g.querySelector('img[data-color="' + i.dataset.color + '"]');
-        if (img) g.scrollTo({ left: img.offsetLeft - g.offsetLeft - 16, behavior: 'smooth' });
+        var img = (i.dataset.media && g.querySelector('img[data-media="' + i.dataset.media + '"]')) || g.querySelector('img[data-color="' + i.dataset.color + '"]');
+        if (img) g.scrollTo({ left: img.offsetLeft - g.firstElementChild.offsetLeft, behavior: 'smooth' });
       });
     });
+  })();
+
+  // Photo agrandie au toucher (zoom avec deux doigts possible)
+  (function () {
+    var box = document.getElementById('lv-lightbox');
+    if (!box) return;
+    var big = box.querySelector('img');
+    function close() { box.classList.remove('on'); document.body.style.overflow = ''; }
+    document.querySelectorAll('.lv-gallery img, .lv-compare').forEach(function (img) {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function () {
+        big.src = img.dataset.full || img.currentSrc || img.src;
+        big.alt = img.alt;
+        box.classList.add('on');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    box.addEventListener('click', function (e) { if (e.target !== big) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
   })();
 </script>
 
