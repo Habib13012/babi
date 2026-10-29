@@ -1,8 +1,8 @@
 <!doctype html>
 {%- liquid
   assign immersive = false
-  # Expérience immersive : accueil et page du guide (modèle « product.guide »). Les autres produits ont une page classique.
-  if template.name == 'index' or template.suffix == 'guide'
+  # Expérience immersive : page du guide en 3D (modèle « product.guide »). L'accueil vend le lecteur de cartes, en page classique.
+  if template.suffix == 'guide'
     assign immersive = true
   endif
 -%}

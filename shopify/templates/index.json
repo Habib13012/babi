@@ -1,11 +1,13 @@
 {
   "sections": {
-    "immersive": {
-      "type": "immersive",
+    "main": {
+      "type": "lecteur-vente",
       "settings": {
-        "product": "mon-enfant-et-les-ecrans"
+        "product": "lecteur-mots-magiques"
       }
     }
   },
-  "order": ["immersive"]
+  "order": [
+    "main"
+  ]
 }

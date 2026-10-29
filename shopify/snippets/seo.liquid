@@ -32,9 +32,13 @@
     endif
   endif
 
+  # L'accueil vend le lecteur de cartes parlantes
   assign featured = product
   if featured == blank
-    assign featured = all_products['mon-enfant-et-les-ecrans']
+    assign featured = all_products['lecteur-mots-magiques']
+  endif
+  if template.name == 'index'
+    assign og_image = 'lecteur-bleu.jpg' | asset_url | prepend: 'https:'
   endif
   assign show_product = false
   if featured != blank
