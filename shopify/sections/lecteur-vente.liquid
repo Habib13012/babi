@@ -50,7 +50,16 @@
   .lv-lightbox{position:fixed;inset:0;z-index:100;background:rgba(15,22,30,.92);display:none;align-items:center;justify-content:center;padding:16px;overflow:auto;touch-action:pinch-zoom}
   .lv-lightbox.on{display:flex}
   .lv-lightbox img{max-width:100%;max-height:100%;border-radius:12px;background:#fff}
-  .lv-lightbox button{position:fixed;top:14px;right:14px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#1d2b3a;font-size:24px;line-height:1;cursor:pointer}
+  .lv-lightbox button{position:fixed;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#1d2b3a;font-size:26px;line-height:1;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+  .lv-lb-close{top:14px;right:14px}
+  .lv-lb-nav{top:50%;margin-top:-22px}
+  .lv-lb-prev{left:10px}
+  .lv-lb-next{right:10px}
+  .lv-lb-nav[hidden]{display:none}
+  .lv-lb-count{position:fixed;left:0;right:0;bottom:calc(18px + env(safe-area-inset-bottom));margin:0;text-align:center;color:#fff;font-weight:700;font-size:14px}
+  .lv-dots{display:flex;justify-content:center;gap:6px;margin-top:8px}
+  .lv-dots i{width:7px;height:7px;border-radius:50%;background:#d9cbb6;transition:background .2s,width .2s}
+  .lv-dots i.on{background:var(--o);width:18px;border-radius:4px}
   .lv-illu{width:min(170px,42vw);margin:14px auto 0;display:block}
   .lv-gift{margin:14px 0 0;background:#fff;border:2px dashed var(--o);border-radius:16px;padding:12px 14px;font-size:15px;text-align:left}
   .lv-gift b{color:var(--o)}
@@ -140,7 +149,8 @@
         <img src="{{ 'lecteur-contenu.jpg' | asset_url }}" data-full="{{ 'lecteur-contenu.jpg' | asset_url }}" alt="Le contenu de la boîte : lecteur, 112 cartes, câble USB et livret" width="1000" height="1000" loading="lazy">
       </div>
     {%- endif -%}
-    <p class="lv-zoom-hint">👆 Touchez une photo pour l'agrandir</p>
+    <div class="lv-dots" aria-hidden="true"></div>
+    <p class="lv-zoom-hint">👆 Touchez une photo pour l'agrandir · glissez pour les voir toutes</p>
 
     {{ price_block }}
 
@@ -256,7 +266,13 @@
 </div>
 </div>
 
-<div class="lv-lightbox" id="lv-lightbox" role="dialog" aria-modal="true" aria-label="Photo agrandie"><button type="button" aria-label="Fermer">×</button><img alt=""></div>
+<div class="lv-lightbox" id="lv-lightbox" role="dialog" aria-modal="true" aria-label="Photo agrandie">
+  <button type="button" class="lv-lb-close" aria-label="Fermer">×</button>
+  <button type="button" class="lv-lb-nav lv-lb-prev" aria-label="Photo précédente">‹</button>
+  <img alt="">
+  <button type="button" class="lv-lb-nav lv-lb-next" aria-label="Photo suivante">›</button>
+  <p class="lv-lb-count"></p>
+</div>
 
 <div class="lv-sticky" id="lv-sticky"><button type="submit" form="lv-form" class="lv-btn" {% unless p.available %}disabled{% endunless %}>{{ buy_label }}</button></div>
 
@@ -282,23 +298,66 @@
     });
   })();
 
-  // Photo agrandie au toucher (zoom avec deux doigts possible)
+  // Photo agrandie au toucher : flèches, glisser du doigt, clavier (zoom à deux doigts possible)
   (function () {
     var box = document.getElementById('lv-lightbox');
     if (!box) return;
-    var big = box.querySelector('img');
+    var big = box.querySelector('img'), count = box.querySelector('.lv-lb-count');
+    var prev = box.querySelector('.lv-lb-prev'), next = box.querySelector('.lv-lb-next');
+    var list = [], idx = 0;
+    function show(i) {
+      idx = (i + list.length) % list.length;
+      var img = list[idx];
+      big.src = img.dataset.full || img.currentSrc || img.src;
+      big.alt = img.alt;
+      count.textContent = list.length > 1 ? (idx + 1) + ' / ' + list.length : '';
+      prev.hidden = next.hidden = list.length < 2;
+    }
+    function open(group, img) {
+      list = group; show(group.indexOf(img));
+      box.classList.add('on'); document.body.style.overflow = 'hidden';
+    }
     function close() { box.classList.remove('on'); document.body.style.overflow = ''; }
-    document.querySelectorAll('.lv-gallery img, .lv-compare').forEach(function (img) {
+    var gallery = Array.prototype.slice.call(document.querySelectorAll('.lv-gallery img'));
+    gallery.forEach(function (img) { img.addEventListener('click', function () { open(gallery, img); }); });
+    document.querySelectorAll('.lv-compare').forEach(function (img) {
       img.style.cursor = 'zoom-in';
-      img.addEventListener('click', function () {
-        big.src = img.dataset.full || img.currentSrc || img.src;
-        big.alt = img.alt;
-        box.classList.add('on');
-        document.body.style.overflow = 'hidden';
-      });
+      img.addEventListener('click', function () { open([img], img); });
     });
-    box.addEventListener('click', function (e) { if (e.target !== big) close(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    prev.addEventListener('click', function (e) { e.stopPropagation(); show(idx - 1); });
+    next.addEventListener('click', function (e) { e.stopPropagation(); show(idx + 1); });
+    box.querySelector('.lv-lb-close').addEventListener('click', close);
+    box.addEventListener('click', function (e) { if (e.target === box) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (!box.classList.contains('on')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') show(idx - 1);
+      if (e.key === 'ArrowRight') show(idx + 1);
+    });
+    // Glisser du doigt (un seul doigt, sans zoom en cours)
+    var x0 = null;
+    box.addEventListener('touchstart', function (e) { x0 = e.touches.length === 1 ? e.touches[0].clientX : null; }, { passive: true });
+    box.addEventListener('touchend', function (e) {
+      if (x0 === null || list.length < 2) return;
+      if (window.visualViewport && window.visualViewport.scale > 1.05) return;
+      var dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 50) show(dx < 0 ? idx + 1 : idx - 1);
+    });
+  })();
+
+  // Points sous la galerie : indiquent la photo affichée
+  (function () {
+    var g = document.querySelector('.lv-gallery'), dots = document.querySelector('.lv-dots');
+    if (!g || !dots) return;
+    var imgs = g.querySelectorAll('img');
+    if (imgs.length < 2) return;
+    imgs.forEach(function () { dots.appendChild(document.createElement('i')); });
+    function update() {
+      var w = imgs[0].offsetWidth + 10, i = Math.round(g.scrollLeft / w);
+      dots.querySelectorAll('i').forEach(function (d, j) { d.className = j === i ? 'on' : ''; });
+    }
+    g.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
+    update();
   })();
 </script>
 
